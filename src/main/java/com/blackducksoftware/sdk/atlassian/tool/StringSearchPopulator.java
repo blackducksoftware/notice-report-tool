@@ -14,11 +14,11 @@ import com.blackducksoftware.sdk.atlassian.model.LicenseModel;
 import com.blackducksoftware.sdk.protex.license.GlobalLicense;
 
 /**
- *  @author jatoui
- *  @title Solutions Architect
- *  @email jatoui@blackducksoftware.com
- *  @company Black Duck Software
- *  @year 2012
+ * @author jatoui
+ * @title Solutions Architect
+ * @email jatoui@blackducksoftware.com
+ * @company Black Duck Software
+ * @year 2012
  **/
 
 public class StringSearchPopulator {
@@ -104,59 +104,57 @@ public class StringSearchPopulator {
 			String licenseId = searchMapper.getLicenseData(patternName);
 
 			if (licenseId != null) {
-				if (copyrightPatterns.contains(patternName)) {
-					List<String> licenseIds = pathToLicenseIdMapping.get(path);
 
-					if (licenseIds == null) {
-						licenseIds = new ArrayList<String>();
-						pathToLicenseIdMapping.put(path, licenseIds);
-					}
+				List<String> licenseIds = pathToLicenseIdMapping.get(path);
 
-					if (!licenseIds.contains(licenseId)) {
-						licenseIds.add(licenseId);
-					}
+				if (licenseIds == null) {
+					licenseIds = new ArrayList<String>();
+					pathToLicenseIdMapping.put(path, licenseIds);
 				}
 
-				if (match.equals("[no source information available]")) // special
-																		// designation
-																		// for
-																		// matches
-																		// to
-																		// file
-																		// with
-																		// patterns
-																		// with
-																		// Upload
-																		// File
-																		// option=No
-				{
-					log.warn("Cannot determine String Searches for file "
-							+ path
-							+ " due to pattern not having Upload Code option = true");
-				} else {
-					if (copyrightPatterns.contains(patternName)) {
-						List<String> copyrights = pathToCopyrightMapping
-								.get(path);
-
-						if (copyrights == null) {
-							copyrights = new ArrayList<String>();
-							pathToCopyrightMapping.put(path, copyrights);
-						}
-
-						int index = match.indexOf("</i>");
-
-						String copyrightStringToAdd = match
-								.substring(index + 5).replaceAll(
-										"\\r\\n|\\r|\\n", " ");
-						log.info("Entering copyright information for file: "
-								+ path + " copyright= " + copyrightStringToAdd);
-						if (!copyrights.contains(copyrightStringToAdd))
-							copyrights.add(copyrightStringToAdd);
-
-					}
-
+				if (!licenseIds.contains(licenseId)) {
+					licenseIds.add(licenseId);
 				}
 			}
+
+			if (match.equals("[no source information available]")) // special
+																	// designation
+																	// for
+																	// matches
+																	// to
+																	// file
+																	// with
+																	// patterns
+																	// with
+																	// Upload
+																	// File
+																	// option=No
+			{
+				log.warn("Cannot determine String Searches for file "
+						+ path
+						+ " due to pattern not having Upload Code option = true");
+			} else {
+				if (copyrightPatterns.contains(patternName)) {
+					List<String> copyrights = pathToCopyrightMapping.get(path);
+
+					if (copyrights == null) {
+						copyrights = new ArrayList<String>();
+						pathToCopyrightMapping.put(path, copyrights);
+					}
+
+					int index = match.indexOf("</i>");
+
+					String copyrightStringToAdd = match.substring(index + 5)
+							.replaceAll("\\r\\n|\\r|\\n", " ");
+					log.info("Entering copyright information for file: " + path
+							+ " copyright= " + copyrightStringToAdd);
+					if (!copyrights.contains(copyrightStringToAdd))
+						copyrights.add(copyrightStringToAdd);
+
+				}
+
+			}
 		}
+
 	}
 }

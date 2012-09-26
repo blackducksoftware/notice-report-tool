@@ -40,10 +40,22 @@ public class LicenseModel {
 		this.text = text;
 	}
 
-	public boolean equals(LicenseModel license)
+	@Override
+	public boolean equals(Object license)
 	{
-		return license.getText().equals(this.getText());
 		
+		if (license == null) return false;
+	    if (license == this) return true;
+	    if (!(license instanceof LicenseModel))return false;
+    
+	    LicenseModel licenseModel = (LicenseModel)license;
+	    
+	    
+	    if(licenseModel.getId() != null)
+	    	return licenseModel.getId().equals(this.getId());
+	 
+	    else
+	    	return licenseModel.getText().equals(this.getText());
 	}
 	
 	

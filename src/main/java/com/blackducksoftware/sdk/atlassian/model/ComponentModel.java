@@ -23,10 +23,15 @@ public class ComponentModel {
 	
 	private List <LicenseModel> licenses;
 	
-	
-	public boolean equals(ComponentModel component)
+	@Override
+	public boolean equals(Object component)
 	{
-		return component.getName().equals(this.getName());
+		
+		if (component == null) return false;
+	    if (component == this) return true;
+	    if (!(component instanceof ComponentModel))return false;
+    
+		return ((ComponentModel)component).getName().equals(this.getName());
 	}
 	
 	public void addNewLicense(LicenseModel license)

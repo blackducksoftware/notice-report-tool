@@ -2,11 +2,16 @@ package com.blackducksoftware.sdk.atlassian.tool;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.blackducksoftware.sdk.fault.SdkFault;
 import com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1;
@@ -69,6 +74,43 @@ public class ProtexReportGenerator {
 
 		return doc;
 
+	}
+	
+	
+	public static void main(String args[])
+	{
+		
+		String projectId = "c_testlicenseattribution";
+		
+		ApplicationContext ac = new ClassPathXmlApplicationContext(
+				"context.xml");
+ProtexReportGenerator reportGen = (ProtexReportGenerator)ac.getBean("reportGenerator");
+		
+		Document searches = reportGen.generate(projectId,
+				ReportSectionType.STRING_SEARCHES);
+		
+		Elements vrows = searches.select("table[class=reportTable] > tbody > tr");
+		
+		for (Element vrow : vrows) {
+
+			Elements vcolumns = vrow.select("td");
+
+			String patternName = vcolumns.get(0).text();
+
+			String path = "/" + vcolumns.get(1).text();
+
+			String match = vcolumns.get(4).html();
+			
+			ArrayList <String> patterns = new ArrayList<String>();
+			patterns.add("Copyright References");
+			
+			if(patterns.contains(patternName))
+			System.out.println("path " + path + " has pattern " + patternName);
+			
+		}
+		
+		
+		
 	}
 
 }

@@ -117,8 +117,14 @@ public class NoticeReportTool {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String projectId = "c_testlicenseattribution";
-		String outputFilename = "notice.html";
+		if(args.length < 2)
+		{
+			System.err.println("Usage: <Project ID> <Output Filename>");
+			System.exit(1);
+		}
+		
+		String projectId = args[0];
+		String outputFilename = args[1];
 
 		ApplicationContext ac = new ClassPathXmlApplicationContext(
 				"context.xml");

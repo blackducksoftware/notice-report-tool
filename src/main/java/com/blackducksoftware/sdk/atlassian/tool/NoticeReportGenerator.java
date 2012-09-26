@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
 import org.rendersnake.HtmlAttributes;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.StringResource;
@@ -67,7 +69,7 @@ public class NoticeReportGenerator {
 				html.td();
 				html.a(new HtmlAttributes().add("href",
 						"javascript:toggle(\'paths_" + componentCounter
-								+ "\');", false)).content("file paths");
+								+ "\');", false)).content("file paths (" + (components.get(component).getPaths() != null?components.get(component).getPaths().size():"0") + ")");
 
 				html.div(
 						new HtmlAttributes()
@@ -94,7 +96,7 @@ public class NoticeReportGenerator {
 
 				html.a(new HtmlAttributes().add("href",
 						"javascript:toggle(\'copyright_" + componentCounter
-								+ "\');", false)).content("copyrights");
+								+ "\');", false)).content("copyrights (" + (components.get(component).getCopyrights() != null?components.get(component).getCopyrights().size():"0") + ")");
 
 				html.div(
 						new HtmlAttributes()
@@ -123,7 +125,11 @@ public class NoticeReportGenerator {
 
 				html.a(new HtmlAttributes().add("href",
 						"javascript:toggle(\'licensetexts_" + componentCounter
-						+ "\');", false)).content("License texts");
+						+ "\');", false)).content("License texts (" + (components.get(component)
+
+								.getLicenses()!=null?components.get(component)
+
+										.getLicenses().size():"0") + ")");
 				html.div(
 						new HtmlAttributes()
 								.add("id", "licensetexts_" + componentCounter)
@@ -226,5 +232,17 @@ public class NoticeReportGenerator {
 				components);
 
 	}
+	
+	
+//	private boolean isCleanHtml(String licText)
+//	{
+//		try {
+//			Jsoup
+//			.parse(IOUtils.toInputStream(licText), "UTF-8", "");
+//		} catch (IOException e) {
+//			return false;
+//		}
+//		return true;
+//	}
 
 }
