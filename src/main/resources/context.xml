@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+
+
+	<bean id="noticeReportTool" class="com.blackducksoftware.sdk.atlassian.NoticeReportTool">
+		<property name="proxy" ref="protexSDKClient" />
+		<property name="reportGen" ref="reportGenerator" />
+		<property name="pathPopulator" ref="pathPopulator" />
+		<property name="searchPopulator" ref="stringSearchPopulator" />
+		<property name="noticeGen" ref="noticeGenerator" />
+	</bean>
+	
+	
+	<bean id="protexSDKClient"
+		class="com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1">
+		<constructor-arg value="https://sabaseline1.blackducksoftware.com" />
+		<constructor-arg value="jatoui@blackducksoftware.com" />
+		<constructor-arg value="blackduck" />
+	</bean>
+
+<bean id="noticeGenerator"
+		class="com.blackducksoftware.sdk.atlassian.tool.NoticeReportGenerator" />
+
+	<bean id="reportGenerator"
+		class="com.blackducksoftware.sdk.atlassian.tool.ProtexReportGenerator">
+		<property name="proxy" ref="protexSDKClient" />
+	</bean>
+
+
+	<bean id="licenseMapper"
+		class="com.blackducksoftware.sdk.atlassian.tool.StaticLicenseMapper">
+		<property name="proxy" ref="protexSDKClient" />
+	</bean>
+
+	<bean id="pathPopulator" class="com.blackducksoftware.sdk.atlassian.tool.PathPopulator">
+		<property name="proxy" ref="protexSDKClient" />
+		<property name="licenseMapper" ref="licenseMapper" />
+		<property name="licenseFileNames" ref="licenseFileNames" />
+	</bean>
+
+
+<bean id="searchMapper"
+		class="com.blackducksoftware.sdk.atlassian.tool.StaticSearchStringMapper">
+		<property name="proxy" ref="protexSDKClient" />
+		<property name="licenseMapper" ref="licenseMapper" />
+	</bean>
+
+	<bean id="stringSearchPopulator"
+		class="com.blackducksoftware.sdk.atlassian.tool.StringSearchPopulator">
+
+		<property name="copyrightPatterns" ref="copyrightPatterns" />
+		<property name="licenseMapper" ref="licenseMapper" />
+		<property name="searchMapper" ref="searchMapper" />
+	</bean>
+
+
+	<util:list id="copyrightPatterns" list-class="java.util.ArrayList">
+		<value>SPDX: Copyright</value>
+	</util:list>
+
+
+	<util:list id="licenseFileNames" list-class="java.util.ArrayList">
+		<value>LICENSE</value>
+		<value>LICENSE.txt</value>
+		<value>license.TXT</value>
+	</util:list>
+
+
+</beans>
