@@ -137,9 +137,13 @@ public class PathPopulator {
 		try {
 			// reading the uploaded content of the file from the
 			// database
-			fileText = new String(Base64.decode(proxy.getCodeTreeApi()
-					.getFileContentAsString(projectId, path,
-							CharEncoding.BASE_64)));
+			fileText = new String(proxy.getCodeTreeApi()
+					.getFileContent(projectId, path,CharEncoding.NONE));
+			
+			
+//			fileText = new String(Base64.decode(proxy.getCodeTreeApi()
+//					.getFileContentAsString(projectId, path,
+//							CharEncoding.BASE_64)));
 //			fileText = proxy.getCodeTreeApi()
 //					.getFileContentAsString(projectId, path,
 //					CharEncoding.NONE);
@@ -149,10 +153,10 @@ public class PathPopulator {
 							+ " needs to be re-configured as File Upload type and project re-scanned in order to process by this tool.",
 					e);
 		} 
-			catch (WSSecurityException e) {
-			log.warn(path
-					+ " could not be decoded from its Base64 representation", e);
-		}
+//			catch (WSSecurityException e) {
+//			log.warn(path
+//					+ " could not be decoded from its Base64 representation", e);
+//		}
 
 		return fileText;
 

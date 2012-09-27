@@ -51,7 +51,7 @@ public class LicenseModel {
 	    LicenseModel licenseModel = (LicenseModel)license;
 	    
 	    
-	    if(licenseModel.getId() != null)
+	    if(licenseModel.getId() != null  && this.getId() != null)
 	    	return licenseModel.getId().equals(this.getId());
 	 
 	    else

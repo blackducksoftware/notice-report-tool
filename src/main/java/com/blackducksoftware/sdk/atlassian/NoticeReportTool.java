@@ -1,20 +1,16 @@
 package com.blackducksoftware.sdk.atlassian;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
-import org.rendersnake.HtmlAttributes;
-import org.rendersnake.HtmlCanvas;
-import org.rendersnake.StringResource;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.blackducksoftware.sdk.atlassian.model.ComponentModel;
-import com.blackducksoftware.sdk.atlassian.model.LicenseModel;
+
 import com.blackducksoftware.sdk.atlassian.tool.NoticeReportGenerator;
 import com.blackducksoftware.sdk.atlassian.tool.PathPopulator;
 import com.blackducksoftware.sdk.atlassian.tool.ProtexReportGenerator;
