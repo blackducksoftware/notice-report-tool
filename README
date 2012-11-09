@@ -1,0 +1,46 @@
+Tool generates a HTML Notice file based on the identifications made for the project.  The output will
+contain an entry for each BOM Component.  Each entry will have links to display: 
+i) all paths ID-ed to the Component
+ii) all copyright strings extracted from the text files identified to it
+iii) all licenses identified to the component and ability to display text
+
+Before running,
+
+Edit the context.xml:
+
+       <bean id="protexSDKClient"
+              class="com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1">
+              <constructor-arg value="http://sabaseline1" />
+              <constructor-arg value="jatoui@blackducksoftware.com" />
+              <constructor-arg value="blackduck" />
+       </bean>
+
+With the correct values for Protex URL, username and password
+
+Also:
+
+       <util:list id="copyrightPatterns" list-class="java.util.ArrayList">
+              <value>SPDX: Copyright</value>
+              <value>Copyright References</value>
+       </util:list>
+
+Denotes the name of the Protex String Searches capturing the copyright information.  Feel free to add more or erase the ones not applicable in your instance.  Please note that “SPDX: Copyright” will need Regex String Searches to be enabled which is not by default. 
+
+
+       <util:list id="licenseFileNames" list-class="java.util.ArrayList">
+              <value>LICENSE</value>
+              <value>LICENSE.txt</value>
+              <value>license.TXT</value>
+       </util:list>
+Denotes the filenames of files which denote license files.  Have to have Upload File Option= true. Similarly, list here can be freely edited.
+
+
+To run:
+
+java -jar NoticeReportTool-0.0.1-SNAPSHOT.jar <Project ID> <output file>
+
+e.g
+
+java -jar NoticeReportTool-0.0.1-SNAPSHOT.jar c_testlicenseattribution notice.html
+
+Above example will run against a project with ID c_testlicenseattribution and output a file notice.html.
