@@ -22,8 +22,8 @@
     </appender>
      
     <appender name="SW_ROLLING_FILE" class="org.apache.log4j.RollingFileAppender">
-    	<param name="Name" value="idutils" />
-        <param name="File" value="idutils.log" />
+    	<param name="Name" value="program" />
+        <param name="File" value="program.log" />
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="500KB" />
         <param name="MaxBackupIndex" value="5" />
@@ -50,7 +50,6 @@
      
     <root>
         <level value="INFO" />
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="SW_ROLLING_FILE"/>
         <appender-ref ref="SW_ROLLING_FILE_TOMCAT" />
     </root>
