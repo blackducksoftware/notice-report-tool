@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.jsoup.Jsoup;
 import org.rendersnake.HtmlAttributes;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.StringResource;

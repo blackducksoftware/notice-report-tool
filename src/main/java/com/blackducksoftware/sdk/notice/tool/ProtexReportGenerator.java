@@ -42,7 +42,10 @@ public class ProtexReportGenerator {
 		this.proxy = proxy;
 	}
 
+	
+	//uses ReportApi method to get InputStream of report in HTML format and parses using Jsoup
 	public Document generate(String projectId, ReportSectionType type) {
+		
 		ReportTemplateRequest reportReq = new ReportTemplateRequest();
 		ReportSection section = new ReportSection();
 		section.setLabel(type.name());

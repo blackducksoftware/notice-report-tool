@@ -59,10 +59,15 @@ public class StringSearchPopulator {
 
 	private HashMap<String, List<String>> pathToLicenseIdMapping = new HashMap<String, List<String>>();
 
+	// reads the data in the Searches report encapsulated into the Document object
+	// and fills into the components list
 	public void populateCopyrightsForComponent(List<ComponentModel> components,
 			Document doc) {
+		
+		//builds pathToCopyrightMapping and pathToLicenseMapping has tables
 		populateCopyrightsForPaths(doc);
 
+		//for all paths for a Component, add all the copyright and licenses to the ComponentModel object
 		for (ComponentModel component : components) {
 			for (String path : component.getPaths()) {
 				if (pathToCopyrightMapping.get(path) != null)
@@ -87,6 +92,7 @@ public class StringSearchPopulator {
 
 	}
 
+	
 	private void populateCopyrightsForPaths(Document doc) {
 
 		Elements vrows = doc.select("table[class=reportTable] > tbody > tr");
@@ -134,6 +140,7 @@ public class StringSearchPopulator {
 						+ path
 						+ " due to pattern not having Upload Code option = true");
 			} else {
+				//if String Search pattern is designates a Copyright
 				if (copyrightPatterns.contains(patternName)) {
 					List<String> copyrights = pathToCopyrightMapping.get(path);
 

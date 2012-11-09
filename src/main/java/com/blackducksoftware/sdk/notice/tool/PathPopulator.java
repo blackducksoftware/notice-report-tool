@@ -62,6 +62,9 @@ public class PathPopulator {
 		this.licenseFileNames = licenseFileNames;
 	}
 
+	
+	// reads the data in the Identified Files report encapsulated into the Document object
+	// and fills into the components HashMap
 	public void populatePathsForBomEntries(String projectId,
 			HashMap<String, ComponentModel> components, Document doc) {
 		
@@ -82,12 +85,19 @@ public class PathPopulator {
 
 			String licName = vcolumns.get(8).text();
 
+			//checks if row has component in hash map
 			if (components.containsKey(compName)) {
+				//adds path for that component
 				components.get(compName).addNewPath(path);
 			} else {
+				
+				//adds new component entry in hash map
 				ComponentModel component = new ComponentModel();
 				component.setName(compName);
+				
+				//if identification has a license value
 				if (!"".equals(licName)) {
+					//License object obtained from the SDK containing text data
 					GlobalLicense license = licenseMapper
 							.getLicenseData(licName);
 					if (license != null) {
@@ -99,11 +109,14 @@ public class PathPopulator {
 					}
 
 				}
+				//adds path for that component
 				component.addNewPath(path);
 				components.put(compName, component);
 			}
 			
+			//if filename of file denotes a license file
 			boolean isLicenseFilename = false;
+			
 			for(String licenseFilename : licenseFileNames)
 			{
 				if(FilenameUtils.getName(path).endsWith(licenseFilename))

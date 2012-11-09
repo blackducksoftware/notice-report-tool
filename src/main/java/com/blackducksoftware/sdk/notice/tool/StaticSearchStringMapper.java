@@ -39,9 +39,10 @@ public class StaticSearchStringMapper {
 		this.proxy = proxy;
 	}
 
-
+	// gets associated license for a String Search pattern
 	public String getLicenseData(String searchName) {
 
+		//return pattern object
 		StringSearchPattern pattern = null;
 		try {
 			pattern = proxy.getPolicyApi().getStringSearchPatternByName(
@@ -51,10 +52,13 @@ public class StaticSearchStringMapper {
 					+ searchName, e);
 		}
 
+		
 		if (pattern != null) {
 			String licenseId = pattern.getAssociatedLicenseId();
 			if (licenseId != null) {
+				//ensures that the GlobalLicense object is added to the licenseMapper
 				GlobalLicense lic = licenseMapper.getLicenseDataById(licenseId);
+				
 				if(lic != null)
 					return lic.getLicenseId();
 			}

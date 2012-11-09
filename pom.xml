@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.blackducksoftware.sdk.altassian</groupId>
+	<groupId>com.blackducksoftware.sdk.notice</groupId>
 	<artifactId>NoticeReportTool</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
@@ -38,13 +38,7 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>rendersnake-repo</id>
-			<name>Repository for rendersnake</name>
-			<url>http://rendersnake.googlecode.com/svn/repo</url>
-		</repository>
-	</repositories>
+	
 
 	<build>
 		<plugins>
@@ -182,5 +176,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+	<repositories>
+		<repository>
+			<id>rendersnake-repo</id>
+			<name>Repository for rendersnake</name>
+			<url>http://rendersnake.googlecode.com/svn/repo</url>
+		</repository>
+		<repository>
+			<id>nexus-local</id>
+			<name>Nexus repo</name>
+			<url>http://proserv-nexus:8080/nexus/content/repositories/thirdparty</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+
+		</repository>
+	</repositories>
 
 </project>
