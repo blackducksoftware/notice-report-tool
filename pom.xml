@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.sdk.notice</groupId>
 	<artifactId>NoticeReportTool</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -197,4 +196,5 @@
 		</repository>
 	</repositories>
 
+	<version>0.2</version>
 </project>
