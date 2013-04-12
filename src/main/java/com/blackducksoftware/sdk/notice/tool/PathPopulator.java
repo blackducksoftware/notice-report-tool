@@ -31,8 +31,18 @@ public class PathPopulator {
 	Logger log = Logger.getLogger(this.getClass().getName());
 
 	private ProtexServerProxyV6_1 proxy;
-
+	
 	private String projectId;
+	
+	private static final int DISCOVERY_TYPE_INDEX = 1;
+	
+	private static final int FILE_PATH_INDEX = 2;
+	
+	private static final int COMPONENT_NAME_INDEX = 6;
+	
+	private static final int COMPONENT_VERSION_INDEX = 7;
+	
+	private static final int LICENSE_NAME_INDEX = 8;
 	
 	public ProtexServerProxyV6_1 getProxy() {
 		return proxy;
@@ -75,15 +85,15 @@ public class PathPopulator {
 
 			Elements vcolumns = vrow.select("td");
 
-			String discType = vcolumns.get(1).text();
+			String discType = vcolumns.get(DISCOVERY_TYPE_INDEX).text();
 
-			String path = vcolumns.get(2).text();
+			String path = vcolumns.get(FILE_PATH_INDEX).text();
 
-			String compName = vcolumns.get(6).text();
+			String compName = vcolumns.get(COMPONENT_NAME_INDEX).text();
 
-			String compVersion = vcolumns.get(7).text();
+			String compVersion = vcolumns.get(COMPONENT_VERSION_INDEX).text();
 
-			String licName = vcolumns.get(8).text();
+			String licName = vcolumns.get(LICENSE_NAME_INDEX).text();
 
 			//checks if row has component in hash map
 			if (components.containsKey(compName)) {

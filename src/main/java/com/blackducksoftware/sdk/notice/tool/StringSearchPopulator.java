@@ -25,6 +25,12 @@ public class StringSearchPopulator {
 
 	Logger log = Logger.getLogger(this.getClass().getName());
 
+	private static final int PATTERN_NAME_INDEX = 0;
+
+	private static final int FILE_PATH_INDEX = 2;
+
+	private static final int MATCH_INDEX = 5;
+	
 	private List<String> copyrightPatterns;
 
 	private StaticSearchStringMapper searchMapper;
@@ -101,11 +107,11 @@ public class StringSearchPopulator {
 
 			Elements vcolumns = vrow.select("td");
 
-			String patternName = vcolumns.get(0).text();
+			String patternName = vcolumns.get(PATTERN_NAME_INDEX).text();
 
-			String path = "/" + vcolumns.get(1).text();
+			String path = "/" + vcolumns.get(FILE_PATH_INDEX).text();
 
-			String match = vcolumns.get(4).html();
+			String match = vcolumns.get(MATCH_INDEX).html();
 
 			String licenseId = searchMapper.getLicenseData(patternName);
 
