@@ -10,6 +10,7 @@
       <outputDirectory>/</outputDirectory>
       <includes>
         <include>config.properties</include>
+        <include>README</include>
         <include>*.jar</include>
       </includes>
     </fileSet>

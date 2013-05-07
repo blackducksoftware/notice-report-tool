@@ -90,6 +90,7 @@
 						<configuration>
 							<tasks>
 								<copy file="config.properties" todir="${project.build.directory}" />
+							<copy file="README" todir="${project.build.directory}" />
 							</tasks>
 						</configuration>
 					</execution>
