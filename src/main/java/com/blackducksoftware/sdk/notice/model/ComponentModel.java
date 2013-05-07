@@ -1,7 +1,9 @@
 package com.blackducksoftware.sdk.notice.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *  @author jatoui
@@ -17,7 +19,7 @@ public class ComponentModel {
 		
 	private String name;
 	
-	private List <String> paths;
+	private Set <String> paths;
 	
 	private List <String> copyrights;
 	
@@ -70,7 +72,7 @@ public class ComponentModel {
 	{
 		if(paths == null)
 		{
-			paths = new ArrayList<String>();
+			paths = new HashSet<String>();
 			paths.add(path);
 		}
 		else
@@ -89,11 +91,11 @@ public class ComponentModel {
 		this.name = name;
 	}
 
-	public List<String> getPaths() {
+	public Set<String> getPaths() {
 		return paths;
 	}
 
-	public void setPaths(List<String> paths) {
+	public void setPaths(Set<String> paths) {
 		this.paths = paths;
 	}
 

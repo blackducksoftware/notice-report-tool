@@ -9,7 +9,7 @@
       <directory>${project.build.directory}</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>context.xml</include>
+        <include>config.properties</include>
         <include>*.jar</include>
       </includes>
     </fileSet>

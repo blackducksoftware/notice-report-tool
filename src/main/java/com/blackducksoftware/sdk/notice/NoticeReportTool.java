@@ -1,22 +1,27 @@
 package com.blackducksoftware.sdk.notice;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.jsoup.nodes.Document;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-
+import com.blackducksoftware.protex.sdk.ProtexReportWrapper;
+import com.blackducksoftware.protex.sdk.ProtexSDKWrapper;
+import com.blackducksoftware.protex.sdk.ProtexServerProxyUtils;
+import com.blackducksoftware.sdk.fault.SdkFault;
 import com.blackducksoftware.sdk.notice.model.ComponentModel;
-import com.blackducksoftware.sdk.notice.tool.NoticeReportGenerator;
-import com.blackducksoftware.sdk.notice.tool.PathPopulator;
-import com.blackducksoftware.sdk.notice.tool.ProtexReportGenerator;
-import com.blackducksoftware.sdk.notice.tool.StringSearchPopulator;
-import com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1;
-import com.blackducksoftware.sdk.protex.report.ReportSectionType;
+import com.blackducksoftware.sdk.notice.model.LicenseModel;
+import com.blackducksoftware.sdk.notice.report.HtmlReportGenerator;
+
+import com.blackducksoftware.sdk.protex.common.ComponentInfo;
+import com.blackducksoftware.sdk.protex.common.ComponentInfoColumn;
+
+import com.blackducksoftware.sdk.protex.license.License;
+import com.blackducksoftware.sdk.protex.project.codetree.CharEncoding;
+
+import com.blackducksoftware.sdk.protex.util.PageFilterFactory;
 
 /**
  * @author jatoui
@@ -28,111 +33,160 @@ import com.blackducksoftware.sdk.protex.report.ReportSectionType;
 
 public class NoticeReportTool {
 
-	ProtexServerProxyV6_1 proxy;
-
-	ProtexReportGenerator reportGen;
-
-	PathPopulator pathPopulator;
-
-	StringSearchPopulator searchPopulator;
-
-	NoticeReportGenerator noticeGen;
-	
 	Logger log = Logger.getLogger(this.getClass().getName());
-	
-	public NoticeReportGenerator getNoticeGen() {
-		return noticeGen;
+
+	private static Config config;
+
+	private ProtexSDKWrapper sdkWrapper;
+
+	private ProtexReportWrapper reportWrapper;
+
+	public NoticeReportTool() throws Exception {
+
+		sdkWrapper = new ProtexSDKWrapper(config.getProtexUri(),
+				config.getProtexUsername(), config.getProtexPassword());
+
+		reportWrapper = new ProtexReportWrapper(config.getProtexUri(),
+				config.getProtexUsername(), config.getProtexPassword());
 	}
 
-	public void setNoticeGen(NoticeReportGenerator noticeGen) {
-		this.noticeGen = noticeGen;
-	}
-	
+	private HashMap<String, ComponentModel> processProject() throws Exception {
 
-	public ProtexServerProxyV6_1 getProxy() {
-		return proxy;
-	}
+		if (!sdkWrapper.projectExists(config.getProjectName())) {
+			log.error("Project with name " + config.getProjectName()
+					+ " not found");
+			System.exit(1);
+		}
 
-	public void setProxy(ProtexServerProxyV6_1 proxy) {
-		this.proxy = proxy;
-	}
+		String projectId = sdkWrapper.getProjectId(config.getProjectName());
 
-	public ProtexReportGenerator getReportGen() {
-		return reportGen;
-	}
+		HashMap<String, Set<String>> componentToPathMappings = reportWrapper
+				.getComponentToPathMappings(projectId);
 
-	public void setReportGen(ProtexReportGenerator reportGen) {
-		this.reportGen = reportGen;
-	}
-
-	public PathPopulator getPathPopulator() {
-		return pathPopulator;
-	}
-
-	public void setPathPopulator(PathPopulator pathPopulator) {
-		this.pathPopulator = pathPopulator;
-	}
-
-	public StringSearchPopulator getSearchPopulator() {
-		return searchPopulator;
-	}
-
-	public void setSearchPopulator(StringSearchPopulator searchPopulator) {
-		this.searchPopulator = searchPopulator;
-	}
-
-	private HashMap<String, ComponentModel> processProject(String projectId) {
-
-		System.out.println("Generating Identified Files report");
-
-		Document idFiles = reportGen.generate(projectId,
-				ReportSectionType.IDENTIFIED_FILES);
+		HashMap<String, List<String>> pathToCopyrightMappings = reportWrapper
+				.getPathtoCopyrightMappings(projectId,
+						config.getCopyrightPatterns());
 
 		HashMap<String, ComponentModel> components = new HashMap<String, ComponentModel>();
 
-		System.out.println("Associating file paths with BOM entries");
-		pathPopulator
-				.populatePathsForBomEntries(projectId, components, idFiles);
+		for (String componentKey : componentToPathMappings.keySet()) {
+			ComponentModel model = new ComponentModel();
+			components.put(componentKey, model);
 
-		System.out.println("Generating String Searches report");
-		Document searches = reportGen.generate(projectId,
-				ReportSectionType.STRING_SEARCHES);
+			model.setName(componentKey);
 
-		System.out
-				.println("Associating License and Copyright Search Strings with BOM entries");
-		searchPopulator.populateCopyrightsForComponent(
-				Collections.list(Collections.enumeration(components.values())),
-				searches);
+			// Hashtable index is represented in format [Component
+			// Name]:[Version] and need to
+			// extract the Component Name
+			String compName = componentKey.substring(0,
+					componentKey.lastIndexOf(":"));
+
+			setKBLevelInformation(projectId, compName, model);
+
+			Set<String> paths = componentToPathMappings.get(componentKey);
+
+			model.setPaths(paths);
+
+			for (String path : paths) {
+				List<String> copyrights = pathToCopyrightMappings.get(path);
+				if (copyrights != null)
+					for (String copyright : copyrights)
+						model.addNewCopyright(copyright);
+
+				for (String licenseFilename : config.getLicenseFilenames()) {
+					if (FilenameUtils.getName(path).endsWith(licenseFilename)) {
+						String fileText = getFileText(projectId, path);
+						if (fileText != null) {
+							LicenseModel licenseModel = new LicenseModel();
+
+							licenseModel.setText(fileText);
+
+							model.addNewLicense(licenseModel);
+						}
+					}
+
+				}
+
+			}
+
+		}
 
 		return components;
 	}
 
+	private void setKBLevelInformation(String projectId, String compName,
+			ComponentModel model) throws SdkFault {
+		List<ComponentInfo> matches = ProtexServerProxyUtils.getProjectApi(
+				config.getProtexUri(), config.getProtexUsername(),
+				config.getProtexPassword()).suggestComponents(projectId,
+				compName, false,
+				PageFilterFactory.getAllRows(ComponentInfoColumn.COMPONENT_ID));
+
+		for (ComponentInfo match : matches) {
+			if (match.getName().equals(compName)) {
+				String licenseId = match.getPrimaryLicenseId();
+
+				if (licenseId != null && !licenseId.equals("")) {
+
+					License license = ProtexServerProxyUtils.getProjectApi(
+							config.getProtexUri(), config.getProtexUsername(),
+							config.getProtexPassword()).getLicenseById(
+							projectId, licenseId);
+
+					if (license != null) {
+						LicenseModel licenseModel = new LicenseModel();
+						licenseModel.setName(license.getName());
+						licenseModel.setText(license.getText());
+
+						model.addNewLicense(licenseModel);
+					}
+
+				}
+			}
+
+		}
+	}
+
+	private String getFileText(String projectId, String path) {
+		String fileText = null;
+
+		log.info("hit with license name found for file " + path);
+
+		try {
+			// reading the uploaded content of the file from the
+			// database
+			fileText = new String(ProtexServerProxyUtils.getCodeTreeApi(
+					config.getProtexUri(), config.getProtexUsername(),
+					config.getProtexPassword()).getFileContent(projectId, path,
+					CharEncoding.NONE));
+
+		} catch (SdkFault e) {
+			log.warn(
+					path
+							+ " needs to be re-configured as File Upload type and project re-scanned in order to process by this tool.",
+					e);
+		}
+
+		return fileText;
+
+	}
+
 	/**
 	 * @param args
+	 * @throws Exception
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws Exception {
+		config = new Config();
 
-		if(args.length < 2)
-		{
-			System.err.println("Usage: <Project ID> <Output Filename>");
-			System.exit(1);
-		}
-		
-		String projectId = args[0];
-		String outputFilename = args[1];
-
-		ApplicationContext ac = new ClassPathXmlApplicationContext(
-				"context.xml");
-
-		NoticeReportTool noticeRepTool = (NoticeReportTool) ac
-				.getBean("noticeReportTool");
+		NoticeReportTool noticeRepTool = new NoticeReportTool();
 
 		HashMap<String, ComponentModel> components = noticeRepTool
-				.processProject(projectId);
+				.processProject();
 
-	
-		noticeRepTool.getNoticeGen().generateReport(projectId, outputFilename, components);
+		HtmlReportGenerator reportGen = new HtmlReportGenerator();
+
+		reportGen.generateReport(config.getProjectName(),
+				config.getOutputFilename(), components);
 
 	}
 }

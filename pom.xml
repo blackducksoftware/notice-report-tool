@@ -3,17 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.sdk.notice</groupId>
 	<artifactId>NoticeReportTool</artifactId>
-
+	<version>0.3</version>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.blackducksoftware.sdk</groupId>
 			<artifactId>protex-sdk-client</artifactId>
 			<version>6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -35,11 +31,30 @@
 			<artifactId>rendersnake</artifactId>
 			<version>1.7</version>
 		</dependency>
+		
+			<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.blackducksoftware.proserv</groupId>
+			<artifactId>proserv-protex-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.blackducksoftware.proserv</groupId>
+			<artifactId>proserv-protex-report-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 
 	
 
 	<build>
+		<finalName>NoticeReportTool</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -74,7 +89,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<copy file="${basedir}/src/main/resources/context.xml" todir="${project.build.directory}" />
+								<copy file="config.properties" todir="${project.build.directory}" />
 							</tasks>
 						</configuration>
 					</execution>
@@ -196,5 +211,5 @@
 		</repository>
 	</repositories>
 
-	<version>0.2</version>
+
 </project>
