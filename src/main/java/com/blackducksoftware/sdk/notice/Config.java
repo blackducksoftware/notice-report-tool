@@ -1,3 +1,16 @@
+/*
+ * Created on August 6, 2013
+ * Copyright 2004-2013 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Black Duck Software ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Black Duck Software.
+ */
+
 package com.blackducksoftware.sdk.notice;
 
 import java.io.BufferedInputStream;
@@ -37,10 +50,12 @@ public class Config {
 	
 	private String outputFilename;
 	
-
-
-
-
+	private String showFilePaths;
+	
+	private String showComponentVersion;
+	
+	private String showCopyrights;
+	
 	public Config() throws Exception
 	{
 		Properties prps = new Properties();
@@ -73,6 +88,11 @@ public class Config {
 		
 		outputFilename = prps.getProperty("output.filename");
 		
+		showFilePaths = prps.getProperty("show.file.paths");
+		
+		showComponentVersion = prps.getProperty("show.component.version");
+		
+		showCopyrights = prps.getProperty("show.copyrights");
 	}
 	
 	
@@ -106,6 +126,18 @@ public class Config {
 	
 	public String getOutputFilename() {
 		return outputFilename;
+	}
+	
+	public String getShowFilePaths() {
+		return showFilePaths;
+	}
+	
+	public String getShowComponentVersion() {
+		return showComponentVersion;
+	}
+	
+	public String getShowCopyrights() {
+		return showCopyrights;
 	}
 
 }

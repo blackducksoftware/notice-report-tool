@@ -1,15 +1,33 @@
+/*
+ * Created on August 6, 2013
+ * Copyright 2004-2013 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Black Duck Software ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Black Duck Software.
+ */
+
 package com.blackducksoftware.sdk.notice.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.TreeMap;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.rendersnake.HtmlAttributes;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.StringResource;
 
+import com.blackducksoftware.sdk.notice.Config;
 import com.blackducksoftware.sdk.notice.model.ComponentModel;
 import com.blackducksoftware.sdk.notice.model.LicenseModel;
 
@@ -24,10 +42,13 @@ import com.blackducksoftware.sdk.notice.model.LicenseModel;
 public class HtmlReportGenerator {
 
 	Logger log = Logger.getLogger(this.getClass().getName());
+	
+	private static Config config;
 
 	public void generateReport(String projectName, String outputFilename,
-			HashMap<String, ComponentModel> components) {
+			HashMap<String, ComponentModel> components) throws Exception {
 		int licenseCounter = 1;
+		config = new Config();
 
 		try {
 			HtmlCanvas html = new HtmlCanvas(new PrintWriter(outputFilename));
@@ -42,12 +63,23 @@ public class HtmlReportGenerator {
 			
 			html.h2().content("Table of Contents");
 			//table of contents section
-			for (String component : components.keySet())
+			boolean showComponentVersion = false;
+			if (config.getShowComponentVersion().toLowerCase().equals("true")) {
+				showComponentVersion = true;
+			}
+			
+			Object[] keys = components.keySet().toArray();
+			Arrays.sort(keys);
+			
+			
+			for (Object component : keys)
 			{
 				html.a(new HtmlAttributes().add("href",
-						"#component_" + componentCounter, false)).content(component).br();
+						"#component_" + componentCounter, false)).content(showComponentVersion ? component.toString() : component.toString().substring(0,
+								component.toString().lastIndexOf(":"))).br();
 				componentCounter++;
 			}
+			
 			//reset for actual content area
 			componentCounter = 1;
 			
@@ -55,68 +87,75 @@ public class HtmlReportGenerator {
 			
 			html.table(new HtmlAttributes().add("border", "1").add("width", "1000")).tr().th(new HtmlAttributes().add("width", "300")).h3().content("BOM Component")._th().th(new HtmlAttributes().add("width", "700")).h3().content("attributes")._th()._tr();
 			
-			for (String component : components.keySet()) {
+			for (Object component : keys) {
 				html.tr(new HtmlAttributes().add("id", "component_"
 						+ componentCounter));
-				log.info("Processing component: " + component);
+				log.info("Processing component: " + (showComponentVersion ? component.toString() : component.toString().substring(0,
+						component.toString().lastIndexOf(":"))));
 
-				html.td().h4().content(component)._td();
+				html.td().h4().content(showComponentVersion ? component.toString() : component.toString().substring(0,
+						component.toString().lastIndexOf(":")))._td();
 				html.td();
-				html.a(new HtmlAttributes().add("href",
-						"javascript:toggle(\'paths_" + componentCounter
-								+ "\');", false)).content("file paths (" + (components.get(component).getPaths() != null?components.get(component).getPaths().size():"0") + ")");
-
-				html.div(
-						new HtmlAttributes()
-								.add("id", "paths_" + componentCounter)
-								.add("style",
-										"display:none;border-style:solid;border-width:1px;"))
-						.ul();
-				if (components.get(component).getPaths() != null) {
-
-					log.info("has paths: "
-							+ StringUtils.join(
-									components.get(component).getPaths(), ","));
-					for (String path : components.get(component).getPaths())
-
-						html.li().content(path);
-
-				}
-				else
-				{
-					html.li().content("no paths exist for this component");
-				}
-
-				html._ul()._div().br();
-
-				html.a(new HtmlAttributes().add("href",
-						"javascript:toggle(\'copyright_" + componentCounter
-								+ "\');", false)).content("copyrights (" + (components.get(component).getCopyrights() != null?components.get(component).getCopyrights().size():"0") + ")");
-
-				html.div(
-						new HtmlAttributes()
-								.add("id", "copyright_" + componentCounter)
-								.add("style",
-										"display:none;border-style:solid;border-width:1px;"))
-						.ul();
-
-				if (components.get(component).getCopyrights() != null) {
-					log.info("has copyrights: "
-							+ StringUtils.join(
-									components.get(component).getCopyrights(),
-									","));
-					for (String copyright : components.get(component)
-							.getCopyrights()) {
-						html.li().content(copyright);
+				
+				if (config.getShowFilePaths().toLowerCase().equals("true")) {
+					html.a(new HtmlAttributes().add("href",
+							"javascript:toggle(\'paths_" + componentCounter
+									+ "\');", false)).content("file paths (" + (components.get(component).getPaths() != null ? components.get(component).getPaths().size():"0") + ")");
+	
+					html.div(
+							new HtmlAttributes()
+									.add("id", "paths_" + componentCounter)
+									.add("style",
+											"display:none;border-style:solid;border-width:1px;"))
+							.ul();
+					if (components.get(component).getPaths() != null) {
+	
+						log.info("has paths: "
+								+ StringUtils.join(
+										components.get(component).getPaths(), ","));
+						for (String path : components.get(component).getPaths())
+	
+							html.li().content(path);
+	
 					}
-
+					else
+					{
+						html.li().content("no paths exist for this component");
+					}
+	
+					html._ul()._div().br();
 				}
-				else
-				{
-					html.li().content("no copyright strings exist for this component");
+				
+				if (config.getShowCopyrights().toLowerCase().equals("true")) {
+					html.a(new HtmlAttributes().add("href",
+							"javascript:toggle(\'copyright_" + componentCounter
+									+ "\');", false)).content("copyrights (" + (components.get(component).getCopyrights() != null?components.get(component).getCopyrights().size():"0") + ")");
+	
+					html.div(
+							new HtmlAttributes()
+									.add("id", "copyright_" + componentCounter)
+									.add("style",
+											"display:none;border-style:solid;border-width:1px;"))
+							.ul();
+	
+					if (components.get(component).getCopyrights() != null) {
+						log.info("has copyrights: "
+								+ StringUtils.join(
+										components.get(component).getCopyrights(),
+										","));
+						for (String copyright : components.get(component)
+								.getCopyrights()) {
+							html.li().content(copyright);
+						}
+	
+					}
+					else
+					{
+						html.li().content("no copyright strings exist for this component");
+					}
+	
+					html._ul()._div().br();
 				}
-
-				html._ul()._div().br();
 
 				html.a(new HtmlAttributes().add("href",
 						"javascript:toggle(\'licensetexts_" + componentCounter
@@ -142,8 +181,9 @@ public class HtmlReportGenerator {
 
 						String licenseName = license.getName() != null ? license
 								.getName() + "(Taken from KnowledgeBase)" : "license_" + licenseCounter + "(Taken from scanned file)";
-
-						html.li()
+						
+						if (license.getName() != null) {
+							html.li()
 								.a(new HtmlAttributes().add("href",
 										"javascript:toggle(\'license_"
 												+ licenseCounter + "\');",
@@ -154,6 +194,21 @@ public class HtmlReportGenerator {
 										.add("style",
 												"display:none;border-style:solid;border-width:1px;"))
 								.content(license.getText(), false)._li();
+						}
+						else
+						{
+							html.li()
+							.a(new HtmlAttributes().add("href",
+									"javascript:toggle(\'license_"
+											+ licenseCounter + "\');",
+									false))
+							.content(licenseName)
+							.div(new HtmlAttributes()
+									.add("id", "license_" + licenseCounter)
+									.add("style",
+											"display:none;border-style:solid;border-width:1px;"))
+							.content("<pre>" + StringEscapeUtils.escapeHtml(license.getText()) + "</pre>", false)._li();
+						}
 
 						licenseCounter++;
 

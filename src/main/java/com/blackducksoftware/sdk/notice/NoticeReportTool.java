@@ -1,3 +1,16 @@
+/*
+ * Created on August 6, 2013
+ * Copyright 2004-2013 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Black Duck Software ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Black Duck Software.
+ */
+
 package com.blackducksoftware.sdk.notice;
 
 import java.util.HashMap;
@@ -18,7 +31,10 @@ import com.blackducksoftware.sdk.notice.report.HtmlReportGenerator;
 import com.blackducksoftware.sdk.protex.common.ComponentInfo;
 import com.blackducksoftware.sdk.protex.common.ComponentInfoColumn;
 
+import com.blackducksoftware.sdk.protex.license.GlobalLicense;
 import com.blackducksoftware.sdk.protex.license.License;
+import com.blackducksoftware.sdk.protex.license.LicenseInfo;
+import com.blackducksoftware.sdk.protex.project.bom.BomComponent;
 import com.blackducksoftware.sdk.protex.project.codetree.CharEncoding;
 
 import com.blackducksoftware.sdk.protex.util.PageFilterFactory;
@@ -49,6 +65,8 @@ public class NoticeReportTool {
 		reportWrapper = new ProtexReportWrapper(config.getProtexUri(),
 				config.getProtexUsername(), config.getProtexPassword());
 	}
+	
+	private HashMap<String, List<String>> pathToLicenseIdMapping = new HashMap<String, List<String>>();
 
 	private HashMap<String, ComponentModel> processProject() throws Exception {
 
@@ -65,7 +83,7 @@ public class NoticeReportTool {
 
 		HashMap<String, List<String>> pathToCopyrightMappings = reportWrapper
 				.getPathtoCopyrightMappings(projectId,
-						config.getCopyrightPatterns());
+						config.getCopyrightPatterns(), pathToLicenseIdMapping);
 
 		HashMap<String, ComponentModel> components = new HashMap<String, ComponentModel>();
 
@@ -81,7 +99,9 @@ public class NoticeReportTool {
 			String compName = componentKey.substring(0,
 					componentKey.lastIndexOf(":"));
 
-			setKBLevelInformation(projectId, compName, model);
+			//setKBLevelInformation(projectId, compName, model);
+			
+			addLicenseFromKB(projectId, compName, model);
 
 			Set<String> paths = componentToPathMappings.get(componentKey);
 
@@ -92,6 +112,25 @@ public class NoticeReportTool {
 				if (copyrights != null)
 					for (String copyright : copyrights)
 						model.addNewCopyright(copyright);
+				
+				if (pathToLicenseIdMapping.get(path) != null)
+
+					for (String licenseId : pathToLicenseIdMapping.get(path)) {
+
+						License license = ProtexServerProxyUtils.getProjectApi(
+								config.getProtexUri(), config.getProtexUsername(),
+								config.getProtexPassword()).getLicenseById(
+								projectId, licenseId);
+						
+						if (license != null) {
+							LicenseModel licenseModel = new LicenseModel();
+							licenseModel.setId(licenseId);
+							licenseModel.setName(license.getName());
+							licenseModel.setText(license.getText());
+
+							model.addNewLicense(licenseModel);
+						}						
+					}				
 
 				for (String licenseFilename : config.getLicenseFilenames()) {
 					if (FilenameUtils.getName(path).endsWith(licenseFilename)) {
@@ -114,6 +153,42 @@ public class NoticeReportTool {
 		return components;
 	}
 
+	
+	private void addLicenseFromKB(String projectId, String compName, ComponentModel model) throws SdkFault {
+		List<BomComponent> bomComponents = ProtexServerProxyUtils.getBomApi(config.getProtexUri(), config.getProtexUsername(),
+				config.getProtexPassword()).getBomComponents(projectId);
+		
+		for (BomComponent bomComponent : bomComponents) {
+			if (ProtexServerProxyUtils.getProjectApi(config.getProtexUri(), config.getProtexUsername(),
+				config.getProtexPassword()).getComponentById(projectId, bomComponent.getComponentId()).getName().equals(compName)) {
+				
+				LicenseInfo licenseInfo = bomComponent.getLicenseInfo();
+				String licenseId = licenseInfo.getLicenseId();
+						
+				if (licenseId != null && !licenseId.equals("")) {
+	
+					License license = ProtexServerProxyUtils.getProjectApi(
+							config.getProtexUri(), config.getProtexUsername(),
+							config.getProtexPassword()).getLicenseById(
+							projectId, licenseId);
+	
+					if (license != null) {
+						LicenseModel licenseModel = new LicenseModel();
+						licenseModel.setName(license.getName());
+						licenseModel.setText(license.getText());
+	
+						model.addNewLicense(licenseModel);
+					}
+	
+				}
+				break;
+			}
+		}
+	}
+
+	// The .suggestComponents method below sometimes returns "strange results", like components named "Javascript AKA JavaScript blah blah"
+	// I have replaced this setKBLevelInformation method with the addLicenseFromKB method above
+	/*
 	private void setKBLevelInformation(String projectId, String compName,
 			ComponentModel model) throws SdkFault {
 		List<ComponentInfo> matches = ProtexServerProxyUtils.getProjectApi(
@@ -146,6 +221,7 @@ public class NoticeReportTool {
 
 		}
 	}
+	*/
 
 	private String getFileText(String projectId, String path) {
 		String fileText = null;

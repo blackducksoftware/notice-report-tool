@@ -16,15 +16,21 @@ Edit the config.properties file:
 
 *project.name: name of project in Protex for which this report is generated
 
+*license.filenames: Comma separated list of filenames which denote license files.  
+For the Protex project Scan Configuration need to have Upload File Option=true for the pattern or file type
+
 *copyright.patterns: Denotes the name of the Protex String Searches capturing the copyright information.  
 Feel free to add more or erase the ones not applicable in your instance.  Please note that “SPDX: Copyright” will need Regex String Searches to be enabled which is not by default. 
 
-*license.filenames: Comma separated list of filenames which denote license files.  
-For the Protex project Scan Configuration need to have Upload File Option=true for the pattern or file type
+*show.component.version: true/false property to show the component version on the report
+
+*show.file.paths: true/false property to show the file paths on the report
+
+*show.copyrights: true/false property to show the copyrights on the report
 
 *output.filename: Notice report output HTML filename
 
 To run:
 
-java -jar NoticeReportTool-0.3.jar 
+java -jar NoticeReportTool-0.4.1.jar 
 
