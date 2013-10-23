@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.sdk.notice</groupId>
 	<artifactId>NoticeReportTool</artifactId>
-	<version>0.4.1</version>
+	<version>0.5</version>
 	
 	<dependencies>
 		<dependency>
@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.6.3</version>
+			<version>1.7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.blackducksoftware.proserv</groupId>
 			<artifactId>proserv-protex-report-utils</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		
 	</dependencies>
@@ -90,7 +90,9 @@
 						<configuration>
 							<tasks>
 								<copy file="config.properties" todir="${project.build.directory}" />
-							<copy file="README" todir="${project.build.directory}" />
+								<copy file="README" todir="${project.build.directory}" />
+								<copy file="License.txt" todir="${project.build.directory}" />
+								<copy file="notices.html" todir="${project.build.directory}" />
 							</tasks>
 						</configuration>
 					</execution>

@@ -11,6 +11,8 @@
       <includes>
         <include>config.properties</include>
         <include>README</include>
+        <include>License.txt</include>
+        <include>notices.html</include>
         <include>*.jar</include>
       </includes>
     </fileSet>

@@ -13,11 +13,14 @@
 
 package com.blackducksoftware.sdk.notice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.cxf.configuration.jsse.TLSClientParameters;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.log4j.Logger;
 
 import com.blackducksoftware.protex.sdk.ProtexReportWrapper;
@@ -28,14 +31,22 @@ import com.blackducksoftware.sdk.notice.model.ComponentModel;
 import com.blackducksoftware.sdk.notice.model.LicenseModel;
 import com.blackducksoftware.sdk.notice.report.HtmlReportGenerator;
 
+import com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1;
+import com.blackducksoftware.sdk.protex.common.Component;
 import com.blackducksoftware.sdk.protex.common.ComponentInfo;
 import com.blackducksoftware.sdk.protex.common.ComponentInfoColumn;
+import com.blackducksoftware.sdk.protex.component.version.ComponentVersion;
+import com.blackducksoftware.sdk.protex.component.version.ComponentVersionApi;
 
 import com.blackducksoftware.sdk.protex.license.GlobalLicense;
 import com.blackducksoftware.sdk.protex.license.License;
+import com.blackducksoftware.sdk.protex.license.LicenseApi;
 import com.blackducksoftware.sdk.protex.license.LicenseInfo;
+import com.blackducksoftware.sdk.protex.project.ProjectApi;
+import com.blackducksoftware.sdk.protex.project.bom.BomApi;
 import com.blackducksoftware.sdk.protex.project.bom.BomComponent;
 import com.blackducksoftware.sdk.protex.project.codetree.CharEncoding;
+import com.blackducksoftware.sdk.protex.project.codetree.CodeTreeApi;
 
 import com.blackducksoftware.sdk.protex.util.PageFilterFactory;
 
@@ -52,6 +63,17 @@ public class NoticeReportTool {
 	Logger log = Logger.getLogger(this.getClass().getName());
 
 	private static Config config;
+	
+	static ProjectApi projectApi = null;
+	
+	static BomApi bomApi = null;
+	
+	static ComponentVersionApi componentVersionApi = null;
+	
+	static LicenseApi licenseApi = null;
+	
+	static CodeTreeApi codeTreeApi = null;
+	
 
 	private ProtexSDKWrapper sdkWrapper;
 
@@ -75,33 +97,50 @@ public class NoticeReportTool {
 					+ " not found");
 			System.exit(1);
 		}
+		
+		System.out.println("\nProject Name: " + config.getProjectName() + "\n");
 
 		String projectId = sdkWrapper.getProjectId(config.getProjectName());
 
-		HashMap<String, Set<String>> componentToPathMappings = reportWrapper
-				.getComponentToPathMappings(projectId);
+		System.out.println("\nGetting Component Info...\n");
+		
+		HashMap<String, Set<String>> componentToPathMappings = new HashMap<String, Set<String>>();
+		
+		if (config.getShowFilePaths().toLowerCase().equals("true") || config.getIncludeLicenseFilenamesInReport().toLowerCase().equals("true"))
+			componentToPathMappings = reportWrapper.getComponentToPathMappings(projectId);
+		else
+			componentToPathMappings = reportWrapper.getComponentNameAndVersion(projectId);
 
-		HashMap<String, List<String>> pathToCopyrightMappings = reportWrapper
-				.getPathtoCopyrightMappings(projectId,
-						config.getCopyrightPatterns(), pathToLicenseIdMapping);
+		System.out.println("\nGetting Copyright Info...\n");
+		
+		HashMap<String, List<String>> pathToCopyrightMappings = new HashMap<String, List<String>>();
+		
+		if (config.getShowCopyrights().toLowerCase().equals("true"))
+			pathToCopyrightMappings = reportWrapper.getPathtoCopyrightMappings(projectId,
+							config.getCopyrightPatterns(), pathToLicenseIdMapping);
 
 		HashMap<String, ComponentModel> components = new HashMap<String, ComponentModel>();
-
+		
+		System.out.println();
+		
 		for (String componentKey : componentToPathMappings.keySet()) {
+			System.out.println("Processing information for: " + componentKey);
+			
 			ComponentModel model = new ComponentModel();
 			components.put(componentKey, model);
 
 			model.setName(componentKey);
 
-			// Hashtable index is represented in format [Component
-			// Name]:[Version] and need to
-			// extract the Component Name
-			String compName = componentKey.substring(0,
-					componentKey.lastIndexOf(":"));
+			// Hashtable index is represented in format [Component Name]:[Version] and we need to
+			// extract the Component Name and version
+			
+			String compName = componentKey.substring(0,componentKey.lastIndexOf(":"));
+			
+			String compVersion = componentKey.substring(componentKey.lastIndexOf(":")+1, componentKey.length());
 
 			//setKBLevelInformation(projectId, compName, model);
 			
-			addLicenseFromKB(projectId, compName, model);
+			addLicenseFromKB(projectId, compName, compVersion, model);
 
 			Set<String> paths = componentToPathMappings.get(componentKey);
 
@@ -114,12 +153,9 @@ public class NoticeReportTool {
 						model.addNewCopyright(copyright);
 				
 				if (pathToLicenseIdMapping.get(path) != null)
-
 					for (String licenseId : pathToLicenseIdMapping.get(path)) {
 
-						License license = ProtexServerProxyUtils.getProjectApi(
-								config.getProtexUri(), config.getProtexUsername(),
-								config.getProtexPassword()).getLicenseById(
+						License license = projectApi.getLicenseById(
 								projectId, licenseId);
 						
 						if (license != null) {
@@ -130,21 +166,22 @@ public class NoticeReportTool {
 
 							model.addNewLicense(licenseModel);
 						}						
-					}				
-
-				for (String licenseFilename : config.getLicenseFilenames()) {
-					if (FilenameUtils.getName(path).endsWith(licenseFilename)) {
-						String fileText = getFileText(projectId, path);
-						if (fileText != null) {
-							LicenseModel licenseModel = new LicenseModel();
-
-							licenseModel.setText(fileText);
-
-							model.addNewLicense(licenseModel);
-						}
 					}
-
-				}
+				
+				if (config.getIncludeLicenseFilenamesInReport().toLowerCase().equals("true"))
+					for (String licenseFilename : config.getLicenseFilenames()) {
+						if (FilenameUtils.getName(path).endsWith(licenseFilename)) {
+							String fileText = getFileText(projectId, path);
+							if (fileText != null) {
+								LicenseModel licenseModel = new LicenseModel();
+	
+								licenseModel.setText(fileText);
+	
+								model.addNewLicense(licenseModel);
+							}
+						}
+	
+					}
 
 			}
 
@@ -154,34 +191,83 @@ public class NoticeReportTool {
 	}
 
 	
-	private void addLicenseFromKB(String projectId, String compName, ComponentModel model) throws SdkFault {
-		List<BomComponent> bomComponents = ProtexServerProxyUtils.getBomApi(config.getProtexUri(), config.getProtexUsername(),
-				config.getProtexPassword()).getBomComponents(projectId);
+	private void addLicenseFromKB(String projectId, String compName, String compVersion, ComponentModel model) throws SdkFault {
+		List<BomComponent> bomComponents = bomApi.getBomComponents(projectId);
 		
 		for (BomComponent bomComponent : bomComponents) {
-			if (ProtexServerProxyUtils.getProjectApi(config.getProtexUri(), config.getProtexUsername(),
-				config.getProtexPassword()).getComponentById(projectId, bomComponent.getComponentId()).getName().equals(compName)) {
+			String bomComponentId = bomComponent.getComponentId();
+			String bomComponentVersionId = bomComponent.getVersionId();
+			
+			ComponentVersion compVersionObj = new ComponentVersion();
+			String compVersionObjName = new String();
+			String compVersionObjVersion = new String();
+			
+			// If the current bomComponent is NOT the project, then get it's ComponentVersion object
+			if (!bomComponentId.equals(projectId)) {
+				compVersionObj = componentVersionApi.getComponentVersionById(bomComponentId, bomComponentVersionId != null ? bomComponentVersionId : "");
 				
-				LicenseInfo licenseInfo = bomComponent.getLicenseInfo();
-				String licenseId = licenseInfo.getLicenseId();
-						
-				if (licenseId != null && !licenseId.equals("")) {
-	
-					License license = ProtexServerProxyUtils.getProjectApi(
-							config.getProtexUri(), config.getProtexUsername(),
-							config.getProtexPassword()).getLicenseById(
-							projectId, licenseId);
-	
-					if (license != null) {
-						LicenseModel licenseModel = new LicenseModel();
-						licenseModel.setName(license.getName());
-						licenseModel.setText(license.getText());
-	
-						model.addNewLicense(licenseModel);
+				compVersionObjName = compVersionObj.getComponentName();
+				compVersionObjVersion = compVersionObj.getVersionName();
+			}
+
+			// If the component name matches, but the version is null, that means the version was manually overridden in the UI
+			// so now we have to get the license from the bomComponent, instead of the compVersionObj
+			if (compVersionObjName.equals(compName) && compVersionObjVersion == null) {
+				
+					LicenseInfo licenseInfo = bomComponent.getLicenseInfo();
+
+					String licenseId = new String();
+					
+					if (licenseInfo != null)
+						licenseId = licenseInfo.getLicenseId();
+							
+					if (licenseId != null && !licenseId.equals("")) {
+		
+						License license = projectApi.getLicenseById(
+								projectId, licenseId);
+		
+						if (license != null) {
+							LicenseModel licenseModel = new LicenseModel();
+							licenseModel.setName(license.getName());
+							licenseModel.setText(license.getText());
+		
+							model.addNewLicense(licenseModel);
+						}
+		
 					}
-	
+				
+				break;			
+			}
+			
+			// If both the component name and version match, then we have the exact component and can get the license info from the compVersionObj
+			else if (compVersionObjName.equals(compName) && compVersionObjVersion.equals(compVersion)) {
+				
+				List<LicenseInfo> compVersionObjLicenseInfos = new ArrayList<LicenseInfo>();
+				
+				compVersionObjLicenseInfos = compVersionObj.getLicenses();
+				
+				for (LicenseInfo licenseInfo : compVersionObjLicenseInfos) {
+					String licenseId = new String();
+					
+					if (licenseInfo != null)
+						licenseId = licenseInfo.getLicenseId();
+							
+					if (licenseId != null && !licenseId.equals("")) {
+		
+						License license = projectApi.getLicenseById(
+								projectId, licenseId);
+		
+						if (license != null) {
+							LicenseModel licenseModel = new LicenseModel();
+							licenseModel.setName(license.getName());
+							licenseModel.setText(license.getText());
+		
+							model.addNewLicense(licenseModel);
+						}
+		
+					}
 				}
-				break;
+				break;			
 			}
 		}
 	}
@@ -231,9 +317,7 @@ public class NoticeReportTool {
 		try {
 			// reading the uploaded content of the file from the
 			// database
-			fileText = new String(ProtexServerProxyUtils.getCodeTreeApi(
-					config.getProtexUri(), config.getProtexUsername(),
-					config.getProtexPassword()).getFileContent(projectId, path,
+			fileText = new String(codeTreeApi.getFileContent(projectId, path,
 					CharEncoding.NONE));
 
 		} catch (SdkFault e) {
@@ -252,7 +336,49 @@ public class NoticeReportTool {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		System.out.println("NoticeReportTool v0.5\n");
 		config = new Config();
+		//long startTime = System.nanoTime();
+		
+	    try {
+	        Long connectionTimeout = 120 * 1000L;
+	        ProtexServerProxyV6_1 myProtexServer = new ProtexServerProxyV6_1(config.getProtexUri(), config.getProtexUsername(), config.getProtexPassword(),
+	                connectionTimeout);
+	        
+	        licenseApi = myProtexServer.getLicenseApi();
+	        projectApi = myProtexServer.getProjectApi();
+	        bomApi = myProtexServer.getBomApi();
+	        componentVersionApi = myProtexServer.getComponentVersionApi();
+	        codeTreeApi = myProtexServer.getCodeTreeApi();
+	        
+            TLSClientParameters tlsClientParameters = new TLSClientParameters();
+            tlsClientParameters.setDisableCNCheck(true);
+            
+            org.apache.cxf.endpoint.Client client = org.apache.cxf.frontend.ClientProxy.getClient(licenseApi);
+            HTTPConduit http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters);
+            
+            client = org.apache.cxf.frontend.ClientProxy.getClient(projectApi);
+            http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters);
+            
+            client = org.apache.cxf.frontend.ClientProxy.getClient(bomApi);
+            http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters);  
+	        
+            client = org.apache.cxf.frontend.ClientProxy.getClient(componentVersionApi);
+            http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters);  
+            
+            client = org.apache.cxf.frontend.ClientProxy.getClient(codeTreeApi);
+            http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters); 
+	        
+	
+	    } catch (RuntimeException e) {
+	        System.err.println("\nConnection to server '" + config.getProtexUri() + "' failed: " + e.getMessage());
+	        System.exit(-1);
+	    }
 
 		NoticeReportTool noticeRepTool = new NoticeReportTool();
 
@@ -261,8 +387,15 @@ public class NoticeReportTool {
 
 		HtmlReportGenerator reportGen = new HtmlReportGenerator();
 
+		System.out.println("\nGenerating Report...");
+		
 		reportGen.generateReport(config.getProjectName(),
 				config.getOutputFilename(), components);
+		
+		System.out.println("\nDone!");
+		
+		//long finishTime = System.nanoTime() - startTime;
+		//System.out.printf("\nDone! \nTime: %.3f seconds", finishTime / 1e9);
 
 	}
 }

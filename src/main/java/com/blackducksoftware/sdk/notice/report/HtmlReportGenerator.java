@@ -13,16 +13,24 @@
 
 package com.blackducksoftware.sdk.notice.report;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
 import org.rendersnake.HtmlAttributes;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.StringResource;
@@ -68,10 +76,19 @@ public class HtmlReportGenerator {
 				showComponentVersion = true;
 			}
 			
+			boolean textFileOutput = false;
+			if (config.getTextFileOutput().toLowerCase().equals("true")) {
+				textFileOutput = true;
+			}
+			
+			PrintStream outputTextFile = null;
+			FileOutputStream outputStream = null;
+			
+			components.remove(projectName+":Unspecified"); //remove the Project from the final html report
+			
 			Object[] keys = components.keySet().toArray();
 			Arrays.sort(keys);
-			
-			
+					
 			for (Object component : keys)
 			{
 				html.a(new HtmlAttributes().add("href",
@@ -87,6 +104,16 @@ public class HtmlReportGenerator {
 			
 			html.table(new HtmlAttributes().add("border", "1").add("width", "1000")).tr().th(new HtmlAttributes().add("width", "300")).h3().content("BOM Component")._th().th(new HtmlAttributes().add("width", "700")).h3().content("attributes")._th()._tr();
 			
+			if (textFileOutput) {
+				try {
+					File dir = new File(".\\" + projectName + "_text_files\\");
+					dir.mkdirs();
+				}
+				catch (SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			for (Object component : keys) {
 				html.tr(new HtmlAttributes().add("id", "component_"
 						+ componentCounter));
@@ -96,6 +123,20 @@ public class HtmlReportGenerator {
 				html.td().h4().content(showComponentVersion ? component.toString() : component.toString().substring(0,
 						component.toString().lastIndexOf(":")))._td();
 				html.td();
+				
+				if (textFileOutput) {
+					try {
+						outputStream = new FileOutputStream(showComponentVersion ? ".\\" + projectName + "_text_files\\" + component.toString().replace(':', '-') + ".txt" : 
+							 													   ".\\" + projectName + "_text_files\\" + component.toString().substring(0, component.toString().lastIndexOf(":")).replace(':', '-') + ".txt");
+						
+						outputTextFile = new PrintStream(outputStream);
+					}
+					catch (FileNotFoundException e) {
+							outputStream.close();
+							outputTextFile.close();
+							e.printStackTrace();
+					}
+				}
 				
 				if (config.getShowFilePaths().toLowerCase().equals("true")) {
 					html.a(new HtmlAttributes().add("href",
@@ -108,6 +149,10 @@ public class HtmlReportGenerator {
 									.add("style",
 											"display:none;border-style:solid;border-width:1px;"))
 							.ul();
+					
+					if (textFileOutput)
+						outputTextFile.println("file paths (" + (components.get(component).getPaths() != null ? components.get(component).getPaths().size():"0") + ")");
+										
 					if (components.get(component).getPaths() != null) {
 	
 						log.info("has paths: "
@@ -116,6 +161,11 @@ public class HtmlReportGenerator {
 						for (String path : components.get(component).getPaths())
 	
 							html.li().content(path);
+						
+						if (textFileOutput) {
+							for (String path : components.get(component).getPaths())
+								outputTextFile.println(path);
+						}
 	
 					}
 					else
@@ -137,6 +187,11 @@ public class HtmlReportGenerator {
 									.add("style",
 											"display:none;border-style:solid;border-width:1px;"))
 							.ul();
+					
+					if (textFileOutput) {
+						outputTextFile.println();
+						outputTextFile.println("copyrights (" + (components.get(component).getCopyrights() != null?components.get(component).getCopyrights().size():"0") + ")");
+					}
 	
 					if (components.get(component).getCopyrights() != null) {
 						log.info("has copyrights: "
@@ -146,6 +201,11 @@ public class HtmlReportGenerator {
 						for (String copyright : components.get(component)
 								.getCopyrights()) {
 							html.li().content(copyright);
+						}
+						
+						if (textFileOutput) {
+							for (String copyright : components.get(component).getCopyrights())
+								outputTextFile.println(copyright);
 						}
 	
 					}
@@ -170,6 +230,10 @@ public class HtmlReportGenerator {
 								.add("style",
 										"display:none;border-style:solid;border-width:1px;")).ul();
 				
+				if (textFileOutput) {
+					outputTextFile.println();
+					outputTextFile.println("License texts (" + (components.get(component).getLicenses()!=null?components.get(component).getLicenses().size():"0") + ")");
+				}
 
 				if (components.get(component).getLicenses() != null) {
 					log.info("has " + components.get(component)
@@ -179,8 +243,8 @@ public class HtmlReportGenerator {
 					for (LicenseModel license : components.get(component)
 							.getLicenses()) {
 
-						String licenseName = license.getName() != null ? license
-								.getName() + "(Taken from KnowledgeBase)" : "license_" + licenseCounter + "(Taken from scanned file)";
+						String licenseName = license.getName() != null ? license.getName() + "(Taken from KnowledgeBase)" : 
+																		 "license_" + licenseCounter + "(Taken from scanned file)";
 						
 						if (license.getName() != null) {
 							html.li()
@@ -193,7 +257,7 @@ public class HtmlReportGenerator {
 										.add("id", "license_" + licenseCounter)
 										.add("style",
 												"display:none;border-style:solid;border-width:1px;"))
-								.content(license.getText(), false)._li();
+								.content(license.getText(), false)._li();														
 						}
 						else
 						{
@@ -210,6 +274,13 @@ public class HtmlReportGenerator {
 							.content("<pre>" + StringEscapeUtils.escapeHtml(license.getText()) + "</pre>", false)._li();
 						}
 
+						if (textFileOutput) {
+							outputTextFile.println();
+							outputTextFile.println("==========================================================================");
+							outputTextFile.println(licenseName);
+							outputTextFile.print(StringEscapeUtils.unescapeHtml(Jsoup.clean(license.getText(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false))));
+						}
+						
 						licenseCounter++;
 
 					}
@@ -228,6 +299,10 @@ public class HtmlReportGenerator {
 			html._body();
 			html._html();
 			html.getOutputWriter().flush();
+			
+			outputStream.close();
+			outputTextFile.close();
+			
 		} catch (IOException e) {
 			System.err.print("Error writing to output html file");
 			e.printStackTrace();

@@ -56,6 +56,10 @@ public class Config {
 	
 	private String showCopyrights;
 	
+	private String includeLicenseFilenamesInReport;
+	
+	private String textFileOutput;
+	
 	public Config() throws Exception
 	{
 		Properties prps = new Properties();
@@ -93,6 +97,10 @@ public class Config {
 		showComponentVersion = prps.getProperty("show.component.version");
 		
 		showCopyrights = prps.getProperty("show.copyrights");
+		
+		includeLicenseFilenamesInReport = prps.getProperty("include.license.filenames.in.report");
+		
+		textFileOutput = prps.getProperty("text.file.output");
 	}
 	
 	
@@ -105,16 +113,13 @@ public class Config {
 		return copyrightPatterns;
 	}
 
-	
 	public String getProtexUri() {
 		return protexUri;
 	}
-
-
+	
 	public String getProtexUsername() {
 		return protexUsername;
 	}
-
 
 	public String getProtexPassword() {
 		return protexPassword;
@@ -138,6 +143,14 @@ public class Config {
 	
 	public String getShowCopyrights() {
 		return showCopyrights;
+	}
+	
+	public String getIncludeLicenseFilenamesInReport() {
+		return includeLicenseFilenamesInReport;
+	}
+	
+	public String getTextFileOutput() {
+		return textFileOutput;
 	}
 
 }
