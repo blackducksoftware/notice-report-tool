@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.sdk.notice</groupId>
 	<artifactId>NoticeReportTool</artifactId>
-	<version>0.5</version>
+	<version>0.5.2</version>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.blackducksoftware.sdk</groupId>
 			<artifactId>protex-sdk-client</artifactId>
-			<version>6.1</version>
+			<version>6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -41,12 +41,12 @@
 		<dependency>
 			<groupId>com.blackducksoftware.proserv</groupId>
 			<artifactId>proserv-protex-utils</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.blackducksoftware.proserv</groupId>
 			<artifactId>proserv-protex-report-utils</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		
 	</dependencies>

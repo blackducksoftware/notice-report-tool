@@ -300,8 +300,10 @@ public class HtmlReportGenerator {
 			html._html();
 			html.getOutputWriter().flush();
 			
-			outputStream.close();
-			outputTextFile.close();
+			if (textFileOutput) {
+				outputStream.close();
+				outputTextFile.close();
+			}
 			
 		} catch (IOException e) {
 			System.err.print("Error writing to output html file");

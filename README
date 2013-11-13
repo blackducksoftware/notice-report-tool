@@ -1,4 +1,5 @@
-NoticeReportTool v0.5
+NoticeReportTool v0.5.2
+Built using the Protex 6.2 SDK
 
 Tool generates a HTML Notice file based on the identifications made for the project.  The output will
 contain an entry for each BOM Component.  Each entry will have links to display: 

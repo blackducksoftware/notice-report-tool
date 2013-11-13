@@ -25,30 +25,26 @@ import org.apache.log4j.Logger;
 
 import com.blackducksoftware.protex.sdk.ProtexReportWrapper;
 import com.blackducksoftware.protex.sdk.ProtexSDKWrapper;
-import com.blackducksoftware.protex.sdk.ProtexServerProxyUtils;
 import com.blackducksoftware.sdk.fault.SdkFault;
 import com.blackducksoftware.sdk.notice.model.ComponentModel;
 import com.blackducksoftware.sdk.notice.model.LicenseModel;
 import com.blackducksoftware.sdk.notice.report.HtmlReportGenerator;
 
-import com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_1;
-import com.blackducksoftware.sdk.protex.common.Component;
-import com.blackducksoftware.sdk.protex.common.ComponentInfo;
-import com.blackducksoftware.sdk.protex.common.ComponentInfoColumn;
+import com.blackducksoftware.sdk.protex.client.util.ProtexServerProxyV6_2;
 import com.blackducksoftware.sdk.protex.component.version.ComponentVersion;
 import com.blackducksoftware.sdk.protex.component.version.ComponentVersionApi;
 
-import com.blackducksoftware.sdk.protex.license.GlobalLicense;
 import com.blackducksoftware.sdk.protex.license.License;
 import com.blackducksoftware.sdk.protex.license.LicenseApi;
 import com.blackducksoftware.sdk.protex.license.LicenseInfo;
 import com.blackducksoftware.sdk.protex.project.ProjectApi;
 import com.blackducksoftware.sdk.protex.project.bom.BomApi;
 import com.blackducksoftware.sdk.protex.project.bom.BomComponent;
+import com.blackducksoftware.sdk.protex.project.bom.BomComponentType;
 import com.blackducksoftware.sdk.protex.project.codetree.CharEncoding;
 import com.blackducksoftware.sdk.protex.project.codetree.CodeTreeApi;
-
-import com.blackducksoftware.sdk.protex.util.PageFilterFactory;
+import com.blackducksoftware.sdk.protex.project.localcomponent.LocalComponent;
+import com.blackducksoftware.sdk.protex.project.localcomponent.LocalComponentApi;
 
 /**
  * @author jatoui
@@ -73,6 +69,8 @@ public class NoticeReportTool {
 	static LicenseApi licenseApi = null;
 	
 	static CodeTreeApi codeTreeApi = null;
+	
+	static LocalComponentApi localComponentApi = null;
 	
 
 	private ProtexSDKWrapper sdkWrapper;
@@ -202,17 +200,29 @@ public class NoticeReportTool {
 			String compVersionObjName = new String();
 			String compVersionObjVersion = new String();
 			
-			// If the current bomComponent is NOT the project, then get it's ComponentVersion object
+			// If the current bomComponent is NOT the project
 			if (!bomComponentId.equals(projectId)) {
-				compVersionObj = componentVersionApi.getComponentVersionById(bomComponentId, bomComponentVersionId != null ? bomComponentVersionId : "");
-				
-				compVersionObjName = compVersionObj.getComponentName();
-				compVersionObjVersion = compVersionObj.getVersionName();
+				// and if the current bomComponent is a LOCAL component, get its name and version
+				if (bomComponent.getType().equals(BomComponentType.LOCAL)) {
+					LocalComponent localComponent = localComponentApi.getLocalComponentById(projectId, bomComponent.getComponentId());
+					
+					compVersionObjName = localComponent.getName();
+					compVersionObjVersion = bomComponent.getBomVersionName();
+				}
+				// else get the bomComponent's name and version
+				else {
+					compVersionObj = componentVersionApi.getComponentVersionById(bomComponentId, bomComponentVersionId != null ? bomComponentVersionId : "");
+					
+					compVersionObjName = compVersionObj.getComponentName();
+					compVersionObjVersion = compVersionObj.getVersionName();
+				}
 			}
 
 			// If the component name matches, but the version is null, that means the version was manually overridden in the UI
 			// so now we have to get the license from the bomComponent, instead of the compVersionObj
-			if (compVersionObjName.equals(compName) && compVersionObjVersion == null) {
+			// OR if it is a local component and the name and version match, then we also get the license from the bomComponent object
+			if ((compVersionObjName.equals(compName) && compVersionObjVersion == null) || 
+				(bomComponent.getType().equals(BomComponentType.LOCAL) && compVersionObjName.equals(compName) && compVersionObjVersion.equals(compVersion))) {
 				
 					LicenseInfo licenseInfo = bomComponent.getLicenseInfo();
 
@@ -336,13 +346,13 @@ public class NoticeReportTool {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("NoticeReportTool v0.5\n");
+		System.out.println("NoticeReportTool v0.5.2\n");
 		config = new Config();
 		//long startTime = System.nanoTime();
 		
 	    try {
 	        Long connectionTimeout = 120 * 1000L;
-	        ProtexServerProxyV6_1 myProtexServer = new ProtexServerProxyV6_1(config.getProtexUri(), config.getProtexUsername(), config.getProtexPassword(),
+	        ProtexServerProxyV6_2 myProtexServer = new ProtexServerProxyV6_2(config.getProtexUri(), config.getProtexUsername(), config.getProtexPassword(),
 	                connectionTimeout);
 	        
 	        licenseApi = myProtexServer.getLicenseApi();
@@ -350,6 +360,7 @@ public class NoticeReportTool {
 	        bomApi = myProtexServer.getBomApi();
 	        componentVersionApi = myProtexServer.getComponentVersionApi();
 	        codeTreeApi = myProtexServer.getCodeTreeApi();
+	        localComponentApi = myProtexServer.getLocalComponentApi();
 	        
             TLSClientParameters tlsClientParameters = new TLSClientParameters();
             tlsClientParameters.setDisableCNCheck(true);
@@ -371,6 +382,10 @@ public class NoticeReportTool {
             http.setTlsClientParameters(tlsClientParameters);  
             
             client = org.apache.cxf.frontend.ClientProxy.getClient(codeTreeApi);
+            http = (HTTPConduit) client.getConduit();
+            http.setTlsClientParameters(tlsClientParameters);
+            
+            client = org.apache.cxf.frontend.ClientProxy.getClient(localComponentApi);
             http = (HTTPConduit) client.getConduit();
             http.setTlsClientParameters(tlsClientParameters); 
 	        
