@@ -1,0 +1,766 @@
+<html>
+ <head> 
+  <style>
+		.mainTable, table
+		{
+			font-family: Arial;
+			width: 800px;
+			border: 1px solid black;
+			text-align: left;
+		
+		}
+		
+		h1,h2,h3,h4
+		{
+			font-family: Arial;
+		}
+		
+		tr, td
+		{
+			padding: 2px;
+			border: 1px solid darkBlue;
+			font-size: 15px;
+		}
+		
+		th
+		{
+			font-size: 16px;
+			text-align: center;
+			background-color: #7D8EFF;
+			padding: 3px;
+			text-align: center;
+			vertical-align: text-bottom;
+		}
+		
+		.th-attribute
+		{
+			width: 85%;
+		}
+		
+		
+		.attributes
+		{
+			font-size: 15px;
+			font-style: oblique;
+			padding: 2px;
+		}
+		
+		.file-paths-link, .copyrights-link, .license-text-link 
+		{
+			font-family: Arial;
+			font-style: normal;
+			display:none;
+			border-style:solid;
+			border-width:1px;
+		}
+		.component-name
+		{
+			font-family: Arial;
+			font-size: 20px;
+		}
+		
+		.license-text
+		{
+			font-family: Arial;
+			font-style: normal;
+			padding: 9px;
+			background-color: #DEF3FF;
+			display: none;
+			width: 90%;
+		}
+		.homepage-link
+		{
+			
+		}
+	</style> 
+  <script>
+			function toggle(id) 
+			{
+			   var ele = document.getElementById(id);
+			   
+			   if(ele.style.display == "block") {
+			      		ele.style.display = "none";	
+			    	}
+			   else {
+			   	ele.style.display = "block";
+				   }
+		    } 
+		</script> 
+ </head> 
+ <body> 
+  <div class="bds-json-data"> 
+   <!-- !!!DO NOT REMOVE THIS DIV, JSON IS DYNAMICALLY INJECTED!!!	--> 
+   <script>var compList=[{
+  "nnsocketio1772679": {
+    "componentId": "nnsocketio1772679",
+    "name": "NNSocketIO",
+    "version": "9.9.9",
+    "homePage": "http://github.com/growthfield/NNSocketIO/",
+    "paths": [
+      "/Classes/Kiwi/KWContainMatcher.h",
+      "/Classes/Kiwi/NSMethodSignature+KiwiAdditions.h",
+      "/Classes/Kiwi/KWBeZeroMatcher.m",
+      "/Classes/Kiwi/KWFormatter.h",
+      "/Classes/Kiwi/KWConformToProtocolMatcher.h",
+      "/Classes/Kiwi/NSMethodSignature+KiwiAdditions.m",
+      "/Classes/Kiwi/KWBeWithinMatcher.h",
+      "/Classes/Kiwi/KWMessageSpying.h",
+      "/Classes/Kiwi/KWInvocationCapturer.h",
+      "/Classes/Kiwi/NSNumber+KiwiAdditions.m",
+      "/Classes/Kiwi/NSValue+KiwiAdditions.m",
+      "/Classes/Kiwi/NSObject+KiwiVerifierAdditions.h",
+      "/Classes/Kiwi/KWReporting.h",
+      "/Classes/Kiwi/KWBeEmptyMatcher.h",
+      "/Classes/Kiwi/KWRespondToSelectorMatcher.h",
+      "/Classes/Kiwi/KWBeIdenticalToMatcher.h",
+      "/Classes/Kiwi/NSObject+KiwiMockAdditions.m",
+      "/Classes/Kiwi/KWCallSite.h",
+      "/Classes/Kiwi/KWStringUtilities.h",
+      "/Classes/Kiwi/NSObject+KiwiVerifierAdditions.m",
+      "/Classes/Kiwi/NSNumber+KiwiAdditions.h",
+      "/Classes/Kiwi/KWBeTrueMatcher.h",
+      "/Classes/Kiwi/KWCallSite.m",
+      "/Classes/Kiwi/KWMock.h",
+      "/Classes/Kiwi/KWExistVerifier.h",
+      "/Classes/Kiwi/NSObject+KiwiMockAdditions.h",
+      "/Classes/Kiwi/KWInequalityMatcher.h",
+      "/Classes/Kiwi/KWMessageTracker.h",
+      "/Classes/Kiwi/KWBeZeroMatcher.h",
+      "/Classes/Kiwi/KWCountType.h",
+      "/Classes/Kiwi/KWBeKindOfClassMatcher.h",
+      "/Classes/Kiwi/KWHaveMatcher.h",
+      "/Classes/Kiwi/NSInvocation+KiwiAdditions.h",
+      "/Classes/Kiwi/KWMatchVerifier.h",
+      "/Classes/Kiwi/KWRaiseMatcher.h",
+      "/Classes/Kiwi/NSObject+KiwiStubAdditions.h",
+      "/Classes/Kiwi/KWNull.h",
+      "/Classes/Kiwi/NSValue+KiwiAdditions.h",
+      "/Classes/Kiwi/KWDeviceInfo.m",
+      "/Classes/Kiwi/KWBeMemberOfClassMatcher.h",
+      "/Classes/Kiwi/KWBeBetweenMatcher.h",
+      "/Classes/Kiwi/KWDeviceInfo.h",
+      "/Classes/Kiwi/KWEqualMatcher.h",
+      "/Classes/Kiwi/KWStub.h",
+      "/Classes/Kiwi/KWFailure.h",
+      "/Classes/Kiwi/KWMessagePattern.h",
+      "/Classes/Kiwi/KWObjCUtilities.h"
+    ],
+    "licenses": [
+      {
+        "id": "Apache20",
+        "name": "Apache License 2.0",
+        "text": "\u003cH1\u003e\u003ccenter\u003eApache License\u003cbr /\u003e\r\nVersion 2.0, January 2004\u003c/center\u003e\u003c/H1\u003e\r\n\u003cbr /\u003e\r\n\r\nhttp://www.apache.org/licenses/\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nTERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e1. Definitions\u003c/b\u003e.\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"License\" shall mean the terms and conditions for use, reproduction,\r\n      and distribution as defined by Sections 1 through 9 of this document.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Licensor\" shall mean the copyright owner or entity authorized by\r\n      the copyright owner that is granting the License.\r\n\u003c/p\u003e\r\n\r\n\u003cp\u003e\r\n      \"Legal Entity\" shall mean the union of the acting entity and all\r\n      other entities that control, are controlled by, or are under common\r\n      control with that entity. For the purposes of this definition,\r\n      \"control\" means (i) the power, direct or indirect, to cause the\r\n      direction or management of such entity, whether by contract or\r\n      otherwise, or (ii) ownership of fifty percent (50%) or more of the\r\n      outstanding shares, or (iii) beneficial ownership of such entity.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"You\" (or \"Your\") shall mean an individual or Legal Entity\r\n      exercising permissions granted by this License.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Source\" form shall mean the preferred form for making modifications,\r\n      including but not limited to software source code, documentation\r\n      source, and configuration files.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Object\" form shall mean any form resulting from mechanical\r\n      transformation or translation of a Source form, including but\r\n      not limited to compiled object code, generated documentation,\r\n      and conversions to other media types.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n\r\n      \"Work\" shall mean the work of authorship, whether in Source or\r\n      Object form, made available under the License, as indicated by a\r\n      copyright notice that is included in or attached to the work\r\n      (an example is provided in the Appendix below).\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Derivative Works\" shall mean any work, whether in Source or Object\r\n      form, that is based on (or derived from) the Work and for which the\r\n      editorial revisions, annotations, elaborations, or other modifications\r\n      represent, as a whole, an original work of authorship. For the purposes\r\n      of this License, Derivative Works shall not include works that remain\r\n      separable from, or merely link (or bind by name) to the interfaces of,\r\n      the Work and Derivative Works thereof.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Contribution\" shall mean any work of authorship, including\r\n      the original version of the Work and any modifications or additions\r\n      to that Work or Derivative Works thereof, that is intentionally\r\n      submitted to Licensor for inclusion in the Work by the copyright owner\r\n      or by an individual or Legal Entity authorized to submit on behalf of\r\n      the copyright owner. For the purposes of this definition, \"submitted\"\r\n      means any form of electronic, verbal, or written communication sent\r\n      to the Licensor or its representatives, including but not limited to\r\n      communication on electronic mailing lists, source code control systems,\r\n      and issue tracking systems that are managed by, or on behalf of, the\r\n      Licensor for the purpose of discussing and improving the Work, but\r\n      excluding communication that is conspicuously marked or otherwise\r\n      designated in writing by the copyright owner as \"Not a Contribution.\"\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Contributor\" shall mean Licensor and any individual or Legal Entity\r\n      on behalf of whom a Contribution has been received by Licensor and\r\n      subsequently incorporated within the Work.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e2. Grant of Copyright License\u003c/b\u003e.\r\nSubject to the terms and conditions of\r\n      this License, each Contributor hereby grants to You a perpetual,\r\n      worldwide, non-exclusive, \u003ca name\u003d\"feeForSoftwareRestrictionLicense1\"\u003eno-charge, royalty-free, irrevocable\r\n      copyright license\u003c/a\u003e to reproduce, prepare Derivative Works of,\r\n      publicly display, publicly perform, \u003ca name\u003d\"maximumUsageLevelLicense\"\u003esublicense, and distribute the\r\n      Work and such Derivative Works in Source or Object form.\u003c/a\u003e\r\n\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e3. Grant of Patent License\u003c/b\u003e.\r\n\u003ca name\u003d\"expressPatentLicenseRestrictionLicense\"\u003eSubject to the terms and conditions of\r\n      this License, each Contributor hereby grants to You a perpetual,\r\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\r\n      (except as stated in this section) patent license to make, have made,\r\n      use, offer to sell, sell, import, and otherwise transfer the Work,\r\n      where such license applies only to those patent claims licensable\r\n      by such Contributor that are necessarily infringed by their\r\n      Contribution(s) alone or by combination of their Contribution(s)\r\n      with the Work to which such Contribution(s) was submitted.\u003c/a\u003e \u003ca name\u003d\"patentRetaliationRestrictionLicense\"\u003eIf You\r\n      institute patent litigation against any entity (including a\r\n      cross-claim or counterclaim in a lawsuit) alleging that the Work\r\n      or a Contribution incorporated within the Work constitutes direct\r\n      or contributory patent infringement, then any patent licenses\r\n      granted to You under this License for that Work shall terminate\r\n      as of the date such litigation is filed.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e4. Redistribution\u003c/b\u003e.\r\n\u003ca name\u003d\"copyRestrictionLicense\"\u003eYou may reproduce and distribute copies\u003c/a\u003e of the\r\n      Work or Derivative Works thereof in any medium, \u003ca name\u003d\"modificationRestrictionLicense\"\u003ewith or without\r\n      modifications\u003c/a\u003e, and in Source or Object form, provided that You\r\n      meet the following conditions:\r\n\u003col type\u003d\"a\"\u003e\r\n\u003cli\u003eYou must give any other recipients of the Work or\r\n          Derivative Works a copy of this License; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003e\u003ca name\u003d\"sourceNoticesRestrictionLicense\"\u003eYou must cause any modified files to carry prominent notices\r\n          stating that You changed the files\u003c/a\u003e; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003eYou must retain, in the Source form of any Derivative Works\r\n          that You distribute, all copyright, patent, trademark, and\r\n          attribution notices from the Source form of the Work,\r\n          excluding those notices that do not pertain to any part of\r\n          the Derivative Works; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003eIf the Work includes a \"NOTICE\" text file as part of its\r\n          distribution, then any Derivative Works that You distribute must\r\n          include a readable copy of the attribution notices contained\r\n          within such NOTICE file, excluding those notices that do not\r\n          pertain to any part of the Derivative Works, in at least one\r\n          of the following places: within a NOTICE text file distributed\r\n          as part of the Derivative Works; within the Source form or\r\n          documentation, if provided along with the Derivative Works; or,\r\n          within a display generated by the Derivative Works, if and\r\n          wherever such third-party notices normally appear. The contents\r\n          of the NOTICE file are for informational purposes only and\r\n          do not modify the License. You may add Your own attribution\r\n          notices within Derivative Works that You distribute, alongside\r\n          or as an addendum to the NOTICE text from the Work, provided\r\n          that such additional attribution notices cannot be construed\r\n          as modifying the License.\u003c/li\u003e\r\n\u003c/ol\u003e\r\n      You may add Your own copyright statement to Your modifications and\r\n      may provide additional or different license terms and conditions\r\n      for use, reproduction, or distribution of Your modifications, or\r\n      for any such Derivative Works as a whole, provided Your use,\r\n      reproduction, and distribution of the Work otherwise complies with\r\n      the conditions stated in this License.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e5. Submission of Contributions\u003c/b\u003e.\r\nUnless You explicitly state otherwise,\r\n      any Contribution intentionally submitted for inclusion in the Work\r\n      by You to the Licensor shall be under the terms and conditions of\r\n      this License, without any additional terms or conditions.\r\n      Notwithstanding the above, nothing herein shall supersede or modify\r\n      the terms of any separate license agreement you may have executed\r\n      with Licensor regarding such Contributions.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e6. Trademarks\u003c/b\u003e.\r\nThis License does not grant permission to use the trade\r\n      names, trademarks, service marks, or product names of the Licensor,\r\n      except as required for reasonable and customary use in describing the\r\n      origin of the Work and reproducing the content of the NOTICE file.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e7. Disclaimer of Warranty\u003c/b\u003e.\r\n\u003ca name\u003d\"disclaimerRestrictionLicense\"\u003eUnless required by applicable law or\r\n      agreed to in writing, Licensor provides the Work (and each\r\n      Contributor provides its Contributions) on an \"AS IS\" BASIS,\r\n      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\r\n      implied, including, without limitation, any warranties or conditions\r\n      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\r\n      PARTICULAR PURPOSE. You are solely responsible for determining the\r\n      appropriateness of using or redistributing the Work and assume any\r\n      risks associated with Your exercise of permissions under this License.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e\u003ca name\u003d\"excludeDamagesRestrictionLicense\"\u003e8. Limitation of Liability\u003c/b\u003e.\r\nIn no event and under no legal theory,\r\n      whether in tort (including negligence), contract, or otherwise,\r\n      unless required by applicable law (such as deliberate and grossly\r\n      negligent acts) or agreed to in writing, shall any Contributor be\r\n      liable to You for damages, including any direct, indirect, special,\r\n      incidental, or consequential damages of any character arising as a\r\n      result of this License or out of the use or inability to use the\r\n      Work (including but not limited to damages for loss of goodwill,\r\n      work stoppage, computer failure or malfunction, or any and all\r\n      other commercial damages or losses), even if such Contributor\r\n      has been advised of the possibility of such damages.\u003c/a\u003e\r\n\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e9. Accepting Warranty or Additional Liability\u003c/b\u003e.\r\n\u003ca name\u003d\"indemnificationRestrictionLicense\"\u003eWhile redistributing\r\n      the Work or Derivative Works thereof, You may choose to offer,\r\n      and charge a fee for, acceptance of support, warranty, indemnity,\r\n      or other liability obligations and/or rights consistent with this\r\n      License. However, in accepting such obligations, You may act only\r\n      on Your own behalf and on Your sole responsibility, not on behalf\r\n      of any other Contributor, and only if You agree to indemnify,\r\n      defend, and hold each Contributor harmless for any liability\r\n      incurred by, or claims asserted against, such Contributor by reason\r\n      of your accepting any such warranty or additional liability.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nEND OF TERMS AND CONDITIONS\r\n\u003c/p\u003e\r\n                 \r\n\u003ch4\u003e\r\n   APPENDIX: How to apply the Apache License to your work\r\n\u003c/h4\u003e\r\n\r\n\u003cp\u003e\r\n      To apply the Apache License to your work, attach the following\r\n      boilerplate notice, with the fields enclosed by brackets \"[]\"\r\n      replaced with your own identifying information. (Don\u0027t include\r\n      the brackets!)  The text should be enclosed in the appropriate\r\n      comment syntax for the file format. We also recommend that a\r\n      file or class name and description of purpose be included on the\r\n      same \"printed page\" as the copyright notice for easier\r\n      identification within third-party archives.\r\n\r\n\u003c/p\u003e\r\n\u003cblockquote\u003e\r\n   Copyright [yyyy] [name of copyright owner]\r\n\r\n   Licensed under the Apache License, Version 2.0 (the \u0026quot;License\u0026quot;);\r\n   you may not use this file except in compliance with the License.\r\n   You may obtain a copy of the License at\r\n\r\n       http://www.apache.org/licenses/LICENSE-2.0\r\n\r\n   Unless required by applicable law or agreed to in writing, software\r\n   distributed under the License is distributed on an \u0026quot;AS IS\u0026quot; BASIS,\r\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n   See the License for the specific language governing permissions and\r\n   limitations under the License.\u003c/blockquote\u003e"
+      }
+    ]
+  },
+  "spacesgivecamp762588": {
+    "componentId": "spacesgivecamp762588",
+    "name": "SPACES_GIVECAMP",
+    "version": "Unspecified",
+    "homePage": "http://github.com/joecannatti/SPACES_GIVECAMP/",
+    "paths": [
+      "/SPACES.xcodeproj/project.pbxproj",
+      "/SPACES.xcodeproj/project.pbxproj.orig"
+    ],
+    "licenses": [
+      {
+        "id": "unspecified",
+        "name": "Unspecified",
+        "text": "\u003cp\u003eThe license has not been identified.\u003c/p\u003e"
+      }
+    ]
+  },
+  "c_935443d8-17c7-46c1-abff-6006519893f7": {
+    "componentId": "c_935443d8-17c7-46c1-abff-6006519893f7",
+    "name": "AriLocalComponent",
+    "version": "Unspecified",
+    "homePage": "",
+    "paths": [
+      "/tweetapp/single.php",
+      "/tweetapp/cronContestFetch.php",
+      "/tweetapp/cronContestFetch.sh",
+      "/tweetapp/crontab-reference",
+      "/tweetapp/announcementJSON.php",
+      "/tweetapp/twConstantsConnect.inc.php",
+      "/tweetapp/submissionJSON.php"
+    ],
+    "licenses": [
+      {
+        "id": "c_935443d8-17c7-46c1-abff-6006519893f7",
+        "name": "License for AriLocalComponent",
+        "text": "This license is completely custom.  SO there."
+      }
+    ]
+  },
+  "idevcamp802972": {
+    "componentId": "idevcamp802972",
+    "name": "iDevcamp",
+    "version": "Unspecified",
+    "homePage": "http://github.com/tapmates/iDevcamp/",
+    "paths": [
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHAsyncTestCase.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/Info.plist",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/GHUnit",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTesting.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestCase.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/LICENSE",
+      "/MGTwitterEngine/Externals/yajl-objc/Classes/YAJL.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/stream1.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/YAJLTestCase.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/NSException+GHTestFailureExceptions.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/gen_expected1.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestApp.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/GHTestView.nib",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/twitter.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestRunner.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GTMStackTrace.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestWindowController.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestGroup.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/GHTestWindow.nib",
+      "/MGTwitterEngine/MGTwitterStatusesLibXMLParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHNSObject+Invocation.h",
+      "/MGTwitterEngine/Externals/yajl-objc/SBJSON/SBJSONScanner.h",
+      "/MGTwitterEngine/MGTwitterMessagesYAJLParser.m",
+      "/MGTwitterEngine/MGTwitterUsersParser.m",
+      "/MGTwitterEngine/MGTwitterMessagesYAJLParser.h",
+      "/MGTwitterEngine/MGTwitterMessagesLibXMLParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/error2.json",
+      "/MGTwitterEngine/MGTwitterMiscParser.m",
+      "/MGTwitterEngine/Externals/yajl-objc/SBJSON/JSON.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/document_streaming.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/YAJLIPhone_Prefix.pch",
+      "/MGTwitterEngine/MGTwitterUsersParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/RunTests.sh",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Tests-Info.plist",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Info.plist",
+      "/MGTwitterEngine/English.lproj/InfoPlist.strings",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHNSLocale+Mock.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/GradientSplitViewDimpleVector.pdf",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHUNSObject+Swizzle.h",
+      "/MGTwitterEngine/MGTwitterMiscParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestSuite.h",
+      "/MGTwitterEngine/main.m",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/sample.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Tests_Prefix.pch",
+      "/MGTwitterEngine/Externals/yajl-objc/SBJSON/NSString+SBJSON.h",
+      "/MGTwitterEngine/MGTwitterMiscYAJLParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/YAJLDocumentDelegateTest.m",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTestSuite.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Libraries/GTM/YAJL_GTMBase64.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/overflow.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTest.h",
+      "/MGTwitterEngine/MGTwitterStatusesParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Libraries/GTM/YAJL_GTMBase64.m",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/example.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Versions/A/GHUnit",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHNSInvocation+Utils.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTestRunner.h",
+      "/MGTwitterEngine/MGTwitterUsersYAJLParser.h",
+      "/MGTwitterEngine/MGTwitterEngine_Prefix.pch",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/English.lproj/InfoPlist.strings",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/GHTestApp.nib",
+      "/MGTwitterEngine/MGTwitterUsersYAJLParser.m",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/api/yajl_gen.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestViewModel.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestViewController.h",
+      "/MGTwitterEngine/English.lproj/MainMenu.nib/designable.nib",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTestCase.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/NSValue+GHValueFormatter.h",
+      "/MGTwitterEngine/Externals/yajl-objc/SBJSON/NSObject+SBJSON.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/BWSplitView.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHMockNSURLConnection.h",
+      "/MGTwitterEngine/Externals/yajl-objc/SBJSON/NSObject+SBJSON.m",
+      "/MGTwitterEngine/libYAJLIPhone-0.2.16/YAJL.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Makefile",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/YAJL.xcodeproj/TemplateIcon.icns",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/GHUnitTestMain.m",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/NSException+GHTestFailureExceptions.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/stream2.json",
+      "/MGTwitterEngine/Source Code License.rtf",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestOutlineViewModel.h",
+      "/MGTwitterEngine/README.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHUnit.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/GradientSplitViewDimpleBitmap.tif",
+      "/MGTwitterEngine/Externals/yajl-objc/Classes/NSObject+YAJL.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTestGroup.h",
+      "/MGTwitterEngine/Info.plist",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHTestMacros.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/gen_expected2.json",
+      "/MGTwitterEngine/MGTwitterMiscLibXMLParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHUNSObject+Swizzle.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/gen_expected_plist1.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHNSInvocationProxy.h",
+      "/MGTwitterEngine/English.lproj/MainMenu.nib/keyedobjects.nib",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHMockNSHTTPURLResponse.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTest.h",
+      "/MGTwitterEngine/libYAJLIPhone-0.2.16/NSObject+YAJL.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Scripts/CombineLibs.sh",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/api/yajl_parse.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/overflow2.json",
+      "/MGTwitterEngine/MGTwitterLibXMLParser.h",
+      "/MGTwitterEngine/MGTwitterMessagesParser.m",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHUnit.h",
+      "/MGTwitterEngine/MGTwitterMessagesParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Libraries/libGHUnitIPhone3_0-0.4.19/GHAsyncTestCase.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/overflow_longlong.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/object_expected_array.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/YAJL_Prefix.pch",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTestMacros.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Tests/Samples/comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/NSValue+GHValueFormatter.h",
+      "/MGTwitterEngine/MGTwitterUsersLibXMLParser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Headers/GHTesting.h",
+      "/MGTwitterEngine/Externals/yajl-objc/Project/Frameworks/GHUnit.framework/Resources/English.lproj/InfoPlist.strings",
+      "/MGTwitterEngine/Externals/yajl-objc/Project-IPhone/Tests_Prefix.pch"
+    ],
+    "licenses": [
+      {
+        "id": "unspecified",
+        "name": "Unspecified",
+        "text": "\u003cp\u003eThe license has not been identified.\u003c/p\u003e"
+      }
+    ]
+  },
+  "yajl673795": {
+    "componentId": "yajl673795",
+    "name": "yajl",
+    "version": "Unspecified",
+    "homePage": "http://github.com/lloyd/yajl/",
+    "paths": [
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/difficult_json_c_test_case_with_comments.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_invalid_escape.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_invalid_hex_char.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/verify/json_verify.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_bytestack.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/escaped_foobar.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/missing_integer_after_decimal_point.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/reformatter/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_lex.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/array.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/leading_zero_in_number.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/escaped_bulgarian.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/unescaped_bulgarian.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/doubles.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/escaped_foobar.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/three_byte_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_lex.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/map_close.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/YAJL.dxy",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/rfc4627.txt",
+      "/MGTwitterEngine/libYAJLIPhone-0.2.16/yajl_common.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/escaped_bulgarian.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_with_escapes.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/unescaped_bulgarian.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/configure",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_parser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_parser.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/non_utf8_char_in_string.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/simple.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_parser.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/simple.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/difficult_json_c_test_case.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/empty_array.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/lonely_minus_sign.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/yajl_test.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/escaped_foobar.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/lonely_minus_sign.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_parser.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/missing_integer_after_decimal_point.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/verify/json_verify.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/COPYING",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/lonely_minus_sign.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/BUILDING.win32",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_gen.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/COPYING",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/bogus_char.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/three_byte_utf8.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/nulls_and_bools.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/deep_arrays.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/verify/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/difficult_json_c_test_case_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/simple_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/array.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/difficult_json_c_test_case.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/lonely_number.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_buf.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/run_tests.sh",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_lex.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/non_utf8_char_in_string.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/non_utf8_char_in_string.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_buf.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_with_escapes.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_lex.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_with_invalid_newline.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_with_invalid_newline.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/leading_zero_in_number.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_with_escapes.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/integers.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/three_byte_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/invalid_utf8.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/invalid_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_with_invalid_newline.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/difficult_json_c_test_case_with_comments.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/escaped_foobar.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/doubles.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/reformatter/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/doubles.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/nulls_and_bools.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/TODO",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/missing_integer_after_exponent.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/unescaped_bulgarian.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/array.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_invalid_escape.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_invalid_hex_char.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/BUILDING.win32",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/verify/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/api/yajl_common.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/YAJL.dxy",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/bogus_char.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_invalid_escape.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/integers.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/README",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/deep_arrays.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/codepoints_from_unicode_org.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/unescaped_bulgarian.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/YAJLDoc.cmake",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_bytestack.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/map_close.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/doubles.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/YAJLDoc.cmake",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/invalid_utf8.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/lonely_minus_sign.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/difficult_json_c_test_case.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/escaped_bulgarian.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/difficult_json_c_test_case_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_invalid_hex_char.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/escaped_bulgarian.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_alloc.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/simple_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/array.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/dc_simple_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/simple_with_comments.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_alloc.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/ChangeLog",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/array_close.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/reformatter/json_reformat.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/TODO",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_encode.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/run_tests.sh",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/BUILDING",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/dc_simple_with_comments.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/lonely_number.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_encode.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/reformatter/json_reformat.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/invalid_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/simple.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/codepoints_from_unicode_org.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/integers.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/deep_arrays.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/four_byte_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/simple.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/three_byte_utf8.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_encode.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/BUILDING",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/CMakeLists.txt",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_with_invalid_newline.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/yajl_encode.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_invalid_hex_char.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/dc_simple_with_comments.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/bogus_char.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_buf.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/README",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/src/api/yajl_common.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/empty_array.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/bogus_char.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/difficult_json_c_test_case.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/non_utf8_char_in_string.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/missing_integer_after_exponent.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/codepoints_from_unicode_org.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/integers.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/string_with_escapes.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_alloc.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/nulls_and_bools.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_gen.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/array_close.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/deep_arrays.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_alloc.h",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/ChangeLog",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/nulls_and_bools.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/codepoints_from_unicode_org.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/string_invalid_escape.json",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/configure",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/src/yajl_buf.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/dc_simple_with_comments.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/yajl_test.c",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.5/test/cases/four_byte_utf8.json.gold",
+      "/MGTwitterEngine/Externals/yajl-objc/yajl-1.0.9/test/cases/simple_with_comments.json.gold"
+    ],
+    "licenses": [
+      {
+        "id": "isclicense",
+        "name": "ISC License",
+        "text": "\u003ch1\u003eISC License (ISCL)\u003c/h1\u003e\r\n\r\n\u003cTT\u003eCopyright (c) 4-digit year, Company or Person\u0027s Name \u003c/TT\u003e\r\n\u003cp\u003e\r\n\u003cp\u003e\u003ca name\u003d\"maximumUsageLevelLicense\"\u003ePermission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted\u003c/a\u003e, provided that \u003ca name\u003d\"includeLicenseRestrictionLicense\"\u003ethe above copyright notice and this permission notice appear in all copies.\u003c/a\u003e\u003c/p\u003e\r\n\u003cp\u003eTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.\u003c/p\u003e"
+      }
+    ]
+  },
+  "c_8c83bf25-67a3-4d98-9041-46224f6fc6b0": {
+    "componentId": "c_8c83bf25-67a3-4d98-9041-46224f6fc6b0",
+    "name": "AnotherLocalComponent",
+    "version": "1.3",
+    "homePage": "http://www.google.com",
+    "paths": [
+      "/pokeb-asi-http-request/iPhone Sample/UploadViewController.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesContainer.h",
+      "/pokeb-asi-http-request/Classes/S3/ASIS3ServiceRequest.h",
+      "/pokeb-asi-http-request/iPhone Sample/SampleViewController.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesContainer.m",
+      "/pokeb-asi-http-request/Classes/Tests/ProxyTests.h",
+      "/pokeb-asi-http-request/Classes/Tests/ProxyTests.m",
+      "/pokeb-asi-http-request/iPhone Sample/iPadSampleAppDelegate.h",
+      "/pokeb-asi-http-request/iPhone Sample/AuthenticationViewController.h",
+      "/pokeb-asi-http-request/LICENSE",
+      "/pokeb-asi-http-request/Classes/S3/ASIS3BucketObject.h",
+      "/pokeb-asi-http-request/Classes/Tests/ASINetworkQueueTests.h",
+      "/pokeb-asi-http-request/Mac Sample/main.m",
+      "/pokeb-asi-http-request/iPhone Sample/iPadSampleAppDelegate.m",
+      "/pokeb-asi-http-request/Classes/ASIAuthenticationDialog.h",
+      "/pokeb-asi-http-request/Classes/Tests/PerformanceTests.m",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesContainerXMLParserDelegate.m",
+      "/pokeb-asi-http-request/Classes/S3/ASIS3Bucket.h",
+      "/pokeb-asi-http-request/iPhone Sample/iphone-tests-icon.png",
+      "/pokeb-asi-http-request/Mac Sample/English.lproj/InfoPlist.strings",
+      "/pokeb-asi-http-request/Classes/Tests/ASIFormDataRequestTests.h",
+      "/pokeb-asi-http-request/iPhone Sample/RootViewController.h",
+      "/pokeb-asi-http-request/Classes/Tests/ASICloudFilesRequestTests.h",
+      "/pokeb-asi-http-request/iPhone Sample/SynchronousViewController.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesRequest.m",
+      "/pokeb-asi-http-request/Classes/Tests/ASICloudFilesRequestTests.m",
+      "/pokeb-asi-http-request/Classes/Tests/ASIFormDataRequestTests.m",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesRequest.h",
+      "/pokeb-asi-http-request/Classes/ASIProgressDelegate.h",
+      "/pokeb-asi-http-request/iPhone Sample/Tests-Info.plist",
+      "/pokeb-asi-http-request/iPhone Sample/DetailCell.m",
+      "/pokeb-asi-http-request/Classes/Tests/PerformanceTests.h",
+      "/pokeb-asi-http-request/clang.sh",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesObject.m",
+      "/pokeb-asi-http-request/Mac Sample/Mac_Prefix.pch",
+      "/pokeb-asi-http-request/iPhone Sample/iPhoneInfo.plist",
+      "/pokeb-asi-http-request/iPhone Sample/iPadInfo.plist",
+      "/pokeb-asi-http-request/iPhone Sample/QueueViewController.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesObject.h",
+      "/pokeb-asi-http-request/Classes/ASIFormDataRequest.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesObjectRequest.m",
+      "/pokeb-asi-http-request/iPhone Sample/DetailCell.h",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesContainerRequest.h",
+      "/pokeb-asi-http-request/Mac Sample/Tests-Info.plist",
+      "/pokeb-asi-http-request/iPhone Sample/ToggleCell.h",
+      "/pokeb-asi-http-request/External/Reachability/Reachability.h",
+      "/pokeb-asi-http-request/iPhone Sample/iPhoneSampleAppDelegate.m",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesContainerRequest.m",
+      "/pokeb-asi-http-request/Classes/Tests/StressTests.h",
+      "/pokeb-asi-http-request/Mac.xcodeproj/TemplateIcon.icns",
+      "/pokeb-asi-http-request/Classes/Tests/GHUnitTestMain.m",
+      "/pokeb-asi-http-request/iPhone Sample/ToggleCell.m",
+      "/pokeb-asi-http-request/Mac Sample/Info.plist",
+      "/pokeb-asi-http-request/Classes/Tests/StressTests.m",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesCDNRequest.m",
+      "/pokeb-asi-http-request/iPhone Sample/iphone-icon.png",
+      "/pokeb-asi-http-request/iPhone Sample/InfoCell.m",
+      "/pokeb-asi-http-request/Classes/ASIDownloadCache.h",
+      "/pokeb-asi-http-request/iPhone Sample/main.m",
+      "/pokeb-asi-http-request/iPhone Sample/InfoCell.h",
+      "/pokeb-asi-http-request/Classes/ASIInputStream.h",
+      "/pokeb-asi-http-request/Classes/Tests/ASITestCase.h",
+      "/pokeb-asi-http-request/iPhone Sample/Resources/Sample.xib",
+      "/pokeb-asi-http-request/Classes/CloudFiles/ASICloudFilesCDNRequest.h",
+      "/pokeb-asi-http-request/Classes/Tests/ASITestCase.m",
+      "/pokeb-asi-http-request/iPhone Sample/iPhoneSampleAppDelegate.h",
+      "/pokeb-asi-http-request/iPhone Sample/Resources/info.png"
+    ],
+    "licenses": [
+      {
+        "id": "apache20licensewithexportcontrolwarning",
+        "name": "Apache 2.0 License with Export Control Warning",
+        "text": "\u003cH1\u003eApache 2.0 with Export Control Warning\u003c/H1\u003e\r\n\r\nThis distribution includes cryptographic software that is subject to U.S. export control laws and applicable export and import laws of other countries. BEFORE using any software made available from this site, it is your responsibility to understand and comply with these laws.\u003cBR\u003e\r\nThis software is being exported in accordance with the Export Administration Regulations. As of June 2009, you are prohibited from exporting and re-exporting this software to Cuba, Iran, North Korea, Sudan, Syria and any other countries specified by regulatory update to the U.S. export control laws and regulations. Diversion contrary to U.S. law is prohibited.\u003cP\u003e\r\n\u003cH2\u003e\u003ccenter\u003eApache License\u003cbr /\u003e\r\nVersion 2.0, January 2004\u003c/center\u003e\u003c/H2\u003e\r\n\u003cbr /\u003e\r\n\r\nhttp://www.apache.org/licenses/\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nTERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e1. Definitions\u003c/b\u003e.\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"License\" shall mean the terms and conditions for use, reproduction,\r\n      and distribution as defined by Sections 1 through 9 of this document.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Licensor\" shall mean the copyright owner or entity authorized by\r\n      the copyright owner that is granting the License.\r\n\u003c/p\u003e\r\n\r\n\u003cp\u003e\r\n      \"Legal Entity\" shall mean the union of the acting entity and all\r\n      other entities that control, are controlled by, or are under common\r\n      control with that entity. For the purposes of this definition,\r\n      \"control\" means (i) the power, direct or indirect, to cause the\r\n      direction or management of such entity, whether by contract or\r\n      otherwise, or (ii) ownership of fifty percent (50%) or more of the\r\n      outstanding shares, or (iii) beneficial ownership of such entity.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"You\" (or \"Your\") shall mean an individual or Legal Entity\r\n      exercising permissions granted by this License.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Source\" form shall mean the preferred form for making modifications,\r\n      including but not limited to software source code, documentation\r\n      source, and configuration files.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Object\" form shall mean any form resulting from mechanical\r\n      transformation or translation of a Source form, including but\r\n      not limited to compiled object code, generated documentation,\r\n      and conversions to other media types.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n\r\n      \"Work\" shall mean the work of authorship, whether in Source or\r\n      Object form, made available under the License, as indicated by a\r\n      copyright notice that is included in or attached to the work\r\n      (an example is provided in the Appendix below).\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Derivative Works\" shall mean any work, whether in Source or Object\r\n      form, that is based on (or derived from) the Work and for which the\r\n      editorial revisions, annotations, elaborations, or other modifications\r\n      represent, as a whole, an original work of authorship. For the purposes\r\n      of this License, Derivative Works shall not include works that remain\r\n      separable from, or merely link (or bind by name) to the interfaces of,\r\n      the Work and Derivative Works thereof.\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Contribution\" shall mean any work of authorship, including\r\n      the original version of the Work and any modifications or additions\r\n      to that Work or Derivative Works thereof, that is intentionally\r\n      submitted to Licensor for inclusion in the Work by the copyright owner\r\n      or by an individual or Legal Entity authorized to submit on behalf of\r\n      the copyright owner. For the purposes of this definition, \"submitted\"\r\n      means any form of electronic, verbal, or written communication sent\r\n      to the Licensor or its representatives, including but not limited to\r\n      communication on electronic mailing lists, source code control systems,\r\n      and issue tracking systems that are managed by, or on behalf of, the\r\n      Licensor for the purpose of discussing and improving the Work, but\r\n      excluding communication that is conspicuously marked or otherwise\r\n      designated in writing by the copyright owner as \"Not a Contribution.\"\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\n      \"Contributor\" shall mean Licensor and any individual or Legal Entity\r\n      on behalf of whom a Contribution has been received by Licensor and\r\n      subsequently incorporated within the Work.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e2. Grant of Copyright License\u003c/b\u003e.\r\nSubject to the terms and conditions of\r\n      this License, each Contributor hereby grants to You a perpetual,\r\n      worldwide, non-exclusive, \u003ca name\u003d\"feeForSoftwareRestrictionLicense1\"\u003eno-charge, royalty-free, irrevocable\r\n      copyright license\u003c/a\u003e to reproduce, prepare Derivative Works of,\r\n      publicly display, publicly perform, \u003ca name\u003d\"maximumUsageLevelLicense\"\u003esublicense, and distribute the\r\n      Work and such Derivative Works in Source or Object form.\u003c/a\u003e\r\n\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e3. Grant of Patent License\u003c/b\u003e.\r\n\u003ca name\u003d\"expressPatentLicenseRestrictionLicense\"\u003eSubject to the terms and conditions of\r\n      this License, each Contributor hereby grants to You a perpetual,\r\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\r\n      (except as stated in this section) patent license to make, have made,\r\n      use, offer to sell, sell, import, and otherwise transfer the Work,\r\n      where such license applies only to those patent claims licensable\r\n      by such Contributor that are necessarily infringed by their\r\n      Contribution(s) alone or by combination of their Contribution(s)\r\n      with the Work to which such Contribution(s) was submitted.\u003c/a\u003e \u003ca name\u003d\"patentRetaliationRestrictionLicense\"\u003eIf You\r\n      institute patent litigation against any entity (including a\r\n      cross-claim or counterclaim in a lawsuit) alleging that the Work\r\n      or a Contribution incorporated within the Work constitutes direct\r\n      or contributory patent infringement, then any patent licenses\r\n      granted to You under this License for that Work shall terminate\r\n      as of the date such litigation is filed.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e4. Redistribution\u003c/b\u003e.\r\n\u003ca name\u003d\"copyRestrictionLicense\"\u003eYou may reproduce and distribute copies\u003c/a\u003e of the\r\n      Work or Derivative Works thereof in any medium, \u003ca name\u003d\"modificationRestrictionLicense\"\u003ewith or without\r\n      modifications\u003c/a\u003e, and in Source or Object form, provided that You\r\n      meet the following conditions:\r\n\u003col type\u003d\"a\"\u003e\r\n\u003cli\u003eYou must give any other recipients of the Work or\r\n          Derivative Works a copy of this License; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003e\u003ca name\u003d\"sourceNoticesRestrictionLicense\"\u003eYou must cause any modified files to carry prominent notices\r\n          stating that You changed the files\u003c/a\u003e; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003eYou must retain, in the Source form of any Derivative Works\r\n          that You distribute, all copyright, patent, trademark, and\r\n          attribution notices from the Source form of the Work,\r\n          excluding those notices that do not pertain to any part of\r\n          the Derivative Works; and\r\n\u003cbr /\u003e \u003cbr /\u003e\u003c/li\u003e\r\n\r\n\u003cli\u003eIf the Work includes a \"NOTICE\" text file as part of its\r\n          distribution, then any Derivative Works that You distribute must\r\n          include a readable copy of the attribution notices contained\r\n          within such NOTICE file, excluding those notices that do not\r\n          pertain to any part of the Derivative Works, in at least one\r\n          of the following places: within a NOTICE text file distributed\r\n          as part of the Derivative Works; within the Source form or\r\n          documentation, if provided along with the Derivative Works; or,\r\n          within a display generated by the Derivative Works, if and\r\n          wherever such third-party notices normally appear. The contents\r\n          of the NOTICE file are for informational purposes only and\r\n          do not modify the License. You may add Your own attribution\r\n          notices within Derivative Works that You distribute, alongside\r\n          or as an addendum to the NOTICE text from the Work, provided\r\n          that such additional attribution notices cannot be construed\r\n          as modifying the License.\u003c/li\u003e\r\n\u003c/ol\u003e\r\n      You may add Your own copyright statement to Your modifications and\r\n      may provide additional or different license terms and conditions\r\n      for use, reproduction, or distribution of Your modifications, or\r\n      for any such Derivative Works as a whole, provided Your use,\r\n      reproduction, and distribution of the Work otherwise complies with\r\n      the conditions stated in this License.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e5. Submission of Contributions\u003c/b\u003e.\r\nUnless You explicitly state otherwise,\r\n      any Contribution intentionally submitted for inclusion in the Work\r\n      by You to the Licensor shall be under the terms and conditions of\r\n      this License, without any additional terms or conditions.\r\n      Notwithstanding the above, nothing herein shall supersede or modify\r\n      the terms of any separate license agreement you may have executed\r\n      with Licensor regarding such Contributions.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e6. Trademarks\u003c/b\u003e.\r\nThis License does not grant permission to use the trade\r\n      names, trademarks, service marks, or product names of the Licensor,\r\n      except as required for reasonable and customary use in describing the\r\n      origin of the Work and reproducing the content of the NOTICE file.\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e7. Disclaimer of Warranty\u003c/b\u003e.\r\n\u003ca name\u003d\"disclaimerRestrictionLicense\"\u003eUnless required by applicable law or\r\n      agreed to in writing, Licensor provides the Work (and each\r\n      Contributor provides its Contributions) on an \"AS IS\" BASIS,\r\n      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\r\n      implied, including, without limitation, any warranties or conditions\r\n      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\r\n      PARTICULAR PURPOSE. You are solely responsible for determining the\r\n      appropriateness of using or redistributing the Work and assume any\r\n      risks associated with Your exercise of permissions under this License.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e\u003ca name\u003d\"excludeDamagesRestrictionLicense\"\u003e8. Limitation of Liability\u003c/b\u003e.\r\nIn no event and under no legal theory,\r\n      whether in tort (including negligence), contract, or otherwise,\r\n      unless required by applicable law (such as deliberate and grossly\r\n      negligent acts) or agreed to in writing, shall any Contributor be\r\n      liable to You for damages, including any direct, indirect, special,\r\n      incidental, or consequential damages of any character arising as a\r\n      result of this License or out of the use or inability to use the\r\n      Work (including but not limited to damages for loss of goodwill,\r\n      work stoppage, computer failure or malfunction, or any and all\r\n      other commercial damages or losses), even if such Contributor\r\n      has been advised of the possibility of such damages.\u003c/a\u003e\r\n\r\n\u003c/p\u003e\r\n\u003cp\u003e\u003cb\u003e9. Accepting Warranty or Additional Liability\u003c/b\u003e.\r\n\u003ca name\u003d\"indemnificationRestrictionLicense\"\u003eWhile redistributing\r\n      the Work or Derivative Works thereof, You may choose to offer,\r\n      and charge a fee for, acceptance of support, warranty, indemnity,\r\n      or other liability obligations and/or rights consistent with this\r\n      License. However, in accepting such obligations, You may act only\r\n      on Your own behalf and on Your sole responsibility, not on behalf\r\n      of any other Contributor, and only if You agree to indemnify,\r\n      defend, and hold each Contributor harmless for any liability\r\n      incurred by, or claims asserted against, such Contributor by reason\r\n      of your accepting any such warranty or additional liability.\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nEND OF TERMS AND CONDITIONS\r\n\u003c/p\u003e\r\n                 \r\n\u003ch4\u003e\r\n   APPENDIX: How to apply the Apache License to your work\r\n\u003c/h4\u003e\r\n\r\n\u003cp\u003e\r\n      To apply the Apache License to your work, attach the following\r\n      boilerplate notice, with the fields enclosed by brackets \"[]\"\r\n      replaced with your own identifying information. (Don\u0027t include\r\n      the brackets!)  The text should be enclosed in the appropriate\r\n      comment syntax for the file format. We also recommend that a\r\n      file or class name and description of purpose be included on the\r\n      same \"printed page\" as the copyright notice for easier\r\n      identification within third-party archives.\r\n\r\n\u003c/p\u003e\r\n\u003cblockquote\u003e\r\n   Copyright [yyyy] [name of copyright owner]\r\n\r\n   Licensed under the Apache License, Version 2.0 (the \u0026quot;License\u0026quot;);\r\n   you may not use this file except in compliance with the License.\r\n   You may obtain a copy of the License at\r\n\r\n       http://www.apache.org/licenses/LICENSE-2.0\r\n\r\n   Unless required by applicable law or agreed to in writing, software\r\n   distributed under the License is distributed on an \u0026quot;AS IS\u0026quot; BASIS,\r\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n   See the License for the specific language governing permissions and\r\n   limitations under the License.\u003c/blockquote\u003e"
+      }
+    ]
+  }
+}]</script>
+   <script>var propList=[{
+  "show_copyrights": true,
+  "show_component_version": true,
+  "project_name": "Ari_Project_Git",
+  "include_license_filenames_in_report": true,
+  "show_file_paths": true
+}]</script>
+  </div> 
+  <div class="title"> 
+   <h1 align="center">Notice Report for Project: <script>
+		document.write(propList[0].project_name);
+	  </script> </h1> 
+  </div> 
+  <br /> 
+  <br /> 
+  <div class="table-of-contents"> 
+   <h2>Table of Contents</h2> 
+   <script>
+		 	  for(var i=0; i<compList.length;i++)
+			  {
+		  		  var ourComp = compList[i];
+		  		  var counter = 1;
+		  		  for(var key in ourComp)
+		  		  {
+		  			  document.write("<a href=#component_"+ counter + ">" + ourComp[key].name  + "</a>");
+		  			  document.write("<br>");
+		  			  counter++;
+		  		  }
+			  }
+	      </script> 
+  </div> 
+  <br /> 
+  <h2>Bill of Materials</h2> 
+  <br /> 
+  <table class="main-table"> 
+   <tbody> 
+    <tr> 
+     <th> <h3>Component</h3> </th> 
+     <th class="th-attribute"> <h3>Attributes</h3> </th> 
+    </tr> 
+    <script>
+      	  // Load properties
+		  if(propList != null)
+		  {
+			// Because it is a map get the actual object
+			var properties = propList[0];
+		  	var showFilePaths = properties.show_file_paths;
+			var showCopyrights = properties.show_copyrights;
+			var showComponentVersion = properties.show_component_version;
+		  }
+      
+
+      	  // Build the table
+      	  for(var i=0; i<compList.length;i++)
+    	  {
+      		  var ourComp = compList[i];
+      		  var counter = 1;
+      		  for(var key in ourComp)
+      		  {
+      			 document.write("<tr id=component_" + counter +">");
+      			 // Component column
+				 // Check to see if user enabled to show version
+				 var componentName = ourComp[key].name;
+				 if(showComponentVersion)
+					componentName = componentName + ":" + ourComp[key].version;
+      			 document.write("<td><div class='component-name'>" + componentName +"</div></td>")	;
+      			 // Attribute column
+      			 document.write("<td>");
+      			 
+      			 document.write("<div class=attributes>");
+      			 // Paths
+	      			 buildLinkedItems(showFilePaths, ourComp[key].paths, counter, "Paths", "file-paths-link");
+	      			 document.write("</div><br>");
+	      			 // Copyrights
+	      			 buildLinkedItems(showCopyrights, ourComp[key].copyrights, counter, "Copyrights", "copyrights-link");
+	      			 document.write("</div><br>");
+	      			 // Licenses
+					 // There will never be an option to not show them
+	      			 buildLinkedItems(true, ourComp[key].licenses, counter, "Licenses", "license-text-link");
+	      			 document.write("</div><br>");
+	      			 // Add homepage link if available
+					 if(ourComp[key].homePage != null)
+					 {
+						document.write("<div class='homepage-link'>");
+						document.write("<a href='" + ourComp[key].homePage + "' target=_new> Homepage</a>");
+						document.write("</div>");
+					 }
+	      		 document.write("</div>");
+      			 document.write("</td>");
+      			 document.write("</tr>");
+      			 
+      			 counter++;
+      		  }  			
+    	  }
+      	  
+      	  function buildLinkedItems(isShow, elementList, counter, elementName, cssName)
+      	  {
+      		 if(isShow)
+ 			 {    				
+ 				// Display the link
+ 				var elementCount = 0;
+ 				if(elementList != null)
+ 					elementCount = elementList.length;
+ 				
+ 				// Display how many in the parentheses
+ 				// Use the element name to build iterative IDs
+ 				document.write("<a href=javascript:toggle('"+ elementName + counter +"');>" + elementName);
+ 				document.write(" (" + elementCount + ")");
+ 				document.write("</a>");
+ 				// Create the contents
+ 				document.write("<div class=" + cssName +" id=" + elementName + counter +">");
+ 				document.write("<ul>");
+ 				if(elementList != null)
+				{
+ 					for(var p=0; p < elementList.length;p++)
+     				{				
+ 						var elementItem = elementList[p];
+ 						
+ 						// Licenses
+ 						if(typeof elementItem == 'object')
+ 						{
+ 							buildLicenseText(elementItem, counter,p);
+ 
+ 						}
+ 						else
+     				 		document.write("<li>" + elementItem +"</li>");		
+     				}
+				}	
+ 				else
+ 				{
+ 					document.write("<li>No " + elementName + " exist for this component</li>");
+ 				}
+ 		
+ 				document.write("</ul");   			
+ 			 	document.write("</div>");
+ 			 }
+      		 
+      		 return;
+      	  }
+      	
+      	// Use a counter to make sure that links open up the correct divs
+       	function buildLicenseText(license, counter,internalcounter)
+       	{
+      		// Link for license
+ 			var uniqueid = "";
+ 			if(license.id == null)
+ 			{
+ 				uniqueid = counter + "_" + internalcounter;
+ 			}
+ 			else
+ 				uniqueid = license.id + "_" +counter;
+ 			
+       		document.write("<li><a href=javascript:toggle('"+ uniqueid +"');>" + license.name +"</li>");
+ 			document.write("</a>");
+ 		
+ 			
+ 			// License text
+ 			// TODO:  Lookup the license from license map!
+ 			document.write("<div class='license-text' id='" + uniqueid + "'>");
+ 			document.write(license.text);
+ 			document.write("</div>");
+ 			
+       	}
+      	
+      </script> 
+   </tbody> 
+  </table>  
+ </body>
+</html>
