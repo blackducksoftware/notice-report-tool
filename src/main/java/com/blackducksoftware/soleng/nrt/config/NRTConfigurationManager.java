@@ -79,7 +79,7 @@ public class NRTConfigurationManager extends ConfigurationManager {
 
 		
 		// Optional filename
-		outputFilename = getOptionalProperty(NRTConstants.PROPERTY_OUTPUT_FILENAME,NRTConstants.DEFAULT_OUTPUT_FILENAME_NAME, String.class);		
+		outputFilename = getOptionalProperty(NRTConstants.PROPERTY_OUTPUT_FILENAME,NRTConstants.DEFAULT_OUTPUT_HTML_FILENAME_NAME, String.class);		
 	
 		// Switches
 		setHtmlFileOutput(getOptionalProperty(NRTConstants.PROPERTY_HTML_FILE_OUTPUT, true, Boolean.class));

@@ -22,6 +22,7 @@ public class NoticeReportProcessor
 	private INoticeReportProcessor bdsProcessor = null;
 	private NRTConfigurationManager nrtConfigManager = null;
 	
+
 	public NoticeReportProcessor(String configFileLocation, APPLICATION appType) throws Exception
 	{
 		nrtConfigManager = new NRTConfigurationManager(configFileLocation, appType);	
@@ -72,17 +73,20 @@ public class NoticeReportProcessor
 	}
 	
 	/**
-	 * Determines the location of the report name and its final name
+	 * Prepares the final report location by copying the template from the supplied 
+	 * resources and creates an appropriate name depending on configuration settings.
+	 * @param extension
 	 * @return
-	 * @throws Exception 
+	 * @throws IOException 
 	 */
-	private File calculateReportNameAndLocation(String extension) throws Exception 
+	public File calculateReportNameAndLocation(String extension) throws IOException 
 	{
 		String outputFileName = nrtConfigManager.getOutputFilename();
 		File outputFile = null;
 		if(outputFileName != null && outputFileName.length() > 0)
 		{
-			outputFileName = cleanUpName(outputFileName);
+			// Before we copy, replace space encoding if there is one
+			outputFileName = outputFileName.replaceAll(" ", "%20");
 			outputFile = new File(new File("").getAbsolutePath() + File.separator + outputFileName);
 			
 			// If HTML, copy the template over
@@ -90,18 +94,20 @@ public class NoticeReportProcessor
 			{
 				// Copy the template
 				String htmlTemplate = ClassLoader.getSystemResource(NRTConstants.HTML_TEMPLATE_FILE).getFile();		
-				try {
+				try 
+				{
+					// Before we copy, replace space encoding if there is one
+					htmlTemplate = htmlTemplate.replaceAll("%20", " ");					
 					Files.copy(new File(htmlTemplate).toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				} catch (IOException e)
 				{
-					throw new Exception("Fatal, unable to prepare HTML remplate: " + e.getMessage());					
-				}
-				
+					throw new IOException("Fatal, unable to prepare HTML remplate: " + e.getMessage());					
+				}				
 			}
 		}
 		else
 		{
-			outputFile = new File(new File("").getAbsolutePath() + File.separator + NRTConstants.DEFAULT_OUTPUT_FILENAME_NAME + extension);
+			outputFile = new File(new File("").getAbsolutePath() + File.separator + NRTConstants.DEFAULT_OUTPUT_HTML_FILENAME_NAME + extension);
 		}
 
 		
@@ -116,6 +122,10 @@ public class NoticeReportProcessor
 	private String cleanUpName(String reportName) 
 	{
 		return reportName.replaceAll("[^a-zA-Z0-9.-]", "_");
+	}
+	
+	public NRTConfigurationManager getNrtConfigManager() {
+		return nrtConfigManager;
 	}
 }
 
