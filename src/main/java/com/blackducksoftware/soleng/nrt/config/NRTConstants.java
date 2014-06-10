@@ -41,7 +41,7 @@ public class NRTConstants
 	public static final String PROPERTY_COPYRIGHT_CONTEXT_LENGTH = "copyright.context.length";	
 	public static final String PROPERTY_INC_LIC_FILENAMES = "include.license.filenames.in.report";	
 	public static final String PROPERTY_TEXT_FILE_OUTPUT = "text.file.output";
-	
+	public static final String PROPERTY_HTML_FILE_OUTPUT = "html.file.output";
 	
 	public static final String REPORT_HTML_EXTENSION = ".html";
 	public static final String REPORT_PLAIN_TEXT_EXTENSION = ".txt";

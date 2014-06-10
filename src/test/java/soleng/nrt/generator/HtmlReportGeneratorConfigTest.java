@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.blackducksoftware.soleng.nrt.config.NRTConstants;
-import com.blackducksoftware.soleng.nrt.generator.HtmlReportGenerator;
+import com.blackducksoftware.soleng.nrt.generator.NRTReportGenerator;
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;

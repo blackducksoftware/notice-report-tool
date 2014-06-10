@@ -25,7 +25,7 @@ import com.blackducksoftware.sdk.codecenter.request.data.RequestSummary;
 import com.blackducksoftware.soleng.nrt.codecenter.NoticeReportCustomAttributeProcessor;
 import com.blackducksoftware.soleng.nrt.config.NRTConfigurationManager;
 import com.blackducksoftware.soleng.nrt.config.NRTConstants;
-import com.blackducksoftware.soleng.nrt.generator.HtmlReportGenerator;
+import com.blackducksoftware.soleng.nrt.generator.NRTReportGenerator;
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
 import com.blackducksoftware.soleng.nrt.model.CustomAttributeBean;
 import com.blackducksoftware.soleng.nrt.model.CustomAttributeRule;

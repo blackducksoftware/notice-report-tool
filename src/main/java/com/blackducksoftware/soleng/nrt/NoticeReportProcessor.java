@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.blackducksoftware.soleng.nrt.config.NRTConfigurationManager;
 import com.blackducksoftware.soleng.nrt.config.NRTConstants;
-import com.blackducksoftware.soleng.nrt.generator.HtmlReportGenerator;
+import com.blackducksoftware.soleng.nrt.generator.NRTReportGenerator;
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
 
 import soleng.framework.core.config.ConfigConstants.APPLICATION;
@@ -53,15 +53,18 @@ public class NoticeReportProcessor
 			throw new Exception("Failure in processing", e);
 		}
 	
-		HtmlReportGenerator reportGen = new HtmlReportGenerator(nrtConfigManager, components);	
-		reportGen.generateHTMLFromTemplate(outputFile);
-		log.info("Finished HTML processing: " + outputFile);
+		NRTReportGenerator reportGen = new NRTReportGenerator(nrtConfigManager, components);	
+		
+		if(nrtConfigManager.isHtmlFileOutput())
+		{
+			reportGen.generateHTMLFromTemplate(outputFile);
+			log.info("Finished HTML processing: " + outputFile);
+		}
 		
 		if(nrtConfigManager.isTextFileOutput())
 		{
-			log.info("Generating text output");
-			outputFile = calculateReportNameAndLocation(NRTConstants.REPORT_PLAIN_TEXT_EXTENSION);
-			reportGen.generateFileoutput(outputFile);
+			log.info("Generating text output");			
+			reportGen.generateTextReport(nrtConfigManager.getProjectName());
 			log.info("Finished text processing: " + outputFile);
 		}
 		

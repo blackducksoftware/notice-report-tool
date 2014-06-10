@@ -29,7 +29,7 @@ import soleng.framework.core.config.ConfigConstants.APPLICATION;
 import com.blackducksoftware.soleng.nrt.NoticeReportTool;
 import com.blackducksoftware.soleng.nrt.config.NRTConfigurationManager;
 import com.blackducksoftware.soleng.nrt.config.NRTConstants;
-import com.blackducksoftware.soleng.nrt.generator.HtmlReportGenerator;
+import com.blackducksoftware.soleng.nrt.generator.NRTReportGenerator;
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
 import com.blackducksoftware.soleng.nrt.model.LicenseModel;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;

@@ -21,6 +21,7 @@ import com.blackducksoftware.sdk.protex.common.StringSearchPattern;
 import com.blackducksoftware.sdk.protex.common.StringSearchPatternOriginType;
 import com.blackducksoftware.sdk.protex.component.custom.CustomComponent;
 import com.blackducksoftware.sdk.protex.component.standard.StandardComponent;
+import com.blackducksoftware.sdk.protex.component.version.ComponentVersion;
 import com.blackducksoftware.sdk.protex.license.License;
 import com.blackducksoftware.sdk.protex.license.LicenseInfo;
 import com.blackducksoftware.sdk.protex.license.LicenseOriginType;
@@ -90,6 +91,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 				Component component = protexWrapper.getInternalApiWrapper().projectApi.
 						getComponentById(projectId, bomcomponent.getComponentId());
 				
+			
 				if(component != null)
 				{
 					
@@ -111,6 +113,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 					}
 					else if(component.getType() == ComponentType.STANDARD)
 					{
+						//StandardComponent sc = protexWrapper.getInternalApiWrapper().standardComponentApi.getStandardComponentById(componentModel.getComponentId());
 						StandardComponent sc = (StandardComponent)component;
 						componentModel.setHomePage(sc.getHomePage());
 					
@@ -121,8 +124,24 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 						continue;
 					}
 					
+					Set<String> paths = componentToPathMappings.get(componentModel.getNameAndVersion());
+					if(paths == null)
+					{
+						// If this is null, it means that the name:version combination does not exist
+						// which is impossible for 99% of the cases. It can only occur if the name
+						// changed and the SDK is giving us the wrong name.  Look it up via another SDK.
+						ComponentVersion compVersion = 
+								protexWrapper.getInternalApiWrapper().componentVersionApi.getComponentVersionById(
+										bomcomponent.getComponentId(), bomcomponent.getVersionId());
+						
+						// Override the name
+						componentModel.setName(compVersion.getComponentName());
+						// Try again
+						paths = componentToPathMappings.get(componentModel.getNameAndVersion());
+								
+					}
 					// Load all the file paths
-					getFilesPathsForComponent(component, componentModel, componentToPathMappings);
+					getFilesPathsForComponent(component, componentModel, paths);
 						
 					// Load all the copyrights
 					getCopyrightsForComponent(projectId, component, componentModel);
@@ -265,7 +284,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 	 * @param componentModel
 	 * @param componentToPathMappings
 	 */
-	private void getFilesPathsForComponent(Component component, ComponentModel componentModel, HashMap<String, Set<String>> componentToPathMappings) 
+	private void getFilesPathsForComponent(Component component, ComponentModel componentModel, Set<String> paths) 
 	{
 		// Filepaths if necessary
 		if(nrtConfigManager.isShowFilePaths())
@@ -274,7 +293,6 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 			
 			try
 			{
-				Set<String> paths = componentToPathMappings.get(componentModel.getNameAndVersion());
 				for(String path : paths)
 				{
 					componentModel.addNewPath(path);
@@ -282,7 +300,8 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 				
 			} catch (Exception e)
 			{
-				log.error("Error getting identifications: " + e.getMessage());
+				log.error("Error getting file paths for: " + componentModel.getNameAndVersion());
+				log.error(e.getMessage());
 			}
 			
 		}

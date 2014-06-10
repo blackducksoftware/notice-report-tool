@@ -35,6 +35,7 @@ public class NRTConfigurationManager extends ConfigurationManager {
 	
 	// Switches
 	private Boolean textFileOutput;
+	private Boolean htmlFileOutput; // In case user does not want the HTML output.
 	private Boolean showFilePaths;	
 	private Boolean showComponentVersion;	
 	private Boolean showCopyrights;	
@@ -81,6 +82,7 @@ public class NRTConfigurationManager extends ConfigurationManager {
 		outputFilename = getOptionalProperty(NRTConstants.PROPERTY_OUTPUT_FILENAME,NRTConstants.DEFAULT_OUTPUT_FILENAME_NAME, String.class);		
 	
 		// Switches
+		setHtmlFileOutput(getOptionalProperty(NRTConstants.PROPERTY_HTML_FILE_OUTPUT, true, Boolean.class));
 		setTextFileOutput(getOptionalProperty(NRTConstants.PROPERTY_TEXT_FILE_OUTPUT, false, Boolean.class));
 		setIncludeLicenseFilenamesInReport(getOptionalProperty(NRTConstants.PROPERTY_INC_LIC_FILENAMES, true, Boolean.class));	
 		setShowFilePaths(getOptionalProperty(NRTConstants.PROPERTY_SHOW_FILE_PATHS, true, Boolean.class));	
@@ -276,6 +278,14 @@ public class NRTConfigurationManager extends ConfigurationManager {
 
 	private void setCopyrightContextLength(Integer copyrightContextLength) {
 		this.copyrightContextLength = copyrightContextLength;
+	}
+
+	public Boolean isHtmlFileOutput() {
+		return htmlFileOutput;
+	}
+
+	private void setHtmlFileOutput(Boolean htmlFileOutput) {
+		this.htmlFileOutput = htmlFileOutput;
 	}
 	
 }

@@ -17,7 +17,7 @@ import org.junit.rules.TemporaryFolder;
 import soleng.framework.core.config.ConfigConstants.APPLICATION;
 
 import com.blackducksoftware.soleng.nrt.config.NRTConfigurationManager;
-import com.blackducksoftware.soleng.nrt.generator.HtmlReportGenerator;
+import com.blackducksoftware.soleng.nrt.generator.NRTReportGenerator;
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
 import com.blackducksoftware.soleng.nrt.model.LicenseModel;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -34,7 +34,7 @@ public class HtmlReportGeneratorSetup
 	// The HTML template file used for setting up our html
 	protected static String htmlTemplate = "html_template.html";
 	protected static File basicReportOutputLocation = null;
-	protected static HtmlReportGenerator generator = null;
+	protected static NRTReportGenerator generator = null;
 	
 	protected static String COMP_ONE_NAME = "ComponentOne";
 	protected static String COMP_TWO_NAME = "ComponentTwo";
@@ -43,9 +43,9 @@ public class HtmlReportGeneratorSetup
 	protected static HashMap<String, ComponentModel> testComponents = null;
 	protected static NRTConfigurationManager configManager = null;
 	
-	protected static HtmlReportGenerator setupFiles(String configFile, File basicReportOutputLocation) throws IOException	
+	protected static NRTReportGenerator setupFiles(String configFile, File basicReportOutputLocation) throws IOException	
 	{
-		HtmlReportGenerator generator = null;
+		NRTReportGenerator generator = null;
 		String fullConfigFileLocation = ClassLoader.getSystemResource(configFile).getFile();
 		
 		// Using code center, but it does not really matter.
@@ -57,7 +57,7 @@ public class HtmlReportGeneratorSetup
 
 		populateComponents();
 		
-		generator = new HtmlReportGenerator(configManager, testComponents);
+		generator = new NRTReportGenerator(configManager, testComponents);
 
 		// Write it out
 		try 

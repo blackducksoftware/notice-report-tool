@@ -106,7 +106,7 @@
 					<repositoryName>lib</repositoryName>
 					<programs>
 						<program>
-							<mainClass>com.blackducksoftware.sdk.notice.NoticeReportTool</mainClass>
+							<mainClass>com.blackducksoftware.soleng.nrt.NoticeReportTool</mainClass>
 							<name>NoticeReportTool</name>
 						</program>
 					</programs>
