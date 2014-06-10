@@ -161,31 +161,35 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 		 */
 		if (nrtConfigManager.isIncludeLicenseFilenamesInReport())		
 		{
-				for (String componentKey : componentToPathMappings.keySet()) 
+				for (ComponentModel model : componentMappings.values()) 
 				{
-					ComponentModel model = componentMappings.get(componentKey);
-					
 					for (String licenseFilename : nrtConfigManager.getLicenseFilenames()) 
 					{
-						for(String path : model.getPaths())
+						Set<String> paths = model.getPaths();
+						if(paths != null)
 						{
-							if (FilenameUtils.getName(path).endsWith(licenseFilename)) 
+							for(String path : paths)
 							{
-								String fileText = getFileText(projectId, path);
-								if (fileText != null) 
+								if (FilenameUtils.getName(path).endsWith(licenseFilename)) 
 								{
-									LicenseModel licenseModel = new LicenseModel();
-									licenseModel.setId("custom_included_+" + licenseFilename);
-									licenseModel.setText(fileText);
-		
-									model.addNewLicense(licenseModel);
+									String fileText = getFileText(projectId, path);
+									if (fileText != null) 
+									{
+										LicenseModel licenseModel = new LicenseModel();
+										licenseModel.setName(licenseFilename);
+										licenseModel.setId("custom_included_+" + licenseFilename);
+										licenseModel.setText(fileText);
+			
+										model.addNewLicense(licenseModel);
+									}
 								}
 							}
 						}
+						else
+							log.info("No paths for component: " + model.getNameAndVersion());
 					}
 				}
 			}
-
 
 		return componentMappings;
 	}
