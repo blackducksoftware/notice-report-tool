@@ -14,6 +14,7 @@ import org.junit.rules.TemporaryFolder;
 import soleng.framework.core.config.ConfigConstants.APPLICATION;
 
 import com.blackducksoftware.soleng.nrt.NoticeReportProcessor;
+import com.blackducksoftware.soleng.nrt.config.NRTConfigurationManager;
 import com.blackducksoftware.soleng.nrt.config.NRTConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -63,11 +64,17 @@ public class NoticeReportProcessorTest
 	public void testUserSuppliedFileName() throws IOException
 	{
 		String userSuppliedName = "MyReport.html";
+		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
+		
+		// Set our name
 		reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
 		File finalFile = 
 				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 		
 		Assert.assertEquals(userSuppliedName, finalFile.getName());
+		
+		// cleanup
+		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
 		
 	}
 	
@@ -79,11 +86,17 @@ public class NoticeReportProcessorTest
 	public void testUserSuppliedFileNameWithSpaces() throws IOException
 	{
 		String userSuppliedName = "My Report.html";
+		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
+		
+		// Set our name
 		reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
 		
 		File finalFile = 
 				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 		
 		Assert.assertEquals("My%20Report.html", finalFile.getName());
+		
+		// cleanup
+		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
 	}
 }
