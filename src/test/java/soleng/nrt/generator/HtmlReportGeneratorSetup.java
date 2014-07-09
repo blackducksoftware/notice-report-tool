@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,7 +41,7 @@ public class HtmlReportGeneratorSetup
 	protected static String COMP_TWO_NAME = "ComponentTwo";
 	
 	// Container for the data
-	protected static HashMap<String, ComponentModel> testComponents = null;
+	protected static TreeMap<String, ComponentModel> testComponents = null;
 	protected static NRTConfigurationManager configManager = null;
 	
 	protected static NRTReportGenerator setupFiles(String configFile, File basicReportOutputLocation) throws IOException	
@@ -76,7 +77,7 @@ public class HtmlReportGeneratorSetup
 		/**
 		 * Create two basic components
 		 */
-		testComponents = new HashMap<String, ComponentModel>();
+		testComponents = new TreeMap<String, ComponentModel>();
 		
 		// Fake out a license
 		LicenseModel licModelOne = createTestLicense("apache_id_fake", "FakeApache", "Fake Apache text");
