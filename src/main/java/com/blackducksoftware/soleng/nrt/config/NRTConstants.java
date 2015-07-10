@@ -2,6 +2,10 @@ package com.blackducksoftware.soleng.nrt.config;
 
 public class NRTConstants 
 {
+	// Command line arguments
+	public static final String CL_CONFIG_FILE 						= "config";
+	public static final String CL_APPLICATION_TYPE					= "application";
+	
 	//
 	public static final String HTML_TEMPLATE_FILE 					= "html_template.html";
 	
@@ -30,6 +34,7 @@ public class NRTConstants
 	
 	// Names
 	public static final String PROPERTY_OUTPUT_FILENAME 			= "output.filename";	
+	public static final String PROPERTY_OUTPUT_LOCATION 			= "output.location";	
 	public static final String DEFAULT_OUTPUT_HTML_FILENAME_NAME 	= "BlackDuckAttributionReport" + REPORT_HTML_EXTENSION;	
 	
 	public static final String PROPERTY_SHOW_FILE_PATHS 			= "show.file.paths";	

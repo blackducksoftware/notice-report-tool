@@ -55,7 +55,7 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 	HashMap<String, ComponentModel> componentMap = new HashMap<String, ComponentModel>();
 	try
 	{
-	    ApplicationApi aApi = ccWrapper.getInternalApiWrapper().applicationApi;
+	    ApplicationApi aApi = ccWrapper.getInternalApiWrapper().getProxy().getApplicationApi();
 	    ApplicationNameVersionToken token = new ApplicationNameVersionToken();
 	    token.setName(nrtConfigManager.getCCApplicationName());
 	    token.setVersion(nrtConfigManager.getCCApplicationVersion());
@@ -96,14 +96,14 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 	{
 	    log.debug("Gathering list of components for application: "
 		    + app.getName());
-	    List<RequestSummary> requests = ccWrapper.getInternalApiWrapper().applicationApi
-		    .getApplicationRequests(app.getNameVersion());
+	   
+	    List<RequestSummary> requests = ccWrapper.getInternalApiWrapper().getProxy().getApplicationApi().getApplicationRequests(app.getNameVersion());
 
 	    for (RequestSummary request : requests)
 	    {
 		// Get the individual component
 		ComponentModel compModel = new ComponentModel();
-		ColaApi cApi = ccWrapper.getInternalApiWrapper().colaApi;
+		ColaApi cApi = ccWrapper.getInternalApiWrapper().getProxy().getColaApi();
 		Component comp = cApi.getCatalogComponent(request
 			.getApplicationComponentToken().getComponentId());
 

@@ -10,9 +10,10 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import soleng.framework.connector.protex.ProtexServerWrapper;
+import soleng.framework.connector.protex.report.ReportUtils;
 import soleng.framework.core.config.ConfigConstants.APPLICATION;
 import soleng.framework.standard.common.ProjectPojo;
-import soleng.framework.standard.protex.ProtexServerWrapper;
 
 import com.blackducksoftware.sdk.fault.SdkFault;
 import com.blackducksoftware.sdk.protex.common.Component;
@@ -384,7 +385,8 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 
 		log.info("Getting identified files section report");
 		List<IDFilesElement> idElements = 
-				protexWrapper.getReportSection(pojo, ReportSectionType.IDENTIFIED_FILES.toString(), IDFilesElement.class);
+				ReportUtils.getReportSection(this.protexWrapper, pojo, ReportSectionType.IDENTIFIED_FILES.toString(), IDFilesElement.class);
+				
 	
 		log.info("Parsing identified files...");
 		for(IDFilesElement idElement : idElements)

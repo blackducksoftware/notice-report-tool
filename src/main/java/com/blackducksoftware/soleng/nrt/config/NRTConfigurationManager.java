@@ -9,12 +9,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import soleng.framework.core.config.ConfigurationManager;
+
 import com.blackducksoftware.soleng.nrt.model.CustomAttributeRule;
 import com.blackducksoftware.soleng.nrt.model.CustomAttributeRule.ATTRIBUTE_TYPE;
-
-import soleng.framework.core.config.CodeCenterConfigurationManager;
-import soleng.framework.core.config.ConfigConstants;
-import soleng.framework.core.config.ConfigurationManager;
 
 public class NRTConfigurationManager extends ConfigurationManager {
 
@@ -30,8 +28,11 @@ public class NRTConfigurationManager extends ConfigurationManager {
 	
 	private List <String> licenseFilenames;	
 	private List <String> copyrightPatterns;	
+	
 	// The file name of the report.
 	private String outputFilename;	
+	// The location on disk of the report
+	private String outputFileLocation;
 	
 	// Switches
 	private Boolean textFileOutput;
@@ -80,7 +81,9 @@ public class NRTConfigurationManager extends ConfigurationManager {
 		
 		// Optional filename
 		outputFilename = getOptionalProperty(NRTConstants.PROPERTY_OUTPUT_FILENAME,NRTConstants.DEFAULT_OUTPUT_HTML_FILENAME_NAME, String.class);		
-	
+		outputFileLocation = getOptionalProperty(NRTConstants.PROPERTY_OUTPUT_LOCATION,"", String.class);		
+		
+		
 		// Switches
 		setHtmlFileOutput(getOptionalProperty(NRTConstants.PROPERTY_HTML_FILE_OUTPUT, true, Boolean.class));
 		setTextFileOutput(getOptionalProperty(NRTConstants.PROPERTY_TEXT_FILE_OUTPUT, false, Boolean.class));
@@ -287,5 +290,10 @@ public class NRTConfigurationManager extends ConfigurationManager {
 	private void setHtmlFileOutput(Boolean htmlFileOutput) {
 		this.htmlFileOutput = htmlFileOutput;
 	}
+
+	public String getOutputFileLocation() {
+		return outputFileLocation;
+	}
+
 	
 }
