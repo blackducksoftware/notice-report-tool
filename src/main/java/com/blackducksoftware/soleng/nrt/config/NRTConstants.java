@@ -5,6 +5,7 @@ public class NRTConstants
 	// Command line arguments
 	public static final String CL_CONFIG_FILE 						= "config";
 	public static final String CL_APPLICATION_TYPE					= "application";
+	public static final String CL_PROJECT_NAME						= "project";
 	
 	//
 	public static final String HTML_TEMPLATE_FILE 					= "html_template.html";

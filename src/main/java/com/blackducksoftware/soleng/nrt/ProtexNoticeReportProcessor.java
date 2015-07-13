@@ -61,11 +61,13 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap<String, ComponentModel> processProject() throws Exception 
+	public HashMap<String, ComponentModel> processProject(String protexProjectName) throws Exception 
 	{
 		HashMap<String, ComponentModel> componentMappings = new HashMap<String, ComponentModel>();
 	
-		String protexProjectName = nrtConfigManager.getProjectName();
+		if(protexProjectName == null)	
+			protexProjectName = nrtConfigManager.getProjectName();
+		
 		ProjectPojo protexProject = protexWrapper.getProjectByName(protexProjectName);
 		
 		if(protexProject == null)

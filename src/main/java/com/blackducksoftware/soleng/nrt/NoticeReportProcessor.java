@@ -34,11 +34,16 @@ public class NoticeReportProcessor {
 	private NRTConfigurationManager nrtConfigManager = null;
 
 	private File outputFile = null;
+	private String projectName = null;
 
-	public NoticeReportProcessor(String configFileLocation, APPLICATION appType)
-			throws Exception {
+	public NoticeReportProcessor(String configFileLocation, APPLICATION appType, String projectName)
+			throws Exception
+	{
+		if(projectName != null && projectName.length() > 0)
+			this.projectName = projectName;
+		
 		nrtConfigManager = new NRTConfigurationManager(configFileLocation,
-				appType);
+				appType, projectName);
 
 		outputFile = calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 
@@ -49,10 +54,14 @@ public class NoticeReportProcessor {
 			bdsProcessor = new ProtexNoticeReportProcessor(nrtConfigManager,
 					appType);
 		}
+		
+
+
 	}
 
 	/**
 	 * Processes the report based on the configuration file.
+	 * @param projectName2 
 	 * 
 	 * @throws Exception
 	 */
@@ -61,7 +70,7 @@ public class NoticeReportProcessor {
 
 		HashMap<String, ComponentModel> components = null;
 		try {
-			components = bdsProcessor.processProject();
+			components = bdsProcessor.processProject(this.projectName);
 		} catch (Exception e) {
 			throw new Exception("Failure in processing", e);
 		}

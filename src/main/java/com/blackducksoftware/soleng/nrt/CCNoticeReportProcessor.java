@@ -50,7 +50,10 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 	nrtCaProcessor = new NoticeReportCustomAttributeProcessor(ccWrapper);
     }
 
-    public HashMap<String, ComponentModel> processProject()
+    /**
+     * The CC implementation does not care about project Name
+     */
+    public HashMap<String, ComponentModel> processProject(String projectName)
     {
 	HashMap<String, ComponentModel> componentMap = new HashMap<String, ComponentModel>();
 	try

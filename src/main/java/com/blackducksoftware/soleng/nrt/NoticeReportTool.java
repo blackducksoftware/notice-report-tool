@@ -37,18 +37,25 @@ public class NoticeReportTool {
 
 		options.addOption("h", "help", false, "show help.");
 
-		Option projectNameOption = new Option(NRTConstants.CL_APPLICATION_TYPE,
+		Option applicationOption = new Option(NRTConstants.CL_APPLICATION_TYPE,
 				true, "Application type [PROTEX|CODECENTER] (required)");
-		projectNameOption.setRequired(true);
-		options.addOption(projectNameOption);
+		applicationOption.setRequired(true);
+		options.addOption(applicationOption);
 
 		Option configFileOption = new Option(NRTConstants.CL_CONFIG_FILE, true,
 				"Location of configuration file (required)");
 		configFileOption.setRequired(true);
 		options.addOption(configFileOption);
-
+		
+		Option projectNameOption = new Option(NRTConstants.CL_PROJECT_NAME, true,
+				"Name of Protex project (will override configuration file)");
+		projectNameOption.setRequired(false);
+		options.addOption(projectNameOption);
+		
+		
 		File configFile = null;
 		APPLICATION applicationType = null;
+		String projectName = null;
 		
 		try {
 			CommandLine cmd = parser.parse(options, args);
@@ -88,8 +95,14 @@ public class NoticeReportTool {
 				help();
 			}
 
+			if(cmd.hasOption(NRTConstants.CL_PROJECT_NAME))
+			{			
+				projectName = cmd.getOptionValue(NRTConstants.CL_PROJECT_NAME);
+				log.info("User specified project name: " + projectName);
+			}
+			
 			NoticeReportProcessor processor = new NoticeReportProcessor(
-					configFile.getAbsolutePath(), applicationType);
+					configFile.getAbsolutePath(), applicationType, projectName);
 			processor.processReport();
 
 		} catch (Exception e) {

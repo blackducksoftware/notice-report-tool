@@ -1,6 +1,5 @@
 package com.blackducksoftware.soleng.nrt;
 
-import java.io.File;
 import java.util.HashMap;
 
 import com.blackducksoftware.soleng.nrt.model.ComponentModel;
@@ -12,5 +11,11 @@ import com.blackducksoftware.soleng.nrt.model.ComponentModel;
  */
 public interface INoticeReportProcessor 
 {
-	public HashMap<String, ComponentModel> processProject() throws Exception; 	
+	/**
+	 * 
+	 * @param projectName Name of Protex or CC project/application
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap<String, ComponentModel> processProject(String projectName) throws Exception; 	
 }

@@ -48,10 +48,12 @@ public class NRTConfigurationManager extends ConfigurationManager {
 	// Custom attributes
 	private List<CustomAttributeRule> customAttributes = new ArrayList<CustomAttributeRule>();
 	
-	public NRTConfigurationManager(String configFileLocation, APPLICATION app) throws Exception 
+	public NRTConfigurationManager(String configFileLocation, APPLICATION app, String projectName) throws Exception 
 	{
 		super(configFileLocation, app);
+		protexProjectName = projectName;
 		initLocalProperties();
+	
 	}
 
 	private void initLocalProperties() throws Exception 
@@ -64,7 +66,10 @@ public class NRTConfigurationManager extends ConfigurationManager {
 		}
 		else if(super.getApplicationType() == APPLICATION.PROTEX)
 		{
-			protexProjectName = getProperty(NRTConstants.PROPERY_PROTEX_PROJECT);
+			if(protexProjectName == null || protexProjectName.length() == 0)
+				protexProjectName = getProperty(NRTConstants.PROPERY_PROTEX_PROJECT);
+			else
+				log.info("User command line argument project provided: " + protexProjectName);
 		}
 		else
 		{
