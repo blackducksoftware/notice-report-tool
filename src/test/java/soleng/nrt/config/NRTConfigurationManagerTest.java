@@ -30,7 +30,10 @@ public class NRTConfigurationManagerTest
 	{		
 		String fullConfigFileLocation = ClassLoader.getSystemResource(configFile).getFile();
 		try {
-			configManager = new NRTConfigurationManager(fullConfigFileLocation, ConfigConstants.APPLICATION.CODECENTER);
+			String projectName = null;
+			configManager = 
+					new NRTConfigurationManager(
+							fullConfigFileLocation, ConfigConstants.APPLICATION.CODECENTER, projectName);
 		} catch (Exception e) {
 			Assert.fail("Could not create configuration manager!: " + e.getMessage());
 		}

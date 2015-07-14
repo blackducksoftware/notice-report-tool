@@ -51,7 +51,9 @@ public class HtmlReportGeneratorSetup
 		
 		// Using code center, but it does not really matter.
 		try {
-			configManager = new NRTConfigurationManager(fullConfigFileLocation, APPLICATION.CODECENTER);
+			// Simulating a project that is not passed in via command line
+			String projectName = null;
+			configManager = new NRTConfigurationManager(fullConfigFileLocation, APPLICATION.CODECENTER, projectName);
 		} catch (Exception e1) {
 			Assert.fail(e1.getMessage());
 		}

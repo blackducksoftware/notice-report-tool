@@ -35,7 +35,9 @@ public class NoticeReportProcessorTest
 	public static void setupFiles() throws Exception	
 	{		
 		String configFile = ClassLoader.getSystemResource(configFileName).getFile();
-		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER);
+		// Project name derived from config file, not command line
+		String pojectName = null;
+		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
 		
 	}	
 	

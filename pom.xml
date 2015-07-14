@@ -59,8 +59,9 @@
 		<dependency>
 			<groupId>org.rendersnake</groupId>
 			<artifactId>rendersnake</artifactId>
-			<version>1.7</version>
+			<version>1.8</version>
 		</dependency>
+
 	</dependencies>
 
 
@@ -207,11 +208,6 @@
 			<id>soleng</id>
 			<name>BlackDuck SolEng Repo</name>
 			<url>http://artifactory.blackducksoftware.com:8081/artifactory/soleng/</url>
-		</repository>
-		<repository>
-			<id>rendersnake-repo</id>
-			<name>Repository for rendersnake</name>
-			<url>http://rendersnake.googlecode.com/svn/repo</url>
 		</repository>
 		<repository>
 			<id>nexus-local</id>
