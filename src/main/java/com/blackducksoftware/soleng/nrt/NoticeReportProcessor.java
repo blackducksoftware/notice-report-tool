@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -36,12 +38,11 @@ public class NoticeReportProcessor {
 	private File outputFile = null;
 	private String projectName = null;
 
-	public NoticeReportProcessor(String configFileLocation, APPLICATION appType, String projectName)
-			throws Exception
-	{
-		if(projectName != null && projectName.length() > 0)
+	public NoticeReportProcessor(String configFileLocation,
+			APPLICATION appType, String projectName) throws Exception {
+		if (projectName != null && projectName.length() > 0)
 			this.projectName = projectName;
-		
+
 		nrtConfigManager = new NRTConfigurationManager(configFileLocation,
 				appType, projectName);
 
@@ -54,14 +55,13 @@ public class NoticeReportProcessor {
 			bdsProcessor = new ProtexNoticeReportProcessor(nrtConfigManager,
 					appType);
 		}
-		
-
 
 	}
 
 	/**
 	 * Processes the report based on the configuration file.
-	 * @param projectName2 
+	 * 
+	 * @param projectName2
 	 * 
 	 * @throws Exception
 	 */
@@ -123,35 +123,39 @@ public class NoticeReportProcessor {
 
 		File outputFile = null;
 		if (outputFileName != null && outputFileName.length() > 0) {
-			// Before we copy, replace space encoding if there is one
-			outputFileName = outputFileName.replaceAll(" ", "%20");
+			outputFileName = outputFileName + extension;
 			outputFile = new File(outputFileLocation + File.separator
 					+ outputFileName);
-
-			// If HTML, copy the template over
-			if (extension.equals(NRTConstants.REPORT_HTML_EXTENSION)) {
-				// Copy the template
-				String htmlTemplate = ClassLoader.getSystemResource(
-						NRTConstants.HTML_TEMPLATE_FILE).getFile();
-				try {
-					// Before we copy, replace space encoding if there is one
-					htmlTemplate = htmlTemplate.replaceAll("%20", " ");
-					Files.copy(new File(htmlTemplate).toPath(),
-							outputFile.toPath(),
-							StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e) {
-					throw new IOException(
-							"Fatal, unable to prepare HTML remplate: "
-									+ e.getMessage());
-				}
-			}
 		} else {
+			// If the output file name is not provided, then use the project
+			// name
+			outputFileName = nrtConfigManager.getProjectName() + extension;
 			outputFile = new File(
 					new File(outputFileLocation).getAbsolutePath()
-							+ File.separator
-							+ NRTConstants.DEFAULT_OUTPUT_HTML_FILENAME_NAME
-							+ extension);
+							+ File.separator + outputFileName);
 		}
+
+		// Before we copy, replace space encoding if there is one
+		outputFileName = cleanUpName(outputFileName);
+
+		// If HTML, copy the template over
+		if (extension.equals(NRTConstants.REPORT_HTML_EXTENSION)) {
+			// Copy the template
+			String htmlTemplate = ClassLoader.getSystemResource(
+					NRTConstants.HTML_TEMPLATE_FILE).getFile();
+			try {
+				// Before we copy, replace space encoding if there is one
+				htmlTemplate = htmlTemplate.replaceAll("%20", " ");
+				Files.copy(new File(htmlTemplate).toPath(),
+						outputFile.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				throw new IOException(
+						"Fatal, unable to prepare HTML remplate: "
+								+ e.getMessage());
+			}
+		}
+
 		return outputFile;
 	}
 

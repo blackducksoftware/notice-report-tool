@@ -36,7 +36,7 @@ public class NoticeReportProcessorTest
 	{		
 		String configFile = ClassLoader.getSystemResource(configFileName).getFile();
 		// Project name derived from config file, not command line
-		String pojectName = null;
+		String pojectName = "DefaultProject";
 		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
 		
 	}	
@@ -49,7 +49,7 @@ public class NoticeReportProcessorTest
 	@Test
 	public void testDefaultHTMLFileCopy() throws IOException 
 	{		
-		String expectedName = "BlackDuckAttributionReport.html";
+		String expectedName = "DefaultProject";
 	
 			File finalFile = 
 					reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
@@ -65,7 +65,7 @@ public class NoticeReportProcessorTest
 	@Test
 	public void testUserSuppliedFileName() throws IOException
 	{
-		String userSuppliedName = "MyReport.html";
+		String userSuppliedName = "MyReport";
 		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
 		
 		// Set our name
@@ -87,7 +87,7 @@ public class NoticeReportProcessorTest
 	@Test
 	public void testUserSuppliedFileNameWithSpaces() throws IOException
 	{
-		String userSuppliedName = "My Report.html";
+		String userSuppliedName = "My Report";
 		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
 		
 		// Set our name

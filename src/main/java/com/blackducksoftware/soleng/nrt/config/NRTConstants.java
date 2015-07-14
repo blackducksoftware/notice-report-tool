@@ -36,7 +36,6 @@ public class NRTConstants
 	// Names
 	public static final String PROPERTY_OUTPUT_FILENAME 			= "output.filename";	
 	public static final String PROPERTY_OUTPUT_LOCATION 			= "output.location";	
-	public static final String DEFAULT_OUTPUT_HTML_FILENAME_NAME 	= "BlackDuckAttributionReport" + REPORT_HTML_EXTENSION;	
 	
 	public static final String PROPERTY_SHOW_FILE_PATHS 			= "show.file.paths";	
 	public static final String PROPERTY_SHOW_COMP_VER 				= "show.component.version";	
