@@ -36,6 +36,7 @@ public class NoticeReportProcessorTest
 	{		
 		String configFile = ClassLoader.getSystemResource(configFileName).getFile();
 		// Project name derived from config file, not command line
+		
 		String pojectName = "DefaultProject";
 		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
 		
