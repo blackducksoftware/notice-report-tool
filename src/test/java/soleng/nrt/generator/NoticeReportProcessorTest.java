@@ -35,8 +35,8 @@ public class NoticeReportProcessorTest
 	public static void setupFiles() throws Exception	
 	{		
 		String configFile = ClassLoader.getSystemResource(configFileName).getFile();
-		// Project name derived from config file, not command line
 		
+		// Project name derived from config file, not command line	
 		String pojectName = "DefaultProject";
 		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
 		
@@ -50,7 +50,7 @@ public class NoticeReportProcessorTest
 	@Test
 	public void testDefaultHTMLFileCopy() throws IOException 
 	{		
-		String expectedName = "DefaultProject";
+		String expectedName = "DefaultProject.html";
 	
 			File finalFile = 
 					reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
@@ -74,7 +74,7 @@ public class NoticeReportProcessorTest
 		File finalFile = 
 				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 		
-		Assert.assertEquals(userSuppliedName, finalFile.getName());
+		Assert.assertEquals(userSuppliedName+".html", finalFile.getName());
 		
 		// cleanup
 		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
@@ -97,7 +97,8 @@ public class NoticeReportProcessorTest
 		File finalFile = 
 				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 		
-		Assert.assertEquals("My%20Report.html", finalFile.getName());
+		
+		Assert.assertEquals("My Report.html", finalFile.getName());
 		
 		// cleanup
 		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
