@@ -13,15 +13,19 @@
 				<include>*</include>
 			</includes>
 			<excludes>
-				<exclude>*info*</exclude> <!--  This goes in root -->
+				<exclude>*assembly*</exclude> 
 			</excludes>
 	    </fileSet>
 		<!--  Drop Readme, notices, license into root -->
 		 <fileSet>
-	       <directory>${project.basedir}/src/main/resources/info</directory>
+	       <directory>${project.basedir}</directory>
 	       	<outputDirectory>/</outputDirectory>
 	       	<includes>
-				<include>**</include>
+				<include>*README*</include>
+				<include>*RELEASE*</include>
+				<include>*LICENSE*</include>
+				<include>*NOTICE*</include>
+				<include>*config*</include>
 			</includes>
 	    </fileSet>
 		<fileSet> 

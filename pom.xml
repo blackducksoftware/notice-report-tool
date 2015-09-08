@@ -5,12 +5,37 @@
 	<artifactId>NoticeReportTool</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 
+	<description>
+		Notice file generator for Protex and Code Center
+	</description>
+
+	<organization>
+		<name>Black Duck Software</name>
+		<url>http://www.blackducksoftware.com/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>GNU General Public License v2.0 only</name>
+			<url>http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html</url>
+		</license>
+	</licenses>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<cf.connector.version>1.0.8</cf.connector.version>
+	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.blackducksoftware.tools</groupId>
+			<artifactId>cf-6x-connector</artifactId>
+			<version>${cf.connector.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>
@@ -25,17 +50,10 @@
 			<version>1.3</version>
 		</dependency>
 		<dependency>
-			<groupId>com.blackducksoftware.tools</groupId>
-			<artifactId>cf-6x-connector</artifactId>
-			<version>1.0.8</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>1.7.3</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -111,7 +129,7 @@
 					<repositoryName>lib</repositoryName>
 					<programs>
 						<program>
-							<mainClass>com.blackducksoftware.soleng.nrt.NoticeReportTool</mainClass>
+							<mainClass>com.blackducksoftware.tools.nrt.NoticeReportTool</mainClass>
 							<name>NoticeReportTool</name>
 						</program>
 					</programs>
@@ -199,14 +217,15 @@
 	</build>
 
 	<repositories>
-	
-
 		<repository>
-			<id>soleng</id>
-			<name>BlackDuck SolEng Repo</name>
-			<url>http://artifactory.blackducksoftware.com:8081/artifactory/soleng/</url>
+			<id>jcenter</id>
+			<name>JCenter</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+		<repository>
+			<id>bds-bintray</id>
+			<name>BDS Bintray</name>
+			<url>http://dl.bintray.com/bds/tools</url>
 		</repository>
 	</repositories>
-
-
 </project>
