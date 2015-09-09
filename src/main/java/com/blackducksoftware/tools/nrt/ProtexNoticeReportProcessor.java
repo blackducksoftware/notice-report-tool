@@ -35,6 +35,7 @@ import com.blackducksoftware.tools.commonframework.connector.protex.ProtexServer
 import com.blackducksoftware.tools.commonframework.connector.protex.report.ReportUtils;
 import com.blackducksoftware.tools.commonframework.core.config.ConfigConstants.APPLICATION;
 import com.blackducksoftware.tools.commonframework.standard.common.ProjectPojo;
+import com.blackducksoftware.tools.commonframework.standard.protex.ProtexProjectPojo;
 import com.blackducksoftware.tools.nrt.config.NRTConfigurationManager;
 import com.blackducksoftware.tools.nrt.model.ComponentModel;
 import com.blackducksoftware.tools.nrt.model.IDFilesElement;
@@ -45,12 +46,12 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
     private Logger log = Logger.getLogger(this.getClass());
 
     private NRTConfigurationManager nrtConfigManager = null;
-    private ProtexServerWrapper protexWrapper = null;
+    private ProtexServerWrapper<ProtexProjectPojo> protexWrapper = null;
 
     public ProtexNoticeReportProcessor(NRTConfigurationManager manager,
 	    APPLICATION appType) throws Exception {
 	nrtConfigManager = manager;
-	protexWrapper = new ProtexServerWrapper(
+	protexWrapper = new ProtexServerWrapper<ProtexProjectPojo>(
 		nrtConfigManager.getServerBean(), nrtConfigManager, true);
     }
 
@@ -166,9 +167,8 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 		    componentModel);
 	}
 
-	/**
-	 * TODO: Look into this later This adds user provided licenses
-	 */
+
+	// Look into this later This adds user provided licenses
 	if (nrtConfigManager.isIncludeLicenseFilenamesInReport()) {
 	    for (ComponentModel model : componentMappings.values()) {
 		for (String licenseFilename : nrtConfigManager
@@ -200,18 +200,23 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 	return componentMappings;
     }
 
-    /**
-     * Gathers copyright information for each component Will only work if the
-     * user enabled the file paths information as well, otherwise without
-     * filepaths it is not possible to get copyright information.
-     * 
-     * The copyright information, is just a lookup on search patterns.
-     * Realistically it could be any pattern.
-     * 
-     * @param projectId
-     * @param component
-     * @param componentModel
-     */
+/*******************************************************************************
+ * Copyright (C) 2015 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2 only
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License version 2
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *******************************************************************************/
     private void getCopyrightsForComponent(String projectId,
 	    Component component, ComponentModel componentModel) {
 	if (nrtConfigManager.isShowCopyrights()
@@ -396,7 +401,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 	HashMap<String, Set<String>> componentToPathMapping = new HashMap<String, Set<String>>();
 
 	ReportUtils reportUtils = new ReportUtils();
-	
+
 	log.info("Getting identified files section report");
 	List<IDFilesElement> idElements = reportUtils.getReportSection(
 		this.protexWrapper, pojo,

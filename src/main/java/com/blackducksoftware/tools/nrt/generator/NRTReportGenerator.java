@@ -1,16 +1,20 @@
-/*
- * Created on August 6, 2013
- * Copyright 2004-2013 Black Duck Software, Inc.
+/*******************************************************************************
+ * Copyright (C) 2015 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
- * All rights reserved.
  *
- * This software is the confidential and proprietary information of
- * Black Duck Software ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Black Duck Software.
- */
-
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2 only
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License version 2
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *******************************************************************************/
 package com.blackducksoftware.tools.nrt.generator;
 
 import java.io.File;
@@ -44,8 +48,7 @@ import com.google.gson.GsonBuilder;
  * @author akamen
  * 
  */
-public class NRTReportGenerator
-{
+public class NRTReportGenerator {
 
     Logger log = Logger.getLogger(this.getClass().getName());
 
@@ -53,8 +56,7 @@ public class NRTReportGenerator
     private TreeMap<String, ComponentModel> componentMap = null;
 
     public NRTReportGenerator(NRTConfigurationManager nrtConfig,
-	    TreeMap<String, ComponentModel> compmap)
-    {
+	    TreeMap<String, ComponentModel> compmap) {
 	this.nrtConfig = nrtConfig;
 	componentMap = compmap;
     }
@@ -65,8 +67,7 @@ public class NRTReportGenerator
      * 
      * @param expectedFile
      */
-    public void generateHTMLFromTemplate(File finalHtmlOutput)
-    {
+    public void generateHTMLFromTemplate(File finalHtmlOutput) {
 
 	log.info("Writing to report: " + finalHtmlOutput);
 	String jsonComponentList = generateJSONFromObject(componentMap);
@@ -77,8 +78,7 @@ public class NRTReportGenerator
 	jsonPropertyList = "var propList=[" + jsonPropertyList + "]";
 
 	PrintWriter writer = null;
-	try
-	{
+	try {
 	    // Read the template
 	    Document doc = Jsoup.parse(finalHtmlOutput, "UTF-8");
 
@@ -89,15 +89,12 @@ public class NRTReportGenerator
 	    // This will be empty, but it should exist
 	    Element jsonDivElement = jsonElementDivBlock.get(0);
 
-	    if (jsonDivElement != null)
-	    {
+	    if (jsonDivElement != null) {
 		// Remove any script tags from it, in case the user populated
 		// the template incorrectly with data
-		if (jsonDivElement.children().size() > 0)
-		{
+		if (jsonDivElement.children().size() > 0) {
 		    Elements children = jsonDivElement.children();
-		    for (int i = 0; i < children.size(); i++)
-		    {
+		    for (int i = 0; i < children.size(); i++) {
 			Element el = children.get(i);
 			el.remove();
 		    }
@@ -105,8 +102,7 @@ public class NRTReportGenerator
 
 		addNewScriptElementWithJson(jsonDivElement, jsonComponentList);
 		addNewScriptElementWithJson(jsonDivElement, jsonPropertyList);
-	    } else
-	    {
+	    } else {
 		log.error("Unable to find a valid critical DIV inside HTML template: "
 			+ NRTConstants.HTML_JSON_DATA_BLOCK);
 	    }
@@ -116,19 +112,16 @@ public class NRTReportGenerator
 	    writer.flush();
 	    writer.close();
 
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Unable to write out final report file!", e);
-	} finally
-	{
+	} finally {
 	    writer.close();
 	}
 
     }
 
     private void addNewScriptElementWithJson(Element jsonCompListElement,
-	    String jsonText)
-    {
+	    String jsonText) {
 	Element scriptElement = jsonCompListElement.appendElement("script");
 	DataNode jsonNode = new DataNode(jsonText, "");
 	scriptElement.appendChild(jsonNode);
@@ -141,17 +134,14 @@ public class NRTReportGenerator
      * @param outputFilename
      * @return Returns the String that was written out.
      */
-    public String generateJSONFromObject(Object collection)
-    {
+    public String generateJSONFromObject(Object collection) {
 	StringBuilder sb = new StringBuilder();
 
-	try
-	{
+	try {
 	    Gson gson = new GsonBuilder().setPrettyPrinting()
 		    .excludeFieldsWithoutExposeAnnotation().create();
 	    sb.append(gson.toJson(collection));
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Error while generating JSON", e);
 	}
 
@@ -165,35 +155,29 @@ public class NRTReportGenerator
      * @param outputFilename
      * @throws Exception
      */
-    public void generateTextReport(String projectName) throws Exception
-    {
+    public void generateTextReport(String projectName) throws Exception {
 
 	PrintStream outputTextFile = null;
 	FileOutputStream outputStream = null;
 
-	try
-	{
+	try {
 	    File dir = new File(projectName + "_text_files\\");
 	    dir.mkdirs();
-	} catch (SecurityException e)
-	{
+	} catch (SecurityException e) {
 	    log.error("Unable to create directory for file output", e);
 	}
 
-	for (String compKey : componentMap.keySet())
-	{
+	for (String compKey : componentMap.keySet()) {
 	    ComponentModel model = componentMap.get(compKey);
 
-	    try
-	    {
+	    try {
 		String name = model.getName() + "_" + model.getVersion();
 
 		outputStream = new FileOutputStream(projectName
 			+ "_text_files\\" + name + ".txt");
 
 		outputTextFile = new PrintStream(outputStream);
-	    } catch (FileNotFoundException e)
-	    {
+	    } catch (FileNotFoundException e) {
 		outputStream.close();
 		outputTextFile.close();
 		log.error("File not found: " + e.getMessage());
@@ -223,10 +207,8 @@ public class NRTReportGenerator
     }
 
     private void writeOutLicenseText(String componentName,
-	    PrintStream outputTextFile)
-    {
-	try
-	{
+	    PrintStream outputTextFile) {
+	try {
 	    outputTextFile.println();
 	    outputTextFile
 		    .println("License texts ("
@@ -235,20 +217,17 @@ public class NRTReportGenerator
 				    : "0") + ")");
 
 	    int licenseCounter = 0;
-	    if (componentMap.get(componentName).getLicenses() != null)
-	    {
+	    if (componentMap.get(componentName).getLicenses() != null) {
 
 		for (LicenseModel license : componentMap.get(componentName)
-			.getLicenses())
-		{
+			.getLicenses()) {
 
 		    String licenseName = license.getName() != null ? license
 			    .getName() + "(Taken from KnowledgeBase)"
 			    : "license_" + licenseCounter
 				    + "(Taken from scanned file)";
 
-		    if (nrtConfig.isTextFileOutput())
-		    {
+		    if (nrtConfig.isTextFileOutput()) {
 			outputTextFile.println();
 			outputTextFile
 				.println("==========================================================================");
@@ -263,19 +242,15 @@ public class NRTReportGenerator
 		} // for all licenses
 	    } // if licenses exist
 
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Error writing out licenses", e);
 	}
     }
 
     private void writeOutCopyrights(String componentName,
-	    PrintStream outputTextFile)
-    {
-	try
-	{
-	    if (nrtConfig.isShowCopyrights())
-	    {
+	    PrintStream outputTextFile) {
+	try {
+	    if (nrtConfig.isShowCopyrights()) {
 
 		outputTextFile.println();
 		outputTextFile
@@ -285,50 +260,41 @@ public class NRTReportGenerator
 					.get(componentName).getCopyrights()
 					.size() : "0") + ")");
 
-		if (componentMap.get(componentName).getCopyrights() != null)
-		{
+		if (componentMap.get(componentName).getCopyrights() != null) {
 
 		    for (String copyright : componentMap.get(componentName)
 			    .getCopyrights())
 			outputTextFile.println(copyright);
 		}
 	    }
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Unable to write out copyrights", e);
 	}
 
     }
 
-    private void writeOutFilePaths(String compKey, PrintStream outputTextFile)
-    {
+    private void writeOutFilePaths(String compKey, PrintStream outputTextFile) {
 
-	if (nrtConfig.isShowFilePaths())
-	{
-	    try
-	    {
+	if (nrtConfig.isShowFilePaths()) {
+	    try {
 		outputTextFile
 			.println("file paths ("
 				+ (componentMap.get(compKey).getPaths() != null ? componentMap
 					.get(compKey).getPaths().size()
 					: "0") + ")");
 		Set<String> paths = componentMap.get(compKey).getPaths();
-		if (paths != null)
-		{
-		    for (String path : componentMap.get(compKey).getPaths())
-		    {
+		if (paths != null) {
+		    for (String path : componentMap.get(compKey).getPaths()) {
 			outputTextFile.println(path);
 		    }
 		} else
 		    log.info("No paths available for component key: " + compKey);
 
 	    } // try
-	    catch (Exception e)
-	    {
+	    catch (Exception e) {
 		log.error("Unable to write out file paths", e);
 	    }
-	} else
-	{
+	} else {
 	    log.debug("Skipping paths section, set to false");
 	}
 

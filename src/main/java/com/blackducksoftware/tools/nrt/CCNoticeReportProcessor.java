@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (C) 2015 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2 only
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License version 2
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *******************************************************************************/
 package com.blackducksoftware.tools.nrt;
 
 import java.util.ArrayList;
@@ -26,8 +43,7 @@ import com.blackducksoftware.tools.nrt.model.LicenseModel;
 import com.blackducksoftware.tools.nrt.model.CustomAttributeRule.ATTRIBUTE_TYPE;
 import com.blackducksoftware.tools.nrt.model.CustomAttributeRule.OVERRIDE_TYPE;
 
-public class CCNoticeReportProcessor implements INoticeReportProcessor
-{
+public class CCNoticeReportProcessor implements INoticeReportProcessor {
 
     private Logger log = Logger.getLogger(this.getClass());
 
@@ -35,14 +51,12 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
     private CodeCenterServerWrapper ccWrapper = null;
     private NoticeReportCustomAttributeProcessor nrtCaProcessor = null;
 
-    public enum ATTRIBUTE_COMPONENT_VALUES
-    {
+    public enum ATTRIBUTE_COMPONENT_VALUES {
 	LICENSE
     };
 
     public CCNoticeReportProcessor(NRTConfigurationManager nrtConfigManager,
-	    APPLICATION bdsAppType) throws Exception
-    {
+	    APPLICATION bdsAppType) throws Exception {
 	this.nrtConfigManager = nrtConfigManager;
 	ccWrapper = new CodeCenterServerWrapper(
 		nrtConfigManager.getServerBean(), nrtConfigManager);
@@ -52,12 +66,11 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
     /**
      * The CC implementation does not care about project Name
      */
-    public HashMap<String, ComponentModel> processProject(String projectName)
-    {
+    public HashMap<String, ComponentModel> processProject(String projectName) {
 	HashMap<String, ComponentModel> componentMap = new HashMap<String, ComponentModel>();
-	try
-	{
-	    ApplicationApi aApi = ccWrapper.getInternalApiWrapper().getProxy().getApplicationApi();
+	try {
+	    ApplicationApi aApi = ccWrapper.getInternalApiWrapper().getProxy()
+		    .getApplicationApi();
 	    ApplicationNameVersionToken token = new ApplicationNameVersionToken();
 	    token.setName(nrtConfigManager.getCCApplicationName());
 	    token.setVersion(nrtConfigManager.getCCApplicationVersion());
@@ -69,21 +82,18 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 	    // Create a hashmap for the legacy HTML output
 	    // TODO: Create a method that accepts a list
 	    componentMap = new HashMap<String, ComponentModel>();
-	    for (ComponentModel comp : components)
-	    {
+	    for (ComponentModel comp : components) {
 		String key = comp.getName() + ":" + comp.getVersion();
 
 		if (comp.isDisplayInReport())
 		    componentMap.put(key, comp);
-		else
-		{
+		else {
 		    log.debug("Excluding component from report: "
 			    + comp.getNameAndVersion());
 		}
 	    }
 
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Unable to process report", e);
 	}
 
@@ -91,21 +101,21 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 
     }
 
-    private List<ComponentModel> getComponentsForApplication(Application app)
-    {
+    private List<ComponentModel> getComponentsForApplication(Application app) {
 	List<ComponentModel> components = new ArrayList<ComponentModel>();
-	try
-	{
+	try {
 	    log.debug("Gathering list of components for application: "
 		    + app.getName());
-	   
-	    List<RequestSummary> requests = ccWrapper.getInternalApiWrapper().getProxy().getApplicationApi().getApplicationRequests(app.getNameVersion());
 
-	    for (RequestSummary request : requests)
-	    {
+	    List<RequestSummary> requests = ccWrapper.getInternalApiWrapper()
+		    .getProxy().getApplicationApi()
+		    .getApplicationRequests(app.getNameVersion());
+
+	    for (RequestSummary request : requests) {
 		// Get the individual component
 		ComponentModel compModel = new ComponentModel();
-		ColaApi cApi = ccWrapper.getInternalApiWrapper().getProxy().getColaApi();
+		ColaApi cApi = ccWrapper.getInternalApiWrapper().getProxy()
+			.getColaApi();
 		Component comp = cApi.getCatalogComponent(request
 			.getApplicationComponentToken().getComponentId());
 
@@ -119,8 +129,7 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 
 		// Get the associated license
 		List<LicenseSummary> licSummaries = comp.getDeclaredLicenses();
-		for (LicenseSummary licSummary : licSummaries)
-		{
+		for (LicenseSummary licSummary : licSummaries) {
 		    LicenseModel licModel = new LicenseModel();
 		    License license = cApi
 			    .getLicense(licSummary.getNameToken());
@@ -139,8 +148,7 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 		components.add(compModel);
 
 	    }
-	} catch (Exception e)
-	{
+	} catch (Exception e) {
 	    log.error("Error in gathering components", e);
 	}
 
@@ -154,15 +162,12 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
      * 
      * @param components
      */
-    private void applyCustomAttributeRules(List<ComponentModel> components)
-    {
+    private void applyCustomAttributeRules(List<ComponentModel> components) {
 	List<CustomAttributeRule> filterAttributeRules = nrtConfigManager
 		.getCustomAttributeRules(ATTRIBUTE_TYPE.FILTER);
-	for (CustomAttributeRule filterRule : filterAttributeRules)
-	{
+	for (CustomAttributeRule filterRule : filterAttributeRules) {
 	    String filterValue = filterRule.getValue();
-	    for (ComponentModel component : components)
-	    {
+	    for (ComponentModel component : components) {
 		log.debug("Custom Attribute[filter] for custom attribute application on component: "
 			+ component.getNameAndVersion());
 		Map<String, CustomAttributeBean> map = component
@@ -172,14 +177,12 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 		CustomAttributeBean bean = map.get(ruleName);
 		// If the bean exists, then this component has the requisite
 		// settings.
-		if (bean != null)
-		{
+		if (bean != null) {
 		    log.debug("Filter custom attribute exists: "
 			    + bean.getName());
 		    // Now we check if the value of the filter rule, is the same
 		    // as the value set by the custom attribute
-		    if (filterValue.trim().equals(bean.getValue()))
-		    {
+		    if (filterValue.trim().equals(bean.getValue())) {
 			// If matches, then apply filter.
 			component.setDisplayInReport(false);
 		    }
@@ -189,35 +192,30 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 
 	List<CustomAttributeRule> overrideAttributeRules = nrtConfigManager
 		.getCustomAttributeRules(ATTRIBUTE_TYPE.OVERRIDE);
-	for (CustomAttributeRule overrideRule : overrideAttributeRules)
-	{
+	for (CustomAttributeRule overrideRule : overrideAttributeRules) {
 	    String overrideName = overrideRule.getName();
 
-	    for (ComponentModel component : components)
-	    {
+	    for (ComponentModel component : components) {
 		log.debug("Custom attribute[override] for custom attribute application on component: "
 			+ component.getNameAndVersion());
 		Map<String, CustomAttributeBean> map = component
 			.getAttributeMap();
 		CustomAttributeBean bean = map.get(overrideName);
-		if (bean != null)
-		{
+		if (bean != null) {
 		    log.debug("Override custom attribute exists: "
 			    + bean.getName());
 		    String overrideValue = overrideRule.getValue();
 		    // Handle the LICENSE case for now, more will be added later
 		    overrideValue = overrideValue.toLowerCase();
 		    if (overrideValue.equals(OVERRIDE_TYPE.LICENSE.toString()
-			    .toLowerCase()))
-		    {
+			    .toLowerCase())) {
 			log.debug(overrideValue
 				+ " override rule found, applying...");
 			// We want to grab the first license, and replace the
 			// text with the value from the bean.
 			LicenseModel licenseToOverride = component
 				.getLicenses().remove(0);
-			if (licenseToOverride != null)
-			{
+			if (licenseToOverride != null) {
 			    String appendOverrideString = ATTRIBUTE_TYPE.OVERRIDE
 				    .toString();
 			    String newLicenseText = bean.getValue();
@@ -234,8 +232,7 @@ public class CCNoticeReportProcessor implements INoticeReportProcessor
 			    log.debug("Overrode license: "
 				    + licenseToOverride.getName());
 			}
-		    } else
-		    {
+		    } else {
 			log.debug("Unrecognized override type: "
 				+ overrideValue);
 		    }

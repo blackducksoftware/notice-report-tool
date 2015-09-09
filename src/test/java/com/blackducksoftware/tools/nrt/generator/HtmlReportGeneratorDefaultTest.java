@@ -112,6 +112,7 @@ public class HtmlReportGeneratorDefaultTest extends HtmlReportGeneratorSetup
 	@Test
 	public void testComponentName() throws IOException
 	{
+		@SuppressWarnings("unchecked")
 		List<HtmlDivision> compElements = (List<HtmlDivision>) doc.getByXPath(getXPathName(NRTConstants.HTML_COMPONENT_CLASS));
 		
 		// Check if we get it
