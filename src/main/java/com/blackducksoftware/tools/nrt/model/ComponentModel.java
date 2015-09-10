@@ -72,14 +72,16 @@ public class ComponentModel {
 	    return false;
 
 	return ((ComponentModel) component).getName().equals(this.getName());
-    }
-
+    }  
+    
     @Override
     public int hashCode() {
-	int hash = 9;
-	hash = 9 * hash + this.componentId.hashCode();
-	hash = 9 * hash + this.name.hashCode();
-	return hash;
+	final int prime = 31;
+	int result = 1;
+	result = prime * result
+		+ ((componentId == null) ? 0 : componentId.hashCode());
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
+	return result;
     }
 
     public void addNewLicense(LicenseModel license) {

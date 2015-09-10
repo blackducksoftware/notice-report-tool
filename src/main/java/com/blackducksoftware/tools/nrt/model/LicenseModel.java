@@ -84,10 +84,12 @@ public class LicenseModel {
 
     @Override
     public int hashCode() {
-	int hash = 9;
-	hash = 9 * hash + this.id.hashCode();
-	hash = 9 * hash + this.name.hashCode();
-	return hash;
+	final int prime = 31;
+	int result = 1;
+	result = prime * result
+		+ ((id == null) ? 0 : id.hashCode());
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
+	return result;
     }
     
     public String getLicenseOriginType() {
