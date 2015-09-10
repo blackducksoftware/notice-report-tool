@@ -82,6 +82,14 @@ public class LicenseModel {
 	    return licenseModel.getText().equals(this.getText());
     }
 
+    @Override
+    public int hashCode() {
+	int hash = 9;
+	hash = 9 * hash + this.id.hashCode();
+	hash = 9 * hash + this.name.hashCode();
+	return hash;
+    }
+    
     public String getLicenseOriginType() {
 	return licenseOriginType;
     }

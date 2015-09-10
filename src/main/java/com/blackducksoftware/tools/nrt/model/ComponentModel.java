@@ -74,6 +74,14 @@ public class ComponentModel {
 	return ((ComponentModel) component).getName().equals(this.getName());
     }
 
+    @Override
+    public int hashCode() {
+	int hash = 9;
+	hash = 9 * hash + this.componentId.hashCode();
+	hash = 9 * hash + this.name.hashCode();
+	return hash;
+    }
+
     public void addNewLicense(LicenseModel license) {
 	if (licenses == null) {
 	    licenses = new ArrayList<LicenseModel>();
