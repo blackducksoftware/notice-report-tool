@@ -32,7 +32,7 @@ import com.blackducksoftware.tools.nrt.model.CustomAttributeRule.ATTRIBUTE_TYPE;
 
 public class NRTConfigurationManager extends ConfigurationManager {
 
-    private Logger log = Logger.getLogger(this.getClass());
+    final private Logger log = Logger.getLogger(this.getClass());
 
     // Code Center
     private String ccapplicationName = null;

@@ -46,7 +46,7 @@ import com.blackducksoftware.tools.nrt.model.CustomAttributeBean;
  */
 public class NoticeReportCustomAttributeProcessor {
 
-    private Logger log = Logger.getLogger(this.getClass());
+    final private Logger log = Logger.getLogger(this.getClass());
 
     private CodeCenterServerWrapper ccWrapper = null;
     private Map<AttributeNameOrIdToken, AbstractAttribute> attributeMap = new HashMap<AttributeNameOrIdToken, AbstractAttribute>();

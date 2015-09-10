@@ -44,7 +44,7 @@ import com.blackducksoftware.tools.nrt.model.ComponentModel;
  * 
  */
 public class NoticeReportProcessor {
-    private Logger log = Logger.getLogger(this.getClass());
+    final private Logger log = Logger.getLogger(this.getClass());
 
     private INoticeReportProcessor bdsProcessor = null;
     private NRTConfigurationManager nrtConfigManager = null;

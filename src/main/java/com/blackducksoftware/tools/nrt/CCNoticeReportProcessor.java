@@ -45,7 +45,7 @@ import com.blackducksoftware.tools.nrt.model.CustomAttributeRule.OVERRIDE_TYPE;
 
 public class CCNoticeReportProcessor implements INoticeReportProcessor {
 
-    private Logger log = Logger.getLogger(this.getClass());
+    final private Logger log = Logger.getLogger(this.getClass());
 
     private NRTConfigurationManager nrtConfigManager = null;
     private CodeCenterServerWrapper ccWrapper = null;

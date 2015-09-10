@@ -50,7 +50,7 @@ import com.google.gson.GsonBuilder;
  */
 public class NRTReportGenerator {
 
-    Logger log = Logger.getLogger(this.getClass().getName());
+    final private Logger log = Logger.getLogger(this.getClass().getName());
 
     private NRTConfigurationManager nrtConfig = null;
     private TreeMap<String, ComponentModel> componentMap = null;

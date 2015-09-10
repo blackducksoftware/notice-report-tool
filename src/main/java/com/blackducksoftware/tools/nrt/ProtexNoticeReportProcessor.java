@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (C) 2015 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2 only
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License version 2
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *******************************************************************************/
 package com.blackducksoftware.tools.nrt;
 
 import java.util.ArrayList;
@@ -43,7 +60,7 @@ import com.blackducksoftware.tools.nrt.model.LicenseModel;
 
 public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 
-    private Logger log = Logger.getLogger(this.getClass());
+    final private Logger log = Logger.getLogger(this.getClass());
 
     private NRTConfigurationManager nrtConfigManager = null;
     private ProtexServerWrapper<ProtexProjectPojo> protexWrapper = null;
@@ -106,9 +123,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 		    // Common component actions
 		    componentModel.setName(component.getName());
 
-		    // Mommy, help me. In 6.3 SDK there is no way around
-		    // this painful "instanceof" emulation. Waiting for 7.x to
-		    // refactor the hell out of this thing.
+		    // Waiting for 7.x to refactor
 		    if (component.getType() == ComponentType.CUSTOM) {
 			CustomComponent cc = (CustomComponent) component;
 			componentModel.setHomePage(cc.getHomePage());
@@ -167,7 +182,6 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 		    componentModel);
 	}
 
-
 	// Look into this later This adds user provided licenses
 	if (nrtConfigManager.isIncludeLicenseFilenamesInReport()) {
 	    for (ComponentModel model : componentMappings.values()) {
@@ -200,23 +214,18 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 	return componentMappings;
     }
 
-/*******************************************************************************
- * Copyright (C) 2015 Black Duck Software, Inc.
- * http://www.blackducksoftware.com/
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2 only
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License version 2
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *******************************************************************************/
+    /**
+     * Gathers copyright information for each component Will only work if the
+     * user enabled the file paths information as well, otherwise without
+     * filepaths it is not possible to get copyright information.
+     * 
+     * The copyright information, is just a lookup on search patterns.
+     * Realistically it could be any pattern.
+     * 
+     * @param projectId
+     * @param component
+     * @param componentModel
+     */
     private void getCopyrightsForComponent(String projectId,
 	    Component component, ComponentModel componentModel) {
 	if (nrtConfigManager.isShowCopyrights()
@@ -355,12 +364,15 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 	    log.warn("Error getting license from server for license name: "
 		    + licenseModel.getName());
 	}
+	if (lic != null) {
+	    LicenseOriginType originType = lic.getLicenseOriginType();
+	    licenseModel.setLicenseOriginType(originType.toString());
 
-	LicenseOriginType originType = lic.getLicenseOriginType();
-	licenseModel.setLicenseOriginType(originType.toString());
-
-	licenseModel.setText(new String(lic.getText()));
-	componentModel.addNewLicense(licenseModel);
+	    licenseModel.setText(new String(lic.getText()));
+	    componentModel.addNewLicense(licenseModel);
+	}
+	else
+	    log.warn("License information missing");
 
     }
 
