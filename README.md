@@ -1,22 +1,6 @@
 ### Release Notes
 
-Version 1.0.1
-
-Date: July 13th, 2014
-
-*   Automatic password encryption
-*   Optional property to specify report location (see config table)
-*   Usage updated to use command line arguments (see summary)
-
-Version: 1.0.0
-
-Date: July 9th, 2014
-
-*   CodeCenter now supported*   Custom Attribute rules can be provded
-*   Configuration changes*   New property names for server, user, password
-    *   New custom attribute parameters
-    *   See Configuration for details.
-*   HTML write out now done through a template, all data streamed via JSON
+https://github.com/blackducksoftware/notice-report-tool/wiki/Release-Notes
 
 ### Summary
 
