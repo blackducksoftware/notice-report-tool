@@ -8,7 +8,7 @@ You can download the latest artifact from releases: https://github.com/blackduck
 
 ### Build
 
-https://travis-ci.org/blackducksoftware/notice-report-tool.svg?branch=master
+[![Build Status](https://travis-ci.org/blackducksoftware/notice-report-tool.svg?branch=master)](https://travis-ci.org/blackducksoftware/notice-report-tool)
 
 ###  Documentation
 
