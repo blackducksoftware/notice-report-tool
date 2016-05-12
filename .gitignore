@@ -1,6 +1,9 @@
-*.classpath
+.classpath
 .project
-*.prefs
-/target/
-
-*target/
+.settings/
+.prefs
+target/
+DefaultProject.html
+My Report.html
+MyReport.html
+NoticeReportTool.log
