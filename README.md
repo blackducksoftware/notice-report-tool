@@ -9,6 +9,7 @@ You can download the latest artifact from releases: https://github.com/blackduck
 ### Build
 
 [![Build Status](https://travis-ci.org/blackducksoftware/notice-report-tool.svg?branch=master)](https://travis-ci.org/blackducksoftware/notice-report-tool)
+[![Coverage Status](https://coveralls.io/repos/github/blackducksoftware/notice-report-tool/badge.svg?branch=master)](https://coveralls.io/github/blackducksoftware/notice-report-tool?branch=master)
 
 ###  Documentation
 
