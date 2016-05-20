@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.tools</groupId>
 	<artifactId>notice-report-tool</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 
 	<description>
 		Notice file generator for Protex and Code Center
@@ -21,7 +21,7 @@
 	</licenses>
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		<cf.connector.version>1.0.8</cf.connector.version>
+		<cf.connector.version>1.4.12</cf.connector.version>
 	</properties>
 
 	<dependencies>
@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.blackducksoftware.tools</groupId>
-			<artifactId>cf-6x-connector</artifactId>
+			<artifactId>cf-7x-connector</artifactId>
 			<version>${cf.connector.version}</version>
 		</dependency>
 		<dependency>
