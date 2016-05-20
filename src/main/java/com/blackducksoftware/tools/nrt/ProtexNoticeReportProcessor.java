@@ -1,20 +1,3 @@
-/*******************************************************************************
- * Copyright (C) 2015 Black Duck Software, Inc.
- * http://www.blackducksoftware.com/
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2 only
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License version 2
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *******************************************************************************/
 package com.blackducksoftware.tools.nrt;
 
 import java.util.ArrayList;
@@ -28,32 +11,25 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.blackducksoftware.sdk.fault.SdkFault;
-import com.blackducksoftware.sdk.protex.common.Component;
-import com.blackducksoftware.sdk.protex.common.ComponentType;
 import com.blackducksoftware.sdk.protex.common.StringSearchPattern;
 import com.blackducksoftware.sdk.protex.common.StringSearchPatternOriginType;
-import com.blackducksoftware.sdk.protex.component.custom.CustomComponent;
-import com.blackducksoftware.sdk.protex.component.standard.StandardComponent;
-import com.blackducksoftware.sdk.protex.component.version.ComponentVersion;
-import com.blackducksoftware.sdk.protex.license.License;
-import com.blackducksoftware.sdk.protex.license.LicenseInfo;
-import com.blackducksoftware.sdk.protex.license.LicenseOriginType;
-import com.blackducksoftware.sdk.protex.project.bom.BomComponent;
 import com.blackducksoftware.sdk.protex.project.codetree.CharEncoding;
 import com.blackducksoftware.sdk.protex.project.codetree.CodeTreeNode;
 import com.blackducksoftware.sdk.protex.project.codetree.CodeTreeNodeType;
-import com.blackducksoftware.sdk.protex.project.codetree.PartialCodeTree;
 import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchDiscovery;
 import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchDiscoveryWithMatches;
 import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchMatch;
-import com.blackducksoftware.sdk.protex.project.localcomponent.LocalComponent;
 import com.blackducksoftware.sdk.protex.report.ReportSectionType;
-import com.blackducksoftware.tools.commonframework.connector.protex.ProtexServerWrapper;
-import com.blackducksoftware.tools.commonframework.connector.protex.report.ReportUtils;
 import com.blackducksoftware.tools.commonframework.core.config.ConfigConstants.APPLICATION;
 import com.blackducksoftware.tools.commonframework.standard.common.ProjectPojo;
 import com.blackducksoftware.tools.commonframework.standard.protex.ProtexProjectPojo;
+import com.blackducksoftware.tools.connector.protex.IProtexServerWrapper;
+import com.blackducksoftware.tools.connector.protex.ProtexServerWrapper;
+import com.blackducksoftware.tools.connector.protex.license.ProtexLicensePojo;
+import com.blackducksoftware.tools.connector.protex.report.Format;
+import com.blackducksoftware.tools.connector.protex.report.ReportUtils;
 import com.blackducksoftware.tools.nrt.config.NRTConfigurationManager;
+import com.blackducksoftware.tools.nrt.config.NRTConstants;
 import com.blackducksoftware.tools.nrt.model.ComponentModel;
 import com.blackducksoftware.tools.nrt.model.IDFilesElement;
 import com.blackducksoftware.tools.nrt.model.LicenseModel;
@@ -63,13 +39,13 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
     final private Logger log = Logger.getLogger(this.getClass());
 
     private NRTConfigurationManager nrtConfigManager = null;
-    private ProtexServerWrapper<ProtexProjectPojo> protexWrapper = null;
+
+    private IProtexServerWrapper<ProtexProjectPojo> protexWrapper = null;
 
     public ProtexNoticeReportProcessor(NRTConfigurationManager manager,
-	    APPLICATION appType) throws Exception {
-	nrtConfigManager = manager;
-	protexWrapper = new ProtexServerWrapper<ProtexProjectPojo>(
-		nrtConfigManager.getServerBean(), nrtConfigManager, true);
+            APPLICATION appType) throws Exception {
+        nrtConfigManager = manager;
+        protexWrapper = new ProtexServerWrapper<ProtexProjectPojo>(nrtConfigManager, true);
     }
 
     /**
@@ -78,236 +54,222 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
      * @return
      * @throws Exception
      */
+    @Override
     public HashMap<String, ComponentModel> processProject(
-	    String protexProjectName) throws Exception {
-	HashMap<String, ComponentModel> componentMappings = new HashMap<String, ComponentModel>();
+            String protexProjectName) throws Exception {
+        Map<String, StringSearchPattern> patternMap = null;
+        HashMap<String, ComponentModel> componentMappings = new HashMap<String, ComponentModel>();
 
-	if (protexProjectName == null)
-	    protexProjectName = nrtConfigManager.getProjectName();
+        if (protexProjectName == null) {
+            protexProjectName = nrtConfigManager.getProjectName();
+        }
 
-	ProjectPojo protexProject = protexWrapper
-		.getProjectByName(protexProjectName);
+        ProjectPojo protexProject = protexWrapper
+                .getProjectByName(protexProjectName);
 
-	if (protexProject == null)
-	    throw new Exception("Unable to find project with name: "
-		    + protexProjectName);
+        if (protexProject == null) {
+            throw new Exception("Unable to find project with name: "
+                    + protexProjectName);
+        }
 
-	String projectId = protexProject.getProjectKey();
+        String projectId = protexProject.getProjectKey();
 
-	HashMap<String, Set<String>> componentToPathMappings = new HashMap<String, Set<String>>();
+        HashMap<String, Set<String>> componentToPathMappings = new HashMap<String, Set<String>>();
 
-	if (nrtConfigManager.isShowFilePaths()
-		|| nrtConfigManager.isIncludeLicenseFilenamesInReport())
-	    componentToPathMappings = this.getMappings(protexProject);
+        log.info("Getting Components by Project");
 
-	log.info("Getting Components");
-	List<BomComponent> bomComps = protexWrapper.getInternalApiWrapper()
-		.getBomApi().getBomComponents(projectId);
-	for (BomComponent bomcomponent : bomComps) {
-	    // Common bomcomponent actions
-	    ComponentModel componentModel = new ComponentModel();
-	    componentModel.setComponentId(bomcomponent.getComponentId());
-	    componentModel.setVersion(bomcomponent.getBomVersionName());
-	    getLicensesForComponent(projectId, bomcomponent.getLicenseInfo(),
-		    componentModel);
+        List<ComponentModel> protexComponents = protexWrapper.getProjectManager().getComponentsByProjectId(ComponentModel.class, projectId);
 
-	    try {
-		Component component = protexWrapper
-			.getInternalApiWrapper()
-			.getProjectApi()
-			.getComponentById(projectId,
-				bomcomponent.getComponentId());
+        if (nrtConfigManager.isShowFilePaths()
+                || nrtConfigManager.isIncludeLicenseFilenamesInReport()) {
+            componentToPathMappings = getMappings(protexProject);
 
-		if (component != null) {
+            patternMap = buildPatternMap();
+        }
 
-		    // Common component actions
-		    componentModel.setName(component.getName());
+        for (ComponentModel protexComp : protexComponents) {
 
-		    // Waiting for 7.x to refactor
-		    if (component.getType() == ComponentType.CUSTOM) {
-			CustomComponent cc = (CustomComponent) component;
-			componentModel.setHomePage(cc.getHomePage());
-		    } else if (component.getType() == ComponentType.LOCAL) {
-			LocalComponent lc = (LocalComponent) component;
-			componentModel.setHomePage(lc.getHomePage());
-		    } else if (component.getType() == ComponentType.STANDARD) {
-			// StandardComponent sc =
-			// protexWrapper.getInternalApiWrapper().standardComponentApi.getStandardComponentById(componentModel.getComponentId());
-			StandardComponent sc = (StandardComponent) component;
-			componentModel.setHomePage(sc.getHomePage());
+            // Build name version pair key so that we can look up the component from the identified files report
+            String versionName = protexComp.getVersion();
+            if (versionName == null) {
+                versionName = NRTConstants.DEFAULT_VERSION;
+            }
+            String nameVersionPair = protexComp.getName() + ":" + versionName;
 
-		    } else if (component.getType() == ComponentType.PROJECT) {
-			log.info("Skipping component project: "
-				+ componentModel.getName());
-			continue;
-		    }
+            try {
 
-		    Set<String> paths = componentToPathMappings
-			    .get(componentModel.getNameAndVersion());
-		    if (paths == null) {
-			// If this is null, it means that the name:version
-			// combination does not exist
-			// which is impossible for 99% of the cases. It can only
-			// occur if the name
-			// changed and the SDK is giving us the wrong name. Look
-			// it up via another SDK.
-			ComponentVersion compVersion = protexWrapper
-				.getInternalApiWrapper()
-				.getComponentVersionApi()
-				.getComponentVersionById(
-					bomcomponent.getComponentId(),
-					bomcomponent.getVersionId());
+                Set<String> paths = componentToPathMappings.get(nameVersionPair);
+                if (paths == null) {
+                    // This should never happen.
+                    log.error("Unable to find paths for component, no copyright information will be available for: " + nameVersionPair);
+                    continue;
 
-			// Override the name
-			componentModel.setName(compVersion.getComponentName());
-			// Try again
-			paths = componentToPathMappings.get(componentModel
-				.getNameAndVersion());
+                }
 
-		    }
-		    // Load all the file paths
-		    getFilesPathsForComponent(component, componentModel, paths);
+                // Convert common framework licenses to licensemodels
+                getLicensesForComponent(projectId, protexComp);
 
-		    // Load all the copyrights
-		    getCopyrightsForComponent(projectId, component,
-			    componentModel);
+                // Load all the file paths
+                getFilesPathsForComponent(protexComp, paths);
 
-		}
-	    } catch (Exception e) {
-		log.warn("Unable to get component information for id: "
-			+ bomcomponent.getComponentId());
-	    }
+                // Load all the copyrights
+                getCopyrightsForComponent(projectId,
+                        protexComp, patternMap);
 
-	    componentMappings.put(componentModel.getComponentId(),
-		    componentModel);
-	}
+            } catch (Exception e) {
+                log.warn("Unable to get component information for id: "
+                        + nameVersionPair);
+            }
 
-	// Look into this later This adds user provided licenses
-	if (nrtConfigManager.isIncludeLicenseFilenamesInReport()) {
-	    for (ComponentModel model : componentMappings.values()) {
-		for (String licenseFilename : nrtConfigManager
-			.getLicenseFilenames()) {
-		    Set<String> paths = model.getPaths();
-		    if (paths != null) {
-			for (String path : paths) {
-			    if (FilenameUtils.getName(path).endsWith(
-				    licenseFilename)) {
-				String fileText = getFileText(projectId, path);
-				if (fileText != null) {
-				    LicenseModel licenseModel = new LicenseModel();
-				    licenseModel.setName(licenseFilename);
-				    licenseModel.setId("custom_included_+"
-					    + licenseFilename);
-				    licenseModel.setText(fileText);
+            componentMappings.put(nameVersionPair, protexComp);
+        }
 
-				    model.addNewLicense(licenseModel);
-				}
-			    }
-			}
-		    } else
-			log.info("No paths for component: "
-				+ model.getNameAndVersion());
-		}
-	    }
-	}
+        // Look into this later This adds user provided licenses
+        if (nrtConfigManager.isIncludeLicenseFilenamesInReport()) {
+            for (ComponentModel model : componentMappings.values()) {
+                for (String licenseFilename : nrtConfigManager
+                        .getLicenseFilenames()) {
+                    Set<String> paths = model.getPaths();
+                    if (paths != null) {
+                        for (String path : paths) {
+                            if (FilenameUtils.getName(path).endsWith(
+                                    licenseFilename)) {
+                                String fileText = getFileText(projectId, path);
+                                if (fileText != null) {
+                                    LicenseModel licenseModel = new LicenseModel();
+                                    licenseModel.setName(licenseFilename);
+                                    licenseModel.setId("custom_included_+"
+                                            + licenseFilename);
+                                    licenseModel.setText(fileText);
 
-	return componentMappings;
+                                    model.addNewLicense(licenseModel);
+                                }
+                            }
+                        }
+                    } else {
+                        log.info("No paths for component: "
+                                + model.getNameAndVersion());
+                    }
+                }
+            }
+        }
+
+        return componentMappings;
     }
 
     /**
-     * Gathers copyright information for each component Will only work if the
-     * user enabled the file paths information as well, otherwise without
-     * filepaths it is not possible to get copyright information.
-     * 
-     * The copyright information, is just a lookup on search patterns.
-     * Realistically it could be any pattern.
-     * 
-     * @param projectId
-     * @param component
-     * @param componentModel
+     * @return
      */
+    private Map<String, StringSearchPattern> buildPatternMap() {
+        Map<String, StringSearchPattern> patternMap = new HashMap<>();
+
+        for (String copyright : nrtConfigManager.getCopyrightPatterns()) {
+            StringSearchPattern pattern = null;
+            try {
+                pattern = protexWrapper.getInternalApiWrapper()
+                        .getPolicyApi()
+                        .getStringSearchPatternByName(copyright);
+                if (pattern != null) {
+                    patternMap.put(pattern.getStringSearchPatternId(),
+                            pattern);
+                }
+            } catch (Exception e) {
+                log.warn("Unable to find search pattern object for user specified string: "
+                        + copyright);
+            }
+        }
+
+        return patternMap;
+    }
+
+/*******************************************************************************
+ * Copyright (C) 2016 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ *  with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ *  under the License.
+ *
+ *******************************************************************************/
     private void getCopyrightsForComponent(String projectId,
-	    Component component, ComponentModel componentModel) {
-	if (nrtConfigManager.isShowCopyrights()
-		&& nrtConfigManager.isShowFilePaths()) {
-	    log.info("Getting Copyright Info for component: "
-		    + componentModel.getNameAndVersion());
-	    Map<String, StringSearchPattern> patternMap = new HashMap<>();
+            ComponentModel componentModel, Map<String, StringSearchPattern> patternMap) {
+        if (nrtConfigManager.isShowCopyrights()
+                && nrtConfigManager.isShowFilePaths()) {
+            log.info("Getting Copyright Info for component: "
+                    + componentModel.getNameAndVersion());
 
-	    for (String copyright : nrtConfigManager.getCopyrightPatterns()) {
-		StringSearchPattern pattern = null;
-		try {
-		    pattern = protexWrapper.getInternalApiWrapper()
-			    .getPolicyApi()
-			    .getStringSearchPatternByName(copyright);
-		    if (pattern != null)
-			patternMap.put(pattern.getStringSearchPatternId(),
-				pattern);
-		} catch (Exception e) {
-		    log.warn("Unable to find search pattern object for user specified string: "
-			    + copyright);
-		}
-	    }
+            try {
+                List<CodeTreeNode> treeNodes = new ArrayList<CodeTreeNode>();
+                for (String path : componentModel.getPaths()) {
+                    CodeTreeNode node = new CodeTreeNode();
+                    node.setName(path);
+                    node.setNodeType(CodeTreeNodeType.FILE);
+                    treeNodes.add(node);
+                }
 
-	    try {
-		PartialCodeTree tree = new PartialCodeTree();
-		tree.setParentPath("/");
-		for (String path : componentModel.getPaths()) {
-		    CodeTreeNode node = new CodeTreeNode();
-		    node.setName(path);
-		    node.setNodeType(CodeTreeNodeType.FILE);
-		    tree.getNodes().add(node);
-		}
+                List<StringSearchPatternOriginType> patternTypes = new ArrayList<StringSearchPatternOriginType>();
 
-		List<StringSearchPatternOriginType> patternTypes = new ArrayList<StringSearchPatternOriginType>();
-		patternTypes.add(StringSearchPatternOriginType.CUSTOM);
-		patternTypes.add(StringSearchPatternOriginType.STANDARD);
-		patternTypes.add(StringSearchPatternOriginType.PROJECT_LOCAL);
+                patternTypes.add(StringSearchPatternOriginType.CUSTOM);
+                patternTypes.add(StringSearchPatternOriginType.STANDARD);
+                patternTypes.add(StringSearchPatternOriginType.PROJECT_LOCAL);
 
-		List<StringSearchDiscovery> searchDiscoveries = protexWrapper
-			.getInternalApiWrapper()
-			.getDiscoveryApi()
-			.getStringSearchDiscoveries(projectId, tree,
-				patternTypes);
+                List<StringSearchDiscovery> searchDiscoveries = protexWrapper
+                        .getInternalApiWrapper()
+                        .getDiscoveryApi()
+                        .getStringSearchDiscoveries(projectId, treeNodes,
+                                patternTypes);
 
-		log.debug("Found search discovery count: "
-			+ searchDiscoveries.size());
+                log.debug("Found search discovery count: "
+                        + searchDiscoveries.size());
 
-		for (StringSearchDiscovery searchDiscovery : searchDiscoveries) {
-		    Integer contextLength = nrtConfigManager
-			    .getCopyrightContextLength();
-		    log.debug("Context length: " + contextLength);
+                for (StringSearchDiscovery searchDiscovery : searchDiscoveries) {
+                    Integer contextLength = nrtConfigManager
+                            .getCopyrightContextLength();
+                    log.debug("Context length: " + contextLength);
 
-		    StringSearchDiscoveryWithMatches discoveryMatch = protexWrapper
-			    .getInternalApiWrapper()
-			    .getDiscoveryApi()
-			    .getStringSearchMatches(projectId, searchDiscovery,
-				    contextLength);
+                    StringSearchDiscoveryWithMatches discoveryMatch = protexWrapper
+                            .getInternalApiWrapper()
+                            .getDiscoveryApi()
+                            .getStringSearchMatches(projectId, searchDiscovery,
+                                    contextLength);
 
-		    StringSearchPattern userSpecifiedPattern = patternMap
-			    .get(discoveryMatch.getStringSearchId());
-		    if (userSpecifiedPattern != null) {
-			log.debug("Found search match for discovery: "
-				+ searchDiscovery.getStringSearchId());
-			List<StringSearchMatch> matches = discoveryMatch
-				.getMatches();
-			log.debug("Found matches for discovery: "
-				+ matches.size());
-			for (StringSearchMatch match : matches) {
-			    String foundMatch = new String(match.getContext());
-			    componentModel.addNewCopyright(foundMatch);
+                    StringSearchPattern userSpecifiedPattern = patternMap
+                            .get(discoveryMatch.getStringSearchId());
+                    if (userSpecifiedPattern != null) {
+                        log.debug("Found search match for discovery: "
+                                + searchDiscovery.getStringSearchId());
+                        List<StringSearchMatch> matches = discoveryMatch
+                                .getMatches();
+                        log.debug("Found matches for discovery: "
+                                + matches.size());
+                        for (StringSearchMatch match : matches) {
+                            String foundMatch = new String(match.getContext());
+                            componentModel.addNewCopyright(foundMatch);
 
-			}
-		    }
+                        }
+                    }
 
-		}
+                }
 
-	    } catch (Exception e) {
-		log.error("Unable to get search pattern information: "
-			+ e.getMessage());
-	    }
+            } catch (Exception e) {
+                log.error("Unable to get search pattern information: "
+                        + e.getMessage());
+            }
 
-	}
+        }
 
     }
 
@@ -318,84 +280,76 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
      * @param componentModel
      * @param componentToPathMappings
      */
-    private void getFilesPathsForComponent(Component component,
-	    ComponentModel componentModel, Set<String> paths) {
-	// Filepaths if necessary
-	if (nrtConfigManager.isShowFilePaths()) {
-	    log.debug("Gathering file paths for component: "
-		    + component.getComponentId());
+    private void getFilesPathsForComponent(ComponentModel componentModel, Set<String> paths) {
+        // Filepaths if necessary
+        if (nrtConfigManager.isShowFilePaths()) {
+            log.debug("Gathering file paths for component: "
+                    + componentModel.getNameAndVersion());
+            if (paths == null)
+            {
+                log.error("No paths available for component: " + componentModel.getComponentId());
+                return;
+            }
 
-	    try {
-		for (String path : paths) {
-		    componentModel.addNewPath(path);
-		}
+            try {
+                for (String path : paths) {
+                    componentModel.addNewPath(path);
+                }
 
-	    } catch (Exception e) {
-		log.error("Error getting file paths for: "
-			+ componentModel.getNameAndVersion());
-		log.error(e.getMessage());
-	    }
+            } catch (Exception e) {
+                log.error("Error getting file paths for: "
+                        + componentModel.getNameAndVersion());
+                log.error(e.getMessage());
+            }
 
-	}
+        }
 
     }
 
-    /**
-     * Gets the license information for the license associated to the project's
-     * component.
-     * 
-     * @param licenseInfo
-     * @param componentModel
-     */
-    private void getLicensesForComponent(String projectId,
-	    LicenseInfo licenseInfo, ComponentModel componentModel) {
-	// License information
-	LicenseModel licenseModel = new LicenseModel();
+    private void getLicensesForComponent(String projectId, ComponentModel componentModel) {
 
-	licenseModel.setId(licenseInfo.getLicenseId());
-	licenseModel.setName(licenseInfo.getName());
+        List<ProtexLicensePojo> licensePojos = componentModel.getLicenses();
+        if (licensePojos != null)
+        {
+            for (ProtexLicensePojo license : licensePojos)
+            {
+                // License information
+                LicenseModel licenseModel = new LicenseModel();
 
-	License lic = null;
+                licenseModel.setId(license.getId());
+                licenseModel.setName(license.getName());
+                licenseModel.setText(license.getLicenseText());
 
-	try {
-	    lic = protexWrapper.getInternalApiWrapper().getProjectApi()
-		    .getLicenseById(projectId, licenseModel.getId());
-	} catch (Exception e) {
-	    log.warn("Error getting license from server for license name: "
-		    + licenseModel.getName());
-	}
-	if (lic != null) {
-	    LicenseOriginType originType = lic.getLicenseOriginType();
-	    licenseModel.setLicenseOriginType(originType.toString());
+                componentModel.addNewLicense(licenseModel);
 
-	    licenseModel.setText(new String(lic.getText()));
-	    componentModel.addNewLicense(licenseModel);
-	}
-	else
-	    log.warn("License information missing");
-
+            }
+        }
+        else
+        {
+            log.warn("No license information available for: " + componentModel.getNameAndVersion());
+        }
     }
 
     private String getFileText(String projectId, String path) {
-	String fileText = null;
+        String fileText = null;
 
-	log.info("hit with license name found for file " + path);
+        log.info("hit with license name found for file " + path);
 
-	try {
-	    // reading the uploaded content of the file from the
-	    // database
-	    fileText = new String(protexWrapper.getInternalApiWrapper()
-		    .getCodeTreeApi()
-		    .getFileContent(projectId, path, CharEncoding.NONE));
+        try {
+            // reading the uploaded content of the file from the
+            // database
+            fileText = new String(protexWrapper.getInternalApiWrapper()
+                    .getCodeTreeApi()
+                    .getFileContent(projectId, path, CharEncoding.NONE));
 
-	} catch (SdkFault e) {
-	    log.warn(
-		    path
-			    + " needs to be re-configured as File Upload type and project re-scanned in order to process by this tool.",
-		    e);
-	}
+        } catch (SdkFault e) {
+            log.warn(
+                    path
+                            + " needs to be re-configured as File Upload type and project re-scanned in order to process by this tool.",
+                    e);
+        }
 
-	return fileText;
+        return fileText;
 
     }
 
@@ -409,34 +363,31 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
      * @throws Exception
      */
     private HashMap<String, Set<String>> getMappings(ProjectPojo pojo)
-	    throws Exception {
-	HashMap<String, Set<String>> componentToPathMapping = new HashMap<String, Set<String>>();
+            throws Exception {
+        HashMap<String, Set<String>> componentToPathMapping = new HashMap<String, Set<String>>();
 
-	ReportUtils reportUtils = new ReportUtils();
+        ReportUtils reportUtils = new ReportUtils();
 
-	log.info("Getting identified files section report");
-	List<IDFilesElement> idElements = reportUtils.getReportSection(
-		this.protexWrapper, pojo,
-		ReportSectionType.IDENTIFIED_FILES.toString(),
-		IDFilesElement.class);
+        List<IDFilesElement> idElements =
+                reportUtils.getReportSection(protexWrapper, pojo, ReportSectionType.IDENTIFIED_FILES.toString(), Format.CSV, IDFilesElement.class);
 
-	log.info("Parsing identified files...");
-	for (IDFilesElement idElement : idElements) {
-	    String compName = idElement.getValue("Component");
-	    String compVersion = idElement.getValue("Version");
-	    String path = idElement.getValue("File/Folder");
+        log.info("Parsing identified files...");
+        for (IDFilesElement idElement : idElements) {
+            String compName = idElement.getValue("Component");
+            String compVersion = idElement.getValue("Version");
+            String path = idElement.getValue("File/Folder");
+            // Key must be more than component name, as the name is not guaranteed unique.
+            String key = compName + ":" + compVersion;
 
-	    String key = compName + ":" + compVersion;
+            Set<String> paths = componentToPathMapping.get(key);
+            if (paths == null) {
+                paths = new HashSet<String>();
+                componentToPathMapping.put(key, paths);
+            }
+            paths.add(path);
+        }
 
-	    Set<String> paths = componentToPathMapping.get(key);
-	    if (paths == null) {
-		paths = new HashSet<String>();
-		componentToPathMapping.put(key, paths);
-	    }
-	    paths.add(path);
-	}
-
-	return componentToPathMapping;
+        return componentToPathMapping;
     }
 
 }

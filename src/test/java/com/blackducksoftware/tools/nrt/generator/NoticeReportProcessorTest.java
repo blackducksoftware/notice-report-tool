@@ -1,19 +1,24 @@
 /*******************************************************************************
- * Copyright (C) 2015 Black Duck Software, Inc.
+ * Copyright (C) 2016 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2 only
- * as published by the Free Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ *  with the License. You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License version 2
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ *  under the License.
+ *
  *******************************************************************************/
 package com.blackducksoftware.tools.nrt.generator;
 
@@ -32,87 +37,91 @@ import com.blackducksoftware.tools.nrt.config.NRTConstants;
 
 /**
  * Tests the basic functions of the NRT Processor
+ * 
  * @author akamen
- *
+ * 
  */
-public class NoticeReportProcessorTest 
+public class NoticeReportProcessorTest
 {
-	private static String configFileName = "nrt_config_basic.properties";
-	private static NoticeReportProcessor reportProcessor = null;
-	
-	@ClassRule 
+    private static String configFileName = "nrt_config_basic.properties";
+
+    private static NoticeReportProcessor reportProcessor = null;
+
+    @ClassRule
     public static TemporaryFolder junitWorkingFolder = new TemporaryFolder();
-	
-	@BeforeClass 
-	public static void setupFiles() throws Exception	
-	{		
-		String configFile = ClassLoader.getSystemResource(configFileName).getFile();
-		
-		// Project name derived from config file, not command line	
-		String pojectName = "DefaultProject";
-		reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
-		
-	}	
-	
-	/**
-	 * Tests the default copy, where the config file does not specify anything.
-	 * @throws IOException 
-	 * @throws Exception 
-	 */
-	@Test
-	public void testDefaultHTMLFileCopy() throws IOException 
-	{		
-		String expectedName = "DefaultProject.html";
-	
-			File finalFile = 
-					reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
 
-			Assert.assertEquals(expectedName, finalFile.getName());
+    @BeforeClass
+    public static void setupFiles() throws Exception
+    {
+        String configFile = ClassLoader.getSystemResource(configFileName).getFile();
 
-	}
-	
-	/**
-	 * If a user supplies a file name.
-	 * @throws IOException 
-	 */
-	@Test
-	public void testUserSuppliedFileName() throws IOException
-	{
-		String userSuppliedName = "MyReport";
-		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
-		
-		// Set our name
-		reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
-		File finalFile = 
-				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
-		
-		Assert.assertEquals(userSuppliedName+".html", finalFile.getName());
-		
-		// cleanup
-		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
-		
-	}
-	
-	/**
-	 * If there are spaces in the file paths/names, make sure it encodes correctly.
-	 * @throws IOException 
-	 */
-	@Test
-	public void testUserSuppliedFileNameWithSpaces() throws IOException
-	{
-		String userSuppliedName = "My Report";
-		String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
-		
-		// Set our name
-		reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
-		
-		File finalFile = 
-				reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
-		
-		
-		Assert.assertEquals("My Report.html", finalFile.getName());
-		
-		// cleanup
-		reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
-	}
+        // Project name derived from config file, not command line
+        String pojectName = "DefaultProject";
+        reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
+
+    }
+
+    /**
+     * Tests the default copy, where the config file does not specify anything.
+     * 
+     * @throws IOException
+     * @throws Exception
+     */
+    @Test
+    public void testDefaultHTMLFileCopy() throws IOException
+    {
+        String expectedName = "DefaultProject.html";
+
+        File finalFile =
+                reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
+
+        Assert.assertEquals(expectedName, finalFile.getName());
+
+    }
+
+    /**
+     * If a user supplies a file name.
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testUserSuppliedFileName() throws IOException
+    {
+        String userSuppliedName = "MyReport";
+        String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
+
+        // Set our name
+        reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
+        File finalFile =
+                reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
+
+        Assert.assertEquals(userSuppliedName + ".html", finalFile.getName());
+
+        // cleanup
+        reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
+
+    }
+
+    /**
+     * If there are spaces in the file paths/names, make sure it encodes correctly.
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testUserSuppliedFileNameWithSpaces() throws IOException
+    {
+        String userSuppliedName = "My Report";
+        String originalName = reportProcessor.getNrtConfigManager().getOutputFilename();
+
+        // Set our name
+        reportProcessor.getNrtConfigManager().setOutputFilename(userSuppliedName);
+
+        File finalFile =
+                reportProcessor.calculateReportNameAndLocation(NRTConstants.REPORT_HTML_EXTENSION);
+
+        Assert.assertEquals("My Report.html", finalFile.getName());
+
+        // cleanup
+        reportProcessor.getNrtConfigManager().setOutputFilename(originalName);
+    }
 }

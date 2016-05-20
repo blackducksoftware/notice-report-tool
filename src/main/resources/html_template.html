@@ -1,258 +1,262 @@
 <html>
- <head> 
-  <style>
-		.mainTable, table
-		{
-			font-family: Arial;
-			width: 800px;
-			border: 1px solid black;
-			text-align: left;
-		
-		}
-		
-		h1,h2,h3,h4
-		{
-			font-family: Arial;
-		}
-		
-		tr, td
-		{
-			padding: 2px;
-			border: 1px solid darkBlue;
-			font-size: 15px;
-		}
-		
-		th
-		{
-			font-size: 16px;
-			text-align: center;
-			background-color: #7D8EFF;
-			padding: 3px;
-			text-align: center;
-			vertical-align: text-bottom;
-		}
-		
-		.th-attribute
-		{
-			width: 85%;
-		}
-		
-		
-		.attributes
-		{
-			font-size: 15px;
-			font-style: oblique;
-			padding: 2px;
-		}
-		
-		.file-paths-link, .copyrights-link, .license-text-link 
-		{
-			font-family: Arial;
-			font-style: normal;
-			display:none;
-			border-style:solid;
-			border-width:1px;
-		}
-		.component-name
-		{
-			font-family: Arial;
-			font-size: 20px;
-		}
-		
-		.license-text
-		{
-			font-family: Arial;
-			font-style: normal;
-			padding: 9px;
-			background-color: #DEF3FF;
-			display: none;
-			width: 90%;
-		}
-		.homepage-link
-		{
-			
-		}
-	</style> 
-  <script>
-			function toggle(id) 
-			{
-			   var ele = document.getElementById(id);
-			   
-			   if(ele.style.display == "block") {
-			      		ele.style.display = "none";	
-			    	}
-			   else {
-			   	ele.style.display = "block";
-				   }
-		    } 
-		</script> 
- </head> 
- <body> 
-  <div class="bds-json-data"> 
-   <!-- !!!DO NOT REMOVE THIS DIV, JSON IS DYNAMICALLY INJECTED!!!	--> 
-  </div> 
-  
-  <div class="title">
-    <h1 align="center">Notice Report for Project: 
-	  <script>
-		document.write(propList[0].project_name);
-	  </script>
-	</h1> 
-  </div>
-  	
-  <br />
-  <br /> 
-  <div class="table-of-contents"> 
-   <h2>Table of Contents</h2> 
-   <script>
-		 	  for(var i=0; i<compList.length;i++)
-			  {
-		  		  var ourComp = compList[i];
-		  		  var counter = 1;
-		  		  for(var key in ourComp)
-		  		  {
-		  			  document.write("<a href=#component_"+ counter + ">" + ourComp[key].name  + "</a>");
-		  			  document.write("<br>");
-		  			  counter++;
-		  		  }
-			  }
-	      </script> 
-  </div> 
-  <br /> 
-  <h2>Bill of Materials</h2> 
-  <br /> 
-  <table class="main-table"> 
-   <tbody>
-    <tr> 
-     <th> <h3>Component</h3> </th> 
-     <th class="th-attribute"> <h3>Attributes</h3> </th> 
-    </tr> 
-    <script>
-      	  // Load properties
-		  if(propList != null)
-		  {
-			// Because it is a map get the actual object
-			var properties = propList[0];
-		  	var showFilePaths = properties.show_file_paths;
-			var showCopyrights = properties.show_copyrights;
-			var showComponentVersion = properties.show_component_version;
-		  }
-      
+<head>
+<style>
+.mainTable,table {
+	font-family: Arial;
+	width: 90%;
+	border: 1px solid black;
+	text-align: left;
+}
 
-      	  // Build the table
-      	  for(var i=0; i<compList.length;i++)
-    	  {
-      		  var ourComp = compList[i];
-      		  var counter = 1;
-      		  for(var key in ourComp)
-      		  {
-      			 document.write("<tr id=component_" + counter +">");
-      			 // Component column
-				 // Check to see if user enabled to show version
-				 var componentName = ourComp[key].name;
-				 if(showComponentVersion)
-					componentName = componentName + ":" + ourComp[key].version;
-      			 document.write("<td><div class='component-name'>" + componentName +"</div></td>")	;
-      			 // Attribute column
-      			 document.write("<td>");
-      			 
-      			 document.write("<div class=attributes>");
-      			 // Paths
-	      			 buildLinkedItems(showFilePaths, ourComp[key].paths, counter, "Paths", "file-paths-link");
-	      			 document.write("</div><br>");
-	      			 // Copyrights
-	      			 buildLinkedItems(showCopyrights, ourComp[key].copyrights, counter, "Copyrights", "copyrights-link");
-	      			 document.write("</div><br>");
-	      			 // Licenses
-					 // There will never be an option to not show them
-	      			 buildLinkedItems(true, ourComp[key].licenses, counter, "Licenses", "license-text-link");
-	      			 document.write("</div><br>");
-	      			 // Add homepage link if available
-					 if(ourComp[key].homePage != null)
-					 {
-						document.write("<div class='homepage-link'>");
-						document.write("<a href='" + ourComp[key].homePage + "' target=_new> Homepage</a>");
+h1,h2,h3,h4 {
+	font-family: Arial;
+}
+
+tr,td {
+	padding: 2px;
+	border: 1px solid darkBlue;
+	font-size: 15px;
+}
+
+th {
+	font-size: 16px;
+	text-align: center;
+	background-color: #7D8EFF;
+	padding: 3px;
+	text-align: center;
+	vertical-align: text-bottom;
+}
+
+.th-attribute {
+	width: 45%;
+}
+
+.attributes {
+	font-size: 15px;
+	font-style: oblique;
+	padding: 2px;
+}
+
+.file-paths-link,.copyrights-link,.license-text-link {
+	font-family: Arial;
+	font-style: normal;
+	display: none;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.component-name {
+	font-family: Arial;
+	font-size: 20px;
+}
+
+.license-text {
+	font-family: Arial;
+	font-style: normal;
+	padding: 9px;
+	background-color: #DEF3FF;
+	display: none;
+	width: 90%;
+}
+
+.homepage-link {
+	
+}
+</style>
+<script>
+	function toggle(id) {
+		var ele = document.getElementById(id);
+
+		if (ele.style.display == "block") {
+			ele.style.display = "none";
+		} else {
+			ele.style.display = "block";
+		}
+	}
+</script>
+</head>
+<body>
+	<div class="bds-json-data">
+		<!-- !!!DO NOT REMOVE THIS DIV, JSON IS DYNAMICALLY INJECTED!!!	-->
+	</div>
+
+	<div class="title">
+		<h1 align="center">
+			Notice Report for Project:
+			<script>
+				document.write(propList[0].project_name);
+			</script>
+		</h1>
+	</div>
+
+	<br />
+	<br />
+	<div class="table-of-contents">
+		<h2>Table of Contents</h2>
+		<script>
+			for (var i = 0; i < compList.length; i++) {
+				var ourComp = compList[i];
+				var counter = 1;
+				for ( var key in ourComp) {
+					document.write("<a href=#component_"+ counter + ">"
+							+ ourComp[key].name + "</a>");
+					document.write("<br>");
+					counter++;
+				}
+			}
+		</script>
+	</div>
+	<br />
+	<h2>Bill of Materials</h2>
+	<br />
+	<table class="main-table">
+		<tbody>
+			<tr>
+				<th>
+					<h3>Component</h3>
+				</th>
+				<th class="th-attribute">
+					<h3>Attributes</h3>
+				</th>
+				<th>
+					<h3>Copyrights</h3>
+				</th>
+			</tr>
+			<script>
+				// Load properties
+				if (propList != null) {
+					// Because it is a map get the actual object
+					var properties = propList[0];
+					var showFilePaths = properties.show_file_paths;
+					var showCopyrights = properties.show_copyrights;
+					var showComponentVersion = properties.show_component_version;
+				}
+
+				// Build the table
+				for (var i = 0; i < compList.length; i++) {
+					var ourComp = compList[i];
+					var counter = 1;
+					for ( var key in ourComp) {
+						document.write("<tr id=component_" + counter +">");
+						// Component column
+						// Check to see if user enabled to show version
+						var componentName = ourComp[key].name;
+						if (showComponentVersion)
+							componentName = componentName + ":"
+									+ ourComp[key].version;
+						document.write("<td><div class='component-name'>"
+								+ componentName + "</div></td>");
+						// Attribute column
+						document.write("<td>");
+
+						document.write("<div class=attributes>");
+						// Paths
+						buildLinkedItems(showFilePaths, ourComp[key].paths,
+								counter, "Paths", "file-paths-link");
+						document.write("</div><br>");
+						// Copyrights
+						buildLinkedItems(showCopyrights,
+								ourComp[key].copyrights, counter, "Copyrights",
+								"copyrights-link");
+						document.write("</div><br>");
+						// Licenses
+						// There will never be an option to not show them
+						buildLinkedItems(true, ourComp[key].licenses, counter,
+								"Licenses", "license-text-link");
+						document.write("</div><br>");
+						// Add homepage link if available
+						if (ourComp[key].homePage != null) {
+							document.write("<div class='homepage-link'>");
+							document
+									.write("<a href='" + ourComp[key].homePage + "' target=_new> Homepage</a>");
+							document.write("</div>");
+						}
 						document.write("</div>");
-					 }
-	      		 document.write("</div>");
-      			 document.write("</td>");
-      			 document.write("</tr>");
-      			 
-      			 counter++;
-      		  }  			
-    	  }
-      	  
-      	  function buildLinkedItems(isShow, elementList, counter, elementName, cssName)
-      	  {
-      		 if(isShow)
- 			 {    				
- 				// Display the link
- 				var elementCount = 0;
- 				if(elementList != null)
- 					elementCount = elementList.length;
- 				
- 				// Display how many in the parentheses
- 				// Use the element name to build iterative IDs
- 				document.write("<a href=javascript:toggle('"+ elementName + counter +"');>" + elementName);
- 				document.write(" (" + elementCount + ")");
- 				document.write("</a>");
- 				// Create the contents
- 				document.write("<div class=" + cssName +" id=" + elementName + counter +">");
- 				document.write("<ul>");
- 				if(elementList != null)
-				{
- 					for(var p=0; p < elementList.length;p++)
-     				{				
- 						var elementItem = elementList[p];
- 						
- 						// Licenses
- 						if(typeof elementItem == 'object')
- 						{
- 							buildLicenseText(elementItem, counter,p);
- 
- 						}
- 						else
-     				 		document.write("<li>" + elementItem +"</li>");		
-     				}
-				}	
- 				else
- 				{
- 					document.write("<li>No " + elementName + " exist for this component</li>");
- 				}
- 		
- 				document.write("</ul");   			
- 			 	document.write("</div>");
- 			 }
-      		 
-      		 return;
-      	  }
-      	
-      	// Use a counter to make sure that links open up the correct divs
-       	function buildLicenseText(license, counter,internalcounter)
-       	{
-      		// Link for license
- 			var uniqueid = "";
- 			if(license.id == null)
- 			{
- 				uniqueid = counter + "_" + internalcounter;
- 			}
- 			else
- 				uniqueid = license.id + "_" +counter;
- 			
-       		document.write("<li><a href=javascript:toggle('"+ uniqueid +"');>" + license.name +"</li>");
- 			document.write("</a>");
- 		
- 			
- 			// License text
- 			// TODO:  Lookup the license from license map!
- 			document.write("<div class='license-text' id='" + uniqueid + "'>");
- 			document.write(license.text);
- 			document.write("</div>");
- 			
-       	}
-      	
-      </script> 
-   </tbody>
-  </table>  
- </body>
+
+						// Copyright column
+						document.write("<td>");
+						if (ourComp[key].copyrights != undefined) {
+							if (ourComp[key].copyrights.length > 0) {
+								buildLinkedItems(showCopyrights,
+										ourComp[key].copyrights, counter,
+										"Copyrights", "copyrights-link");
+								document.write("</div><br>");
+							}
+
+						}
+
+						document.write("</td>");
+						document.write("</tr>");
+
+						counter++;
+					}
+				}
+
+				function buildLinkedItems(isShow, elementList, counter,
+						elementName, cssName) {
+					if (isShow) {
+						// Display the link
+						var elementCount = 0;
+						if (elementList != null)
+							elementCount = elementList.length;
+
+						// Display how many in the parentheses
+						// Use the element name to build iterative IDs
+						document.write("<a href=javascript:toggle('"
+								+ elementName + counter + "');>" + elementName);
+						document.write(" (" + elementCount + ")");
+						document.write("</a>");
+						// Create the contents
+						document
+								.write("<div class=" + cssName +" id=" + elementName + counter +">");
+						document.write("<ul>");
+						if (elementList != null) {
+							for (var p = 0; p < elementList.length; p++) {
+								var elementItem = elementList[p];
+
+								// Licenses
+								if (typeof elementItem == 'object') {
+									buildLicenseText(elementItem, counter, p);
+
+								} else
+									document.write("<li>" + elementItem
+											+ "</li>");
+							}
+						} else {
+							document.write("<li>No " + elementName
+									+ " exist for this component</li>");
+						}
+
+						document.write("</ul");
+						document.write("</div>");
+					}
+
+					return;
+				}
+
+				// Use a counter to make sure that links open up the correct divs
+				function buildLicenseText(license, counter, internalcounter) {
+					// Link for license
+					var uniqueid = "";
+					if (license.id == null) {
+						uniqueid = counter + "_" + internalcounter;
+					} else
+						uniqueid = license.id + "_" + counter;
+
+					document.write("<li><a href=javascript:toggle('" + uniqueid
+							+ "');>" + license.name + "</li>");
+					document.write("</a>");
+
+					// License text
+					// TODO:  Lookup the license from license map!
+					document
+							.write("<div class='license-text' id='" + uniqueid + "'>");
+					document.write(license.text);
+					document.write("</div>");
+
+				}
+			</script>
+		</tbody>
+	</table>
+</body>
 </html>

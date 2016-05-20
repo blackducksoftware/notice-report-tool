@@ -1,19 +1,24 @@
 /*******************************************************************************
- * Copyright (C) 2015 Black Duck Software, Inc.
+ * Copyright (C) 2016 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2 only
- * as published by the Free Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ *  with the License. You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License version 2
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ *  under the License.
+ *
  *******************************************************************************/
 package com.blackducksoftware.tools.nrt.model;
 
@@ -31,8 +36,10 @@ public class LicenseModel {
 
     @Expose
     private String id;
+
     @Expose
     private String name;
+
     @Expose
     private String text;
 
@@ -40,64 +47,67 @@ public class LicenseModel {
     private String licenseOriginType;
 
     public String getId() {
-	return id;
+        return id;
     }
 
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getText() {
-	return text;
+        return text;
     }
 
     public void setText(String text) {
-	this.text = text;
+        this.text = text;
     }
 
     @Override
     public boolean equals(Object license) {
 
-	if (license == null)
-	    return false;
-	if (license == this)
-	    return true;
-	if (!(license instanceof LicenseModel))
-	    return false;
+        if (license == null) {
+            return false;
+        }
+        if (license == this) {
+            return true;
+        }
+        if (!(license instanceof LicenseModel)) {
+            return false;
+        }
 
-	LicenseModel licenseModel = (LicenseModel) license;
+        LicenseModel licenseModel = (LicenseModel) license;
 
-	if (licenseModel.getId() != null && this.getId() != null)
-	    return licenseModel.getId().equals(this.getId());
-
-	else
-	    return licenseModel.getText().equals(this.getText());
+        if (licenseModel.getId() != null && getId() != null) {
+            return licenseModel.getId().equals(getId());
+        } else {
+            return licenseModel.getText().equals(getText());
+        }
     }
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((id == null) ? 0 : id.hashCode());
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
-    
+
     public String getLicenseOriginType() {
-	return licenseOriginType;
+        return licenseOriginType;
     }
 
     public void setLicenseOriginType(String licenseOriginType) {
-	this.licenseOriginType = licenseOriginType;
+        this.licenseOriginType = licenseOriginType;
     }
 
 }
