@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blackducksoftware.tools</groupId>
 	<artifactId>notice-report-tool</artifactId>
-	<version>1.1.0</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<description>
-		Notice file generator for Protex and Code Center
+		Notice file generator for Protex 
 	</description>
 
 	<organization>
@@ -15,8 +15,8 @@
 	</organization>
 	<licenses>
 		<license>
-			<name>GNU General Public License v2.0 only</name>
-			<url>http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html</url>
+			<name>Apache License 2.0</name>
+			<url>http://http://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 	<properties>

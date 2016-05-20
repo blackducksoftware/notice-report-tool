@@ -1,19 +1,24 @@
 /*******************************************************************************
- * Copyright (C) 2015 Black Duck Software, Inc.
+ * Copyright (C) 2016 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2 only
- * as published by the Free Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ *  with the License. You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License version 2
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ *  under the License.
+ *
  *******************************************************************************/
 package com.blackducksoftware.tools.nrt.generator;
 
@@ -38,81 +43,86 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
- * Tests the HTML generation with some of the configuration switches enabled.  
+ * Tests the HTML generation with some of the configuration switches enabled.
+ * 
  * @author akamen
- *
+ * 
  */
-public class HtmlReportGeneratorConfigTest extends HtmlReportGeneratorSetup 
+public class HtmlReportGeneratorConfigTest extends HtmlReportGeneratorSetup
 {
-	@ClassRule 
+    @ClassRule
     public static TemporaryFolder junitWorkingFolder = new TemporaryFolder();
-	// Custom config file
-	private static String configFile = "nrt_config_with_flags.properties";
-	// Soon to be populated HTML contents
-	private static HtmlPage doc = null;
-	
-	@BeforeClass 
-	public static void setupFiles() throws IOException	
-	{		
-		String htmlTemplateStr = ClassLoader.getSystemResource(htmlTemplate).getFile();
-		basicReportOutputLocation = junitWorkingFolder.newFile("int_test_with_flags_config.html");
-		Files.copy(new File(htmlTemplateStr).toPath(), basicReportOutputLocation.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		
-		generator = setupFiles(configFile, basicReportOutputLocation);
-			
-		doc = getDocForBasicReport();
-	}
-	
-	@Test
-	public void testProjectNameInjection()
-	{
-		@SuppressWarnings("unchecked")
-		List<HtmlDivision> compElements  = (List<HtmlDivision>) 
-			doc.getByXPath(getXPathName(NRTConstants.HTML_TITLE_CLASS));
-		List<HtmlElement> injectedProjectNameTag = compElements.get(0).getElementsByTagName("h1");
 
-		Assert.assertEquals(1, injectedProjectNameTag.size());
-		
-		Map<String, Object> opts = configManager.getOptionsForExport();
-		String expectedProjectName = (String) opts.get("project_name");
-		List<DomNode> children = injectedProjectNameTag.get(0).getChildNodes();
-		
-		// There will be a text element, scripte element, another text element 
-		Assert.assertEquals(3, children.size());
-		
-		// Grab the third element, that is our injected project name
-		Assert.assertEquals(expectedProjectName, children.get(2).getTextContent().trim());
-	}
-	
-	/**
-	 * Test filepaths count
-	 * Because we disabled this feature, we expect zero
-	 * @throws IOException
-	 */
-	@Test
-	public void testFilePathsWhenSetToFalse() throws IOException
-	{
-		List<?> compElements = doc.getByXPath(getXPathName(NRTConstants.HTML_FILE_PATH_CLASS));
-		
-		Assert.assertEquals(0, compElements.size());
-	}
-	
-	/**
-	 * Tests the user option to show versions inside the component name
-	 * @throws IOException
-	 */
-	@Test
-	public void testComponentNameWithVersion() throws IOException
-	{
-		@SuppressWarnings("unchecked")
-		List<HtmlDivision> compElements  = (List<HtmlDivision>) doc.getByXPath(getXPathName(NRTConstants.HTML_COMPONENT_CLASS));
-		
-		// Check if these elements exist, they certainly should.
-		Assert.assertEquals(testComponents.size(), compElements.size());
-		
-		// Check name of first element
-		ComponentModel compTestModel = testComponents.get(COMP_ONE_NAME);
-		HtmlDivision firstElement = compElements.get(0);
-		Assert.assertEquals(compTestModel.getName(), firstElement.getFirstChild().getTextContent());
-	}
+    // Custom config file
+    private static String configFile = "nrt_config_with_flags.properties";
+
+    // Soon to be populated HTML contents
+    private static HtmlPage doc = null;
+
+    @BeforeClass
+    public static void setupFiles() throws IOException
+    {
+        String htmlTemplateStr = ClassLoader.getSystemResource(htmlTemplate).getFile();
+        basicReportOutputLocation = junitWorkingFolder.newFile("int_test_with_flags_config.html");
+        Files.copy(new File(htmlTemplateStr).toPath(), basicReportOutputLocation.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        generator = setupFiles(configFile, basicReportOutputLocation);
+
+        doc = getDocForBasicReport();
+    }
+
+    @Test
+    public void testProjectNameInjection()
+    {
+        @SuppressWarnings("unchecked")
+        List<HtmlDivision> compElements = (List<HtmlDivision>)
+                doc.getByXPath(getXPathName(NRTConstants.HTML_TITLE_CLASS));
+        List<HtmlElement> injectedProjectNameTag = compElements.get(0).getElementsByTagName("h1");
+
+        Assert.assertEquals(1, injectedProjectNameTag.size());
+
+        Map<String, Object> opts = configManager.getOptionsForExport();
+        String expectedProjectName = (String) opts.get("project_name");
+        List<DomNode> children = injectedProjectNameTag.get(0).getChildNodes();
+
+        // There will be a text element, scripte element, another text element
+        Assert.assertEquals(3, children.size());
+
+        // Grab the third element, that is our injected project name
+        Assert.assertEquals(expectedProjectName, children.get(2).getTextContent().trim());
+    }
+
+    /**
+     * Test filepaths count
+     * Because we disabled this feature, we expect zero
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testFilePathsWhenSetToFalse() throws IOException
+    {
+        List<?> compElements = doc.getByXPath(getXPathName(NRTConstants.HTML_FILE_PATH_CLASS));
+
+        Assert.assertEquals(0, compElements.size());
+    }
+
+    /**
+     * Tests the user option to show versions inside the component name
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testComponentNameWithVersion() throws IOException
+    {
+        @SuppressWarnings("unchecked")
+        List<HtmlDivision> compElements = (List<HtmlDivision>) doc.getByXPath(getXPathName(NRTConstants.HTML_COMPONENT_CLASS));
+
+        // Check if these elements exist, they certainly should.
+        Assert.assertEquals(testComponents.size(), compElements.size());
+
+        // Check name of first element
+        ComponentModel compTestModel = testComponents.get(COMP_ONE_NAME);
+        HtmlDivision firstElement = compElements.get(0);
+        Assert.assertEquals(compTestModel.getName(), firstElement.getFirstChild().getTextContent());
+    }
 }
