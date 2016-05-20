@@ -24,18 +24,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.blackducksoftware.tools.connector.codecenter.common.CodeCenterComponentPojo;
+import com.blackducksoftware.tools.connector.protex.common.ProtexComponentPojo;
 import com.google.gson.annotations.Expose;
 
 /**
- * Our component bean that holds both Protex and CC data
+ * Our component bean that holds Protex data
  * 
  * Bean is serialized through JSON. Only exposed fields are serialized.
  * 
  * @author akamen
  * 
  */
-public class ComponentModel extends CodeCenterComponentPojo {
+public class ComponentModel extends ProtexComponentPojo {
 
     @Expose
     private String componentId;

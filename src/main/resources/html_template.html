@@ -1,79 +1,69 @@
 <html>
- <head> 
-  <style>
-		.mainTable, table
-		{
-			font-family: Arial;
-			width: 800px;
-			border: 1px solid black;
-			text-align: left;
-		
-		}
-		
-		h1,h2,h3,h4
-		{
-			font-family: Arial;
-		}
-		
-		tr, td
-		{
-			padding: 2px;
-			border: 1px solid darkBlue;
-			font-size: 15px;
-		}
-		
-		th
-		{
-			font-size: 16px;
-			text-align: center;
-			background-color: #7D8EFF;
-			padding: 3px;
-			text-align: center;
-			vertical-align: text-bottom;
-		}
-		
-		.th-attribute
-		{
-			width: 85%;
-		}
-		
-		
-		.attributes
-		{
-			font-size: 15px;
-			font-style: oblique;
-			padding: 2px;
-		}
-		
-		.file-paths-link, .copyrights-link, .license-text-link 
-		{
-			font-family: Arial;
-			font-style: normal;
-			display:none;
-			border-style:solid;
-			border-width:1px;
-		}
-		.component-name
-		{
-			font-family: Arial;
-			font-size: 20px;
-		}
-		
-		.license-text
-		{
-			font-family: Arial;
-			font-style: normal;
-			padding: 9px;
-			background-color: #DEF3FF;
-			display: none;
-			width: 90%;
-		}
-		.homepage-link
-		{
-			
-		}
-	</style> 
-  <script>
+<head>
+<style>
+.mainTable,table {
+	font-family: Arial;
+	width: 90%;
+	border: 1px solid black;
+	text-align: left;
+}
+
+h1,h2,h3,h4 {
+	font-family: Arial;
+}
+
+tr,td {
+	padding: 2px;
+	border: 1px solid darkBlue;
+	font-size: 15px;
+}
+
+th {
+	font-size: 16px;
+	text-align: center;
+	background-color: #7D8EFF;
+	padding: 3px;
+	text-align: center;
+	vertical-align: text-bottom;
+}
+
+.th-attribute {
+	width: 45%;
+}
+
+.attributes {
+	font-size: 15px;
+	font-style: oblique;
+	padding: 2px;
+}
+
+.file-paths-link,.copyrights-link,.license-text-link {
+	font-family: Arial;
+	font-style: normal;
+	display: none;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.component-name {
+	font-family: Arial;
+	font-size: 20px;
+}
+
+.license-text {
+	font-family: Arial;
+	font-style: normal;
+	padding: 9px;
+	background-color: #DEF3FF;
+	display: none;
+	width: 90%;
+}
+
+.homepage-link {
+	
+}
+</style>
+<script>
 			function toggle(id) 
 			{
 			   var ele = document.getElementById(id);
@@ -85,26 +75,27 @@
 			   	ele.style.display = "block";
 				   }
 		    } 
-		</script> 
- </head> 
- <body> 
-  <div class="bds-json-data"> 
-   <!-- !!!DO NOT REMOVE THIS DIV, JSON IS DYNAMICALLY INJECTED!!!	--> 
-  </div> 
-  
-  <div class="title">
-    <h1 align="center">Notice Report for Project: 
-	  <script>
+		</script>
+</head>
+<body>
+	<div class="bds-json-data">
+		<!-- !!!DO NOT REMOVE THIS DIV, JSON IS DYNAMICALLY INJECTED!!!	-->
+	</div>
+
+	<div class="title">
+		<h1 align="center">
+			Notice Report for Project:
+			<script>
 		document.write(propList[0].project_name);
 	  </script>
-	</h1> 
-  </div>
-  	
-  <br />
-  <br /> 
-  <div class="table-of-contents"> 
-   <h2>Table of Contents</h2> 
-   <script>
+		</h1>
+	</div>
+
+	<br />
+	<br />
+	<div class="table-of-contents">
+		<h2>Table of Contents</h2>
+		<script>
 		 	  for(var i=0; i<compList.length;i++)
 			  {
 		  		  var ourComp = compList[i];
@@ -116,18 +107,25 @@
 		  			  counter++;
 		  		  }
 			  }
-	      </script> 
-  </div> 
-  <br /> 
-  <h2>Bill of Materials</h2> 
-  <br /> 
-  <table class="main-table"> 
-   <tbody>
-    <tr> 
-     <th> <h3>Component</h3> </th> 
-     <th class="th-attribute"> <h3>Attributes</h3> </th> 
-    </tr> 
-    <script>
+	      </script>
+	</div>
+	<br />
+	<h2>Bill of Materials</h2>
+	<br />
+	<table class="main-table">
+		<tbody>
+			<tr>
+				<th>
+					<h3>Component</h3>
+				</th>
+				<th class="th-attribute">
+					<h3>Attributes</h3>
+				</th>
+				<th>
+					<h3>Copyrights</h3>
+				</th>
+			</tr>
+			<script>
       	  // Load properties
 		  if(propList != null)
 		  {
@@ -175,6 +173,16 @@
 						document.write("</div>");
 					 }
 	      		 document.write("</div>");
+	      		 
+	      		 // Yes/No copyright column
+				 document.write("<td>");
+				 if(ourComp[key].copyrights != undefined)
+				 {
+				  	if(ourComp[key].copyrights.length > 0)
+						document.write("Contains Copyrights");
+		
+				 }
+	      		 
       			 document.write("</td>");
       			 document.write("</tr>");
       			 
@@ -251,8 +259,8 @@
  			
        	}
       	
-      </script> 
-   </tbody>
-  </table>  
- </body>
+      </script>
+		</tbody>
+	</table>
+</body>
 </html>
