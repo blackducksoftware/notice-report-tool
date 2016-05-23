@@ -17,5 +17,5 @@ Documentation can be found here: https://github.com/blackducksoftware/notice-rep
 
 ### License
 
-GNU General Public License 2 only
+Apache License 2.0
 
