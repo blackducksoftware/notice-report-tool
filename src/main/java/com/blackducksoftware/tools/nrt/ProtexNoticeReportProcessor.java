@@ -20,7 +20,6 @@ import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchD
 import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchDiscoveryWithMatches;
 import com.blackducksoftware.sdk.protex.project.codetree.discovery.StringSearchMatch;
 import com.blackducksoftware.sdk.protex.report.ReportSectionType;
-import com.blackducksoftware.tools.commonframework.core.config.ConfigConstants.APPLICATION;
 import com.blackducksoftware.tools.commonframework.standard.common.ProjectPojo;
 import com.blackducksoftware.tools.commonframework.standard.protex.ProtexProjectPojo;
 import com.blackducksoftware.tools.connector.protex.IProtexServerWrapper;
@@ -42,8 +41,7 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
 
     private IProtexServerWrapper<ProtexProjectPojo> protexWrapper = null;
 
-    public ProtexNoticeReportProcessor(NRTConfigurationManager manager,
-            APPLICATION appType) throws Exception {
+    public ProtexNoticeReportProcessor(NRTConfigurationManager manager) throws Exception {
         nrtConfigManager = manager;
         protexWrapper = new ProtexServerWrapper<ProtexProjectPojo>(nrtConfigManager, true);
     }
@@ -182,28 +180,28 @@ public class ProtexNoticeReportProcessor implements INoticeReportProcessor {
         return patternMap;
     }
 
-/*******************************************************************************
- * Copyright (C) 2016 Black Duck Software, Inc.
- * http://www.blackducksoftware.com/
- *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- *  with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- *  under the License.
- *
- *******************************************************************************/
+    /*******************************************************************************
+     * Copyright (C) 2016 Black Duck Software, Inc.
+     * http://www.blackducksoftware.com/
+     * 
+     * Licensed to the Apache Software Foundation (ASF) under one
+     * or more contributor license agreements. See the NOTICE file
+     * distributed with this work for additional information
+     * regarding copyright ownership. The ASF licenses this file
+     * to you under the Apache License, Version 2.0 (the
+     * "License"); you may not use this file except in compliance
+     * with the License. You may obtain a copy of the License at
+     * 
+     * http://www.apache.org/licenses/LICENSE-2.0
+     * 
+     * Unless required by applicable law or agreed to in writing,
+     * software distributed under the License is distributed on an
+     * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     * KIND, either express or implied. See the License for the
+     * specific language governing permissions and limitations
+     * under the License.
+     * 
+     *******************************************************************************/
     private void getCopyrightsForComponent(String projectId,
             ComponentModel componentModel, Map<String, StringSearchPattern> patternMap) {
         if (nrtConfigManager.isShowCopyrights()
