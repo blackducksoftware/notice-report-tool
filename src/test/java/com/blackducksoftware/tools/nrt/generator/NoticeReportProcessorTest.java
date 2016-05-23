@@ -1,24 +1,24 @@
 /*******************************************************************************
  * Copyright (C) 2016 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
- *
+ * 
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership. The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- *  with the License. You may obtain a copy of the License at
- *
+ * with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
+ * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations
- *  under the License.
- *
+ * under the License.
+ * 
  *******************************************************************************/
 package com.blackducksoftware.tools.nrt.generator;
 
@@ -43,7 +43,7 @@ import com.blackducksoftware.tools.nrt.config.NRTConstants;
  */
 public class NoticeReportProcessorTest
 {
-    private static String configFileName = "nrt_config_basic.properties";
+    private static String configFileName = "nrt_config_basic_protex.properties";
 
     private static NoticeReportProcessor reportProcessor = null;
 
@@ -57,7 +57,12 @@ public class NoticeReportProcessorTest
 
         // Project name derived from config file, not command line
         String pojectName = "DefaultProject";
-        reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.CODECENTER, pojectName);
+        try {
+            reportProcessor = new NoticeReportProcessor(configFile, APPLICATION.PROTEX, pojectName);
+        } catch (Exception e)
+        {
+            Assert.fail(e.getMessage());
+        }
 
     }
 
